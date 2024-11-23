@@ -6,9 +6,7 @@ class Home extends Controller{
 
     // Must have SayHi()
     function SayHi(){
-        // $teo = $this->model("SinhVienModel");
-        // echo $teo->GetSV();
-        echo 'NB';
+        $this->view("layout1",[]);
     }
 
     function Show($a, $b){        
