@@ -1,5 +1,6 @@
 <?php
-echo '<h1>Danh Sách Hóa Đơn</h1>
+echo '
+<h1>Danh Sách Hóa Đơn</h1>
 <table>
     <thead>
         <tr>
@@ -27,13 +28,16 @@ while($r = mysqli_fetch_array($data["HD"])){
                         class="status status-'.$r["TrangThai"].'">'.$r["TrangThai"].'</span>
                 <td data-label="DV" style="text-align: left;">'.$r["DichVu"].'</td>
                 <td data-label="MT" style="text-align: left;">'.$r["TenPTTT"].'
-                    
+                <form action="./NVYT/CTHD" method="POST">
+                <input type="hidden"  name="cthd" value="'.$r["MaHD"].'">
                 </td>
-                <td><a href="index.php?chitiethoadon='.$r["MaHD"].'">Xem</a></td>
+                <td><input type="submit" name="btnCTHD" value="Xem">
+                </form>
                 </td>
             </tr>';
             $dem++;
 }
 echo '</tbody>
-                                </table>';
+                                </table>
+                                ';
 ?>

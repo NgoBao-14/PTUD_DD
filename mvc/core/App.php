@@ -1,4 +1,5 @@
 <?php
+//Đừng có đụng dô đụng dô không cần thay đổi gì hết
 class App{
 
     protected $controller="Home";

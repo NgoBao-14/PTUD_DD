@@ -1,5 +1,5 @@
 <?php
-
+//Đừng có đụng dô đụng dô không cần thay đổi gì hết
 class DB{
     //đừng thay đổi gì hết
     public $con;

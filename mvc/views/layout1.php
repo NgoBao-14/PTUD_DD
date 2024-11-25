@@ -11,10 +11,10 @@
 </head>
 <body>
     <!-- header -->
-    <?php require_once "./mvc/views/blocks/header.php" ?>
+    <?php include_once "./mvc/views/blocks/header.php" ?>
     <!-- content -->
-    <?php require_once "./mvc/views/blocks/content.php" ?>
+    <?php include_once "./mvc/views/blocks/content.php" ?>
     <!-- footer -->
-    <?php require_once "./mvc/views/blocks/footer.php" ?>
+    <?php include_once "./mvc/views/blocks/footer.php" ?>
 </body>
 </html>

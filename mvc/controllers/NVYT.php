@@ -13,5 +13,19 @@ class NVYT extends Controller{
         ]);
 
     }
+    function CTHD(){
+        if(isset($_POST["btnCTHD"])){
+            $MaHD = $_POST["cthd"];
+            // Call models
+            $nvyt = $this->model("mNVYT");
+            // Call Views
+            $this->view("layoutNVYT",[
+                "Page"=>"chitiethoadon",
+                "CTHD" => $nvyt->getCTHD($MaHD)
+            ]);
+        }
+            
+        
+    }
 }
 ?>

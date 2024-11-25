@@ -1,4 +1,5 @@
 <?php
+//Đừng có đụng dô đụng dô không cần thay đổi gì hết
 // Process URL from browser
 require_once "./mvc/core/App.php";
 

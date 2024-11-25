@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="./public/css/nvyt.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./public/css/main.css">
+    <!-- <link rel="stylesheet" href="../../public/css/main.css"> -->
+    <!-- <link rel="stylesheet" href="../../public/css/nvyt.css"> -->
+    <title>Nhân Viên Y Tế</title>
 </head>
 
 <body>
     <!-- header -->
-    <?php require_once "./mvc/views/blocks/header.php" ?>
+    <?php include "blocks/header.php" ?>
 
     <div class="main">
         <div class="container mt-3 mb-3">
@@ -33,6 +35,7 @@
                         <div class="table-panel">
                             <div class="content active" id="a1">
                                 <?php require_once "./mvc/views/pages/".$data["Page"].".php" ?>
+                                
                             </div>
                         </div>
                     </div>

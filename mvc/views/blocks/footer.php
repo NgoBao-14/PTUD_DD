@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../../public/css/main.css">
     <title>Document</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
                             <p>
                                 Hệ thống bệnh viện uy tín, chất lượng, chuyên nghiệp với đội ngũ bác sĩ giỏi, nhiệt tình và chu đáo.
                             </p>
-                            <img src="./img/logo.png" alt="">
+                            <img src="./public/img/logo.png" alt="">
                             <ul>
                                 <li><a href="https://zalo.me/0346021604" class="doc">Zalo: 0764418902</a></li>
                                 <li>Địa chỉ: F4/9C tổ 14 ấp 6C, xã Vĩnh Lộc A, huyện Bình Chánh, TP.HCM</li>

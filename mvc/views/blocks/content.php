@@ -25,7 +25,7 @@
                 <h1>Đặt khám bác sĩ</h1>
                 <p>Phiếu khám kèm số thứ tự và thời gian của bạn được xác nhận.</p>
                 <div class="list" id="doctorList">
-                    <?php include("view/bacsi/BacSi.php"); ?>
+                    aaa
                 </div>
                 <button class="see-more-button">Xem thêm ></button>
                 <button id="scrollLeftDoctor" class="scroll-button" aria-label="Scroll left">&lt;</button>

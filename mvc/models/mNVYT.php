@@ -12,6 +12,17 @@ class mNVYT extends DB
         $tblNVYT = mysqli_query($this->con, $str);
         return $tblNVYT;
     }
+    public function getCTHD($MaHD)
+    {
+        $str = 'SELECT *
+                FROM hoadon AS h
+                JOIN chitiethoadon AS hd ON h.MaHD = hd.MaHD
+                JOIN benhnhan AS b ON h.MaBN = b.MaBN
+                WHERE h.MaHD = '.$MaHD.'
+                ORDER BY h.MaHD DESC';
+        $tblCTHD = mysqli_query($this->con, $str);
+        return $tblCTHD;
+    }
 }
 
 
