@@ -1,4 +1,5 @@
 <?php
+$dt = json_decode($data["HD"],true);
 echo '
 <h1>Danh Sách Hóa Đơn</h1>
 <table>
@@ -17,7 +18,7 @@ echo '
     </thead>
     <tbody>';
 $dem = 1;
-while($r = mysqli_fetch_array($data["HD"])){  
+foreach ($dt as $r):  
     echo '<tr>
                 <td data-label="STT">'.$dem.'</td>
                 <td data-label="Order ID">'.$r["MaHD"].'</td>
@@ -36,7 +37,7 @@ while($r = mysqli_fetch_array($data["HD"])){
                 </td>
             </tr>';
             $dem++;
-}
+endforeach;
 echo '</tbody>
                                 </table>
                                 ';

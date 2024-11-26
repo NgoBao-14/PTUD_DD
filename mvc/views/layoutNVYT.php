@@ -7,8 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/nvyt.css">
     <link rel="stylesheet" href="./public/css/main.css">
-    <!-- <link rel="stylesheet" href="../../public/css/main.css"> -->
-    <!-- <link rel="stylesheet" href="../../public/css/nvyt.css"> -->
+    <link rel="stylesheet" href="../public/css/nvyt.css">
+    <link rel="stylesheet" href="../public/css/main.css">
     <title>Nhân Viên Y Tế</title>
 </head>
 
@@ -34,7 +34,7 @@
                     <div class="card mb-4">
                         <div class="table-panel">
                             <div class="content active" id="a1">
-                                <?php require_once "./mvc/views/pages/".$data["Page"].".php" ?>
+                                <?php include "./mvc/views/pages/".$data["Page"].".php" ?>
                                 
                             </div>
                         </div>

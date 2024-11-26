@@ -9,9 +9,15 @@ class mNVYT extends DB
                 join benhnhan as b on h.MaBN=b.MaBN 
                 join phuongthucthanhtoan as t on h.MaPTTT = t.MaPTTT
                 order by h.MaHD desc';
-        $tblNVYT = mysqli_query($this->con, $str);
-        return $tblNVYT;
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
+
     public function getCTHD($MaHD)
     {
         $str = 'SELECT *
@@ -20,8 +26,39 @@ class mNVYT extends DB
                 JOIN benhnhan AS b ON h.MaBN = b.MaBN
                 WHERE h.MaHD = '.$MaHD.'
                 ORDER BY h.MaHD DESC';
-        $tblCTHD = mysqli_query($this->con, $str);
-        return $tblCTHD;
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function getPTTT()
+    {
+        $str = 'SELECT * 
+                FROM phuongthucthanhtoan 
+                WHERE MaPTTT > 0';
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+    public function setPTTT($MaHD,$PT)
+    {
+        $str = 'UPDATE hoadon SET MaPTTT = '.$PT.' WHERE MaHD = '.$MaHD.'';
+        $tblPTTT = mysqli_query($this->con, $str);
+        return $tblPTTT;
+    }
+    public function setTrangThai($MaHD,$TT)
+    {
+        $str = 'UPDATE hoadon SET TrangThai = '.$TT.' WHERE MaHD = '.$MaHD.'';
+        $tblTT = mysqli_query($this->con, $str);
+        return $tblTT;
     }
 }
 
