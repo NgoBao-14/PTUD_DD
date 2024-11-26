@@ -1,8 +1,10 @@
 <?php
- while($r = mysqli_fetch_array($data["CTHD"]))
- {
+$dt = json_decode($data["CTHD"],true);
+$TT = json_decode($data["TT"],true);
+foreach ($dt as $r): 
      echo '<form action="" method="post">
      <h1>Hóa đơn #'.$r["MaHD"].'</h1>
+     <input type="hidden" name="MaHD" value="'.$r["MaHD"].'">
      <span class="status status-'.$r["TrangThai"].'">'.$r["TrangThai"].'</span>
      
      <div class="customer-info">
@@ -16,12 +18,37 @@
              <div class="info-item"><div class="info-label">Thời gian:</div><div>'.$r["NgayLapHoaDon"].'</div></div>
          </div>
      </div>';
- }
+endforeach;
 
+ echo '<h2>Phương thức thanh toán</h2>
+    <table class="payment-table">
+        <tr>';
+foreach($TT as $f):
+        $name = $f["TenPTTT"];
+        switch ($name) {
+            case 'MoMo':
+                $name1 = "'momo'";
+                $name2 = 'momo';
+                break;
+            case 'ViSa':
+                $name1 = "'visa'";
+                $name2 = 'visa';
+                break;
+            case 'Ngân Hàng':
+                $name1 = "'bank'";
+                $name2 = 'bank';
+                break;
+            case 'Tiền mặt':
+                $name1 = "'cash'";
+                $name2 = 'cash';
+        }
+        echo '<td onclick="selectPayment(' . $name1 . ')">
+        <form action="#" method="post">
+        <input type="checkbox" name="paymentOption" value="' . $f["MaPTTT"] . '" onclick="onlyOneCheckbox(this)">
+        <div class="payment-icon '.$name2.'"></div>' . $f["TenPTTT"] . '
+      </td>';
 
-
-
-
+    endforeach;
  echo '</table>
         <div id="momoAction" class="action-section"><div class="qr-code"></div></div>
         <div id="bankAction" class="action-section"><div class="qr-code"></div></div>
@@ -36,7 +63,29 @@
         <div id="cashAction" class="action-section"><a href="#" class="action-button">Xác nhận thanh toán tiền mặt</a></div>
 
         <!-- Nút xác nhận và hủy -->
-        <input type="submit" class="nut1" name="nut" id="nut" value="Hủy hóa đơn">
-        <input type="submit" class="nut2" name="nut" id="nut" value="Xác nhận hóa đơn">
+        <input type="submit" class="nut1" name="nutHuy" id="nut" value="Hủy hóa đơn" onclick="return confirm(\'Bạn có thật sự muốn hủy hóa đơn này không?\')">
+        <input type="submit" class="nut2" name="nutXN" id="nut" value="Xác nhận hóa đơn">
+        </form> 
     ';
+if (isset ($data['Result']))
+{
+    if($data["Result"]== 'true')
+    {
+        echo'<script language="javascript">
+							alert("Cập nhật phương thức thanh toán thành công");	
+							</script>';
+    }
+    else if($data["Result"]== 3)
+    {
+        echo'<script language="javascript">
+							alert("Hủy hóa đơn thành công");	
+							</script>';
+    }
+    else
+    {
+        echo'<script language="javascript">
+							alert("Cập nhật phương thức thất bại");	
+							</script>';
+    }
+}
 ?>

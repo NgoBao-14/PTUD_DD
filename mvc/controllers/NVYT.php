@@ -21,7 +21,39 @@ class NVYT extends Controller{
             // Call Views
             $this->view("layoutNVYT",[
                 "Page"=>"chitiethoadon",
-                "CTHD" => $nvyt->getCTHD($MaHD)
+                "CTHD" => $nvyt->getCTHD($MaHD),
+                "TT" => $nvyt->getPTTT(),
+            ]);
+        }   
+        if(isset($_POST["nutXN"]))
+        {
+                    $TT = "'Completed'";
+                    $id = $_POST["paymentOption"];
+                    $MaHD = $_POST["MaHD"];
+                    $nvyt = $this->model("mNVYT");
+                    $rs = $nvyt->setPTTT($MaHD,$id);
+                    $rs = $nvyt->setTrangThai($MaHD,$TT);
+                    $this->view("layoutNVYT",[
+                        "Page"=>"chitiethoadon",
+                        "CTHD" => $nvyt->getCTHD($MaHD),
+                        "TT" => $nvyt->getPTTT(),
+                        "Result"=> $rs
+                    ]);
+        }
+        if(isset($_POST["nutHuy"]))
+        {
+            $TT = "'Cancelled'";
+            $MaHD = $_POST["MaHD"];
+            $nvyt = $this->model("mNVYT");
+            if($nvyt->setTrangThai($MaHD,$TT))
+            {
+                $rs = 3;
+            }
+            $this->view("layoutNVYT",[
+                "Page"=>"chitiethoadon",
+                "CTHD" => $nvyt->getCTHD($MaHD),
+                "TT" => $nvyt->getPTTT(),
+                "Result"=> $rs
             ]);
         }
             
