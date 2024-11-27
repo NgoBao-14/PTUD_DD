@@ -1,31 +1,8 @@
 <div class="container">
-    <h2 class="mb-4">Đăng ký lịch làm việc</h2>
-    <?php if (isset($data['Message'])): ?>
-        <?php if (!empty($data['Message']['success'])): ?>
-            <div class="alert alert-success">
-                <h5>Thành công:</h5>
-                <ul>
-                    <?php foreach ($data['Message']['success'] as $msg): ?>
-                        <li><?= $msg ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <?php if (!empty($data['Message']['failed'])): ?>
-            <div class="alert alert-warning">
-                <h5>Cảnh báo:</h5>
-                <ul>
-                    <?php foreach ($data['Message']['failed'] as $msg): ?>
-                        <li><?= $msg ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-    <?php endif; ?>
+    <h2 class="mb-4">Xem lịch làm việc</h2>
     <!-- Week Navigation -->
     <div class="d-flex justify-content-between mb-4">
-        <button id="prevWeek" class="invisible btn btn-secondary">Tuần trước</button>
+        <button id="prevWeek" class="btn btn-secondary">Tuần trước</button>
         <button id="currentWeek" class="btn btn-primary">Hiện tại</button>
         <button id="nextWeek" class="btn btn-secondary">Tuần sau</button>
     </div>
@@ -83,13 +60,13 @@
 </div>
 
 <script>
-    document.getElementById('workScheduleForm').addEventListener('submit', function(e) {
-        const checkboxes = document.querySelectorAll('.form-check-input:checked');
-        if (checkboxes.length === 0) {
-            e.preventDefault();
-            alert('Vui lòng chọn ít nhất một ngày làm việc và ca làm việc.');
-        }
-    });
+    // document.getElementById('workScheduleForm').addEventListener('submit', function(e) {
+    //     const checkboxes = document.querySelectorAll('.form-check-input:checked');
+    //     if (checkboxes.length === 0) {
+    //         e.preventDefault();
+    //         alert('Vui lòng chọn ít nhất một ngày làm việc và ca làm việc.');
+    //     }
+    // });
     // Retain the existing JavaScript from the original view
     function getMonday(d) {
         d = new Date(d);
