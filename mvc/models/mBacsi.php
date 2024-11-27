@@ -17,6 +17,7 @@ class MBacsi extends DB
         $stmt = $this->con->prepare("SELECT COUNT(*) FROM LichLamViec WHERE MaLLV = ? AND NgayLamViec = ? AND CaLamViec = ?");
         $stmt->bind_param("iss", $maBS, $ngayLamViec, $caLamViec);
         $stmt->execute();
+        $count = 0;
         $stmt->bind_result($count);
         $stmt->fetch();
         $stmt->close();
