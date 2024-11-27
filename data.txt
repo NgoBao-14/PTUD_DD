@@ -653,3 +653,6 @@ ALTER TABLE `nhanvienyte`
 --
 ALTER TABLE `phongkham`
   ADD CONSTRAINT `phongkham_ibfk_1` FOREIGN KEY (`MaKhoa`) REFERENCES `chuyenkhoa` (`MaKhoa`);
+
+ALTER TABLE `lichlamviec` MODIFY `MaLLV` int(10) UNSIGNED NOT NULL;
+ALTER TABLE `lichlamviec` DROP PRIMARY KEY;
