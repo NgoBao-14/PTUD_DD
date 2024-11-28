@@ -46,6 +46,64 @@ class QuanLy extends Controller {
             ]);
         }
     }
+    function LLV($date = null) {
+        $ql = $this->model("mQuanLy");
+    
+        // Lấy ngày hiện tại nếu không có ngày được truyền
+        if (!$date) {
+            $date = date('Y-m-d');
+        }
+    
+        // Lấy danh sách khoa
+        $khoa = $ql->GetDanhSachKhoa();
+        
+        // Kiểm tra xem có khoa được chọn hay không qua POST
+        $maKhoa = '';
+        if (isset($_POST['khoaSelect']) && $_POST['khoaSelect'] != '') {
+            $maKhoa = $_POST['khoaSelect'];
+        }
+    
+        // Xử lý xóa bác sĩ nếu có yêu cầu
+        if (isset($_POST['deleteDoctor'])) {
+            $maNV = $_POST['deleteDoctor'];
+            
+            $ql->DeleteDoctor($maNV);
+            
+            // Sau khi xóa, tải lại danh sách bác sĩ
+            if ($maKhoa != '') {
+                $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
+            } else {
+                $listBacSi = $ql->GetBSLLV();
+            }
+
+            $this->view("layoutQly2", [
+                "Page" => "qlllv",
+                "LLV" => $listBacSi,
+                "Khoa" => $khoa,
+                "SelectedDate" => $date,
+                "SelectedKhoa" => $maKhoa
+            ]);
+            return; // Dừng lại sau khi xóa và tải lại
+        }
+    
+        // Lấy lịch làm việc theo khoa nếu có, nếu không lấy tất cả bác sĩ
+        if ($maKhoa != '') {
+            $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
+        } else {
+            $listBacSi = $ql->GetBSLLV();
+        }
+    
+        $this->view("layoutQly2", [
+            "Page" => "qlllv",
+            "LLV" => $listBacSi,
+            "Khoa" => $khoa,
+            "SelectedDate" => $date,
+            "SelectedKhoa" => $maKhoa
+        ]);
+    }
+    
+    
+    
     }
 ?>
 

@@ -1,16 +1,6 @@
 <?php
 class mQuanLy extends DB {
 
-    // public function GetBN() {
-    //     $str = 'SELECT * FROM benhnhan';
-    //     $tblBNhan = mysqli_query($this->con, $str);
-    //     $mang = array();
-    //     while ($row = mysqli_fetch_assoc($tblBNhan)) {
-    //         $mang[] = $row;
-    //     }
-    //     return json_encode($mang);
-    // }
-
     public function Get1BN($MaBN) {
         $str = "SELECT * FROM benhnhan WHERE mabn = '$MaBN'";
         $tblBNhan = mysqli_query($this->con, $str);
@@ -88,6 +78,92 @@ class mQuanLy extends DB {
         }
         return json_encode($mang);
     }
+
+    //hàm để lấy khoa
+    public function GetKhoa() {
+        $str = 'SELECT * FROM chuyenkhoa';
+        $tblKhoa = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblKhoa)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    //hàm để lấy danh sách bác sĩ đăng ký ca làm việc theo khoa
+    public function GetKhoaBS($MaKhoa){
+        $str="SELECT *
+        FROM lichlamviec llv
+        INNER JOIN
+        nhanvien nv
+        on llv.MaLLV=nv.MaLLV
+        INNER JOIN
+        bacsi bs
+        on nv.MaNV=bs.MaNV
+        INNER JOIN
+        chuyenkhoa ck
+        on bs.MaKhoa=ck.MaKhoa
+        WHERE ck.MaKhoa='$MaKhoa'";
+        $tblKhoaBS = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblKhoaBS)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function GetBSLLV(){
+        $str = 'select * 
+                from bacsi as bs 
+                join nhanvien as nv on bs.MaNV=nv.MaNV 
+                join lichlamviec as lv on nv.MaLLV=lv.MaLLV 
+                ORDER BY lv.NgayLamViec'; 
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function GetLichLamViecTheoKhoa($MaKhoa){
+        $str = "
+        SELECT *
+        FROM lichlamviec llv
+        INNER JOIN nhanvien nv ON llv.MaLLV = nv.MaLLV
+        INNER JOIN bacsi bs ON nv.MaNV = bs.MaNV
+        INNER JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
+        WHERE ck.MaKhoa = '$MaKhoa'
+        ORDER BY llv.NgayLamViec";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function GetDanhSachKhoa() {
+        $str = "SELECT * FROM chuyenkhoa";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function DelLLV($MaNV) {
+        $str = "DELETE llv 
+                FROM lichlamviec llv
+                JOIN nhanvien nv ON llv.MaLLV = nv.MaLLV
+                WHERE nv.MaNV = '$MaNV'";
+        $result = mysqli_query($this->con, $str);
+        return json_encode(array("success" => $result));
+    }
+    // ------------------------------
+
 }
 
 ?>
