@@ -1,6 +1,14 @@
 <?php
 class Bacsi extends Controller
 {
+    // Hàm mặc định khi vào trang bác sĩ
+    function SayHi()
+    {
+        $this->view("layoutBacsi", [
+            "Page"
+        ]);
+    }
+
     function DangKyLichLamViec()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
