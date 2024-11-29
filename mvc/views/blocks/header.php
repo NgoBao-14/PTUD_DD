@@ -143,7 +143,7 @@
                             </nav>';
                         
                     } else {
-                        echo '<div id="nutdn" class="navbar-nav"><a class="nav-link" href="Login">Đăng nhập</a></div>';
+                        echo '<div id="nutdn" class="navbar-nav"><a class="nav-link" href="/PTUD_DD/Login">Đăng nhập</a></div>';
                     }
                 ?>
             </div>
