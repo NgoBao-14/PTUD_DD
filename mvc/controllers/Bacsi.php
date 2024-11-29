@@ -12,7 +12,7 @@ class Bacsi extends Controller
     function DangKyLichLamViec()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $maBS = $_POST['MaBS']; // Mã bác sĩ
+            $maNV = $_SESSION['MaNV'] ?? rand(1, 100); // Mã nhân viên (bác sĩ đăng nhập)
             $schedule = $_POST['schedule']; // Dữ liệu lịch làm việc
             $dateRange = $_POST['dateRange']; // Khoảng thời gian của tuần được chọn
 
@@ -34,14 +34,25 @@ class Bacsi extends Controller
                     // Tính ngày làm việc dựa vào thứ
                     $ngayLamViec = $monday->modify("+{$daysMap[$day]} days")->format('Y-m-d');
 
+                    // Kiểm tra số lượng bác sĩ đã đăng ký trong ca làm việc
+                    $soLuong = $model->kiemTraSoLuongCaLamViec($ngayLamViec, $shift);
+                    if ($soLuong >= 10) {
+                        $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
+                        $failed[] = "Ngày $ngayLamViec ($shift) đã đạt giới hạn số lượng bác sĩ.";
+                        continue;
+                    }
+
                     // Kiểm tra xem lịch đã tồn tại chưa
-                    if ($model->kiemTraLichDaTonTai($maBS, $ngayLamViec, $shift)) {
+                    if ($model->kiemTraLichDaTonTai($maNV, $ngayLamViec, $shift)) {
+                        $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
                         $failed[] = "Ngày $ngayLamViec ($shift) đã được đăng ký.";
                     } else {
                         // Thêm lịch làm việc
-                        if ($model->themLichLamViec($maBS, $ngayLamViec, $shift)) {
+                        if ($model->themLichLamViec($maNV, $ngayLamViec, $shift)) {
+                            $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
                             $success[] = "Ngày $ngayLamViec ($shift) đã được đăng ký thành công.";
                         } else {
+                            $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
                             $failed[] = "Có lỗi xảy ra khi đăng ký ngày $ngayLamViec ($shift).";
                         }
                     }
@@ -65,8 +76,13 @@ class Bacsi extends Controller
     }
     function XemLichLamViec()
     {
+        $model = $this->model("MBacsi");
+        $maNV = $_SESSION['MaNV'] ?? 1;
+        $lichLamViec = $model->XemLichLamViec($maNV);
+
         $this->view("layoutBacsi", [
-            "Page" => "xemlichlamviec"
+            "Page" => "xemlichlamviec",
+            "LichLamViec" => $lichLamViec
         ]);
     }
 

@@ -25,7 +25,7 @@
     <?php endif; ?>
     <!-- Week Navigation -->
     <div class="d-flex justify-content-between mb-4">
-        <button id="prevWeek" class="invisible btn btn-secondary">Tuần trước</button>
+        <button id="prevWeek" class="btn btn-secondary">Tuần trước</button>
         <button id="currentWeek" class="btn btn-primary">Hiện tại</button>
         <button id="nextWeek" class="btn btn-secondary">Tuần sau</button>
     </div>
@@ -35,7 +35,6 @@
 
     <!-- Work Schedule Form -->
     <form id="workScheduleForm" method="POST">
-        <!-- Hidden inputs for doctor ID and date range -->
         <input type="hidden" name="MaBS" value="1"> <!-- Replace with actual doctor ID from session -->
         <input type="hidden" id="selectedDateRange" name="dateRange">
 
@@ -62,13 +61,15 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
                                     name="schedule[<?= $day ?>][]"
-                                    value="ca sáng">
+                                    value="sáng"
+                                    id="checkbox-<?= $day ?>-sang">
                                 <label class="form-check-label">Ca sáng</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
                                     name="schedule[<?= $day ?>][]"
-                                    value="ca chiều">
+                                    value="chiều"
+                                    id="checkbox-<?= $day ?>-chieu">
                                 <label class="form-check-label">Ca chiều</label>
                             </div>
                         </td>
@@ -90,11 +91,11 @@
             alert('Vui lòng chọn ít nhất một ngày làm việc và ca làm việc.');
         }
     });
-    // Retain the existing JavaScript from the original view
+
     function getMonday(d) {
         d = new Date(d);
-        var day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6 : 1);
+        const day = d.getDay(),
+            diff = d.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(d.setDate(diff));
     }
 
@@ -105,8 +106,9 @@
     }
 
     function updateWeekRange(monday) {
-        var sunday = new Date(monday);
+        const sunday = new Date(monday);
         sunday.setDate(sunday.getDate() + 6);
+        const today = new Date();
 
         // Update week range display
         document.getElementById('weekRange').textContent =
@@ -121,26 +123,40 @@
         days.forEach((day, index) => {
             const date = new Date(monday);
             date.setDate(date.getDate() + index);
+
+            // Update date labels
             document.getElementById(`date-${day}`).textContent = formatDate(date);
+
+            // Disable checkboxes for past dates
+            const checkboxes = document.querySelectorAll(`#checkbox-${day}-sang, #checkbox-${day}-chieu`);
+            if (date <= today) {
+                checkboxes.forEach(checkbox => {
+                    checkbox.disabled = true;
+                    checkbox.parentElement.style.color = '#aaa'; // Make label gray
+                });
+            } else {
+                checkboxes.forEach(checkbox => {
+                    checkbox.disabled = false;
+                    checkbox.parentElement.style.color = ''; // Restore label color
+                });
+            }
         });
     }
 
     // Get current Monday
-    var currentMonday = getMonday(new Date());
+    let currentMonday = getMonday(new Date());
 
-    // Previous Week Button
+    // Week Navigation
     document.getElementById('prevWeek').addEventListener('click', function() {
         currentMonday.setDate(currentMonday.getDate() - 7);
         updateWeekRange(currentMonday);
     });
 
-    // Next Week Button
     document.getElementById('nextWeek').addEventListener('click', function() {
         currentMonday.setDate(currentMonday.getDate() + 7);
         updateWeekRange(currentMonday);
     });
 
-    // Current Week Button
     document.getElementById('currentWeek').addEventListener('click', function() {
         currentMonday = getMonday(new Date());
         updateWeekRange(currentMonday);
