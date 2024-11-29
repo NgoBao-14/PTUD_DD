@@ -27,18 +27,19 @@ class NVYT extends Controller{
         }   
         if(isset($_POST["nutXN"]))
         {
-                    $TT = "'Completed'";
-                    $id = $_POST["paymentOption"];
-                    $MaHD = $_POST["MaHD"];
-                    $nvyt = $this->model("mNVYT");
-                    $rs = $nvyt->setPTTT($MaHD,$id);
-                    $rs = $nvyt->setTrangThai($MaHD,$TT);
-                    $this->view("layoutNVYT",[
-                        "Page"=>"chitiethoadon",
-                        "CTHD" => $nvyt->getCTHD($MaHD),
-                        "TT" => $nvyt->getPTTT(),
-                        "Result"=> $rs
-                    ]);
+            $TT = "'Completed'";
+            $id = $_POST["paymentOption"];
+            $MaHD = $_POST["MaHD"];
+            $nvyt = $this->model("mNVYT");
+            
+            $rs = $nvyt->setPTTT($MaHD,$id);
+            $rs = $nvyt->setTrangThai($MaHD,$TT);
+            $this->view("layoutNVYT",[
+                "Page"=>"chitiethoadon",
+                "CTHD" => $nvyt->getCTHD($MaHD),
+                "TT" => $nvyt->getPTTT(),
+                "Result"=> $rs
+            ]);
         }
         if(isset($_POST["nutHuy"]))
         {

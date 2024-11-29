@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="../public/css/nvyt.css">
     <link rel="stylesheet" href="../public/css/main.css">
-    <title>Nhân Viên Y Tế</title>
+    <title>Document</title>
 </head>
 
 <body>
@@ -19,22 +19,22 @@
     <div class="main">
         <div class="container mt-3 mb-3">
             <div class="row">
-                <div class="col-md-2 p-3 border-end">
+                <div class="col-md-3 p-3 border-end">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">Chức năng</h5>
+                            <h5 class="card-title mb-3" >Chức năng</h5>
                             <div class="list-group">
-                                <a href="/PTUD_DD/NVYT"><button class="tab_btn active" id="a">Hóa đơn</button></a>
-                                <a href=""><button class="tab_btn" id="a">Sửa lịch khám</button></a>
+                                <a href="/PTUD_DD/NVNT"><button class="tab_btn active" id="a">Danh sách đơn thuốc</button></a>
+                                <!-- <button class="tab_btn" id="a">Chi tiết đơn thuốc</button> -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-10 p-3">
+                <div class="col-md-9 p-3">
                     <div class="card mb-4">
                         <div class="table-panel">
                             <div class="content active" id="a1">
-                                <?php include "./mvc/views/pages/".$data["Page"].".php" ?>
+                            <?php include "./mvc/views/pages/".$data["Page"].".php" ?>
                                 
                             </div>
                         </div>
@@ -50,24 +50,6 @@
     <?php require_once "./mvc/views/blocks/footer.php" ?>
 
     <script>
-    function selectPayment(method) {
-                                // Remove 'selected' class from all cells
-                                document.querySelectorAll('.payment-table td').forEach(cell => {
-                                    cell.classList.remove('selected');
-                                });
-
-                                // Add 'selected' class to the clicked cell
-                                event.currentTarget.classList.add('selected');
-
-                                // Hide all action sections
-                                document.querySelectorAll('.action-section').forEach(section => {
-                                    section.style.display = 'none';
-                                });
-
-                                // Show the selected action section
-                                document.getElementById(method + 'Action').style.display = 'block';
-                            }
-
     function initializeTabs(tabClass, contentClass) {
         const tabs = document.querySelectorAll(tabClass);
         const allContent = document.querySelectorAll(contentClass);
@@ -85,18 +67,6 @@
 
     // Initialize tabs for each section
     initializeTabs('#a', '#a1');
-
-
-
-    function onlyOneCheckbox(checkbox) {
-    // Lấy tất cả các checkbox có cùng tên
-    const checkboxes = document.getElementsByName('paymentOption');
-    checkboxes.forEach((item) => {
-        // Nếu checkbox không phải là checkbox đang được chọn, bỏ chọn nó
-        if (item !== checkbox) item.checked = false;
-    });
-}
-
     </script>
 </body>
 
