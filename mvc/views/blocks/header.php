@@ -96,9 +96,10 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.php">Đom Đóm</a>
+                
                 <?php
-                    if (isset($_SESSION['dn']) && $_SESSION['dn'] >= 3) { // Bệnh nhân
-                        if (isset($_SESSION['idbn']) && isset($_SESSION['tenbn'])) {
+                    if (isset($_SESSION['role']) && $_SESSION['role'] == 5) { // Bệnh nhân
+                        $tenbn = $_SESSION['ten'];
                             echo '<div class="navbar-nav ms-auto">
                                     <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
                                     <a class="nav-link" href="BN">Đặt lịch khám</a>
@@ -107,7 +108,7 @@
                                 <nav>
                                     <ul class="menu">
                                         <li>
-                                            <a class="nav-link" href="BN">' . $_SESSION['tenbn'] . '</a>
+                                            <a class="nav-link" href="BN">'.$tenbn.'</a>
                                             <ul class="submenu">
                                                 <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
                                                 <li><a href="#">Thanh toán</a></li>
@@ -118,9 +119,10 @@
                                         </li>
                                     </ul>
                                 </nav>';
-                        }
-                    } else if (isset($_SESSION['dn'])) { // Quản lý, Cán bộ y tế
-                            echo '<div class="navbar-nav ms-auto">
+                    //Mọi người thêm session = 4 3 2 tương ứng vai trò ở đây
+                    } else if (isset($_SESSION['role']) && $_SESSION['role'] == 1) { // Quản lý, Cán bộ y tế
+                        $tenql = $_SESSION['ten'];
+                        echo '<div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
                                 <a class="nav-link" href="BN">Bệnh nhân</a>
                                 <a class="nav-link" href="#">Nhân viên</a>
@@ -130,7 +132,7 @@
                             <nav>
                                 <ul class="menu">
                                     <li>
-                                        <a class="nav-link" href="#">' . $_SESSION['role'] . '</a>
+                                        <a class="nav-link" href="#">' . $tenql . '</a>
                                         <ul class="submenu">
                                             <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
                                             <li><a href="#">LS thanh toán</a></li>
@@ -142,8 +144,16 @@
                                 </ul>
                             </nav>';
                         
-                    } else {
-                        echo '<div id="nutdn" class="navbar-nav"><a class="nav-link" href="/PTUD_DD/Login">Đăng nhập</a></div>';
+                    }
+                    else {
+                        echo '
+                            <div class="navbar-nav ms-auto">
+                                <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
+                                <a class="nav-link" href="BN">Tư vấn trực tiếp</a>
+                                <a class="nav-link" href="#">Tin y tế</a>
+                                <a class="nav-link" href="workSchedule.php">Về chúng tôi</a>
+                            </div>
+                        <div id="nutdn" class="navbar-nav"><a class="nav-link" href="Login">Đăng nhập</a></div>';
                     }
                 ?>
             </div>
