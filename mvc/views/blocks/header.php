@@ -153,7 +153,7 @@
                                 <a class="nav-link" href="#">Tin y tế</a>
                                 <a class="nav-link" href="workSchedule.php">Về chúng tôi</a>
                             </div>
-                        <div id="nutdn" class="navbar-nav"><a class="nav-link" href="Login">Đăng nhập</a></div>';
+                        <div id="nutdn" class="navbar-nav"><a class="nav-link" href="/PTUD_DD/Login">Đăng nhập</a></div>';
                     }
                 ?>
             </div>
