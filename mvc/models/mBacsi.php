@@ -47,4 +47,84 @@ class MBacsi extends DB
         $stmt->close();
         return $data;
     }
+
+    //NhatCuong; Usecase: Xem danh sách khám bệnh; Hàm truy vấn for input-radio:Sáng
+    public function GetDanhSachKhamSang()
+    {
+        $str = 'SELECT 
+                    lk.MaLK, 
+                    bn.HovaTen, 
+                    bn.NgaySinh, 
+                    bn.SoDT,
+                    lk.NgayKham
+                FROM 
+                    lichkham2 lk
+                JOIN 
+                    benhnhan bn ON lk.MaBN = bn.MaBN
+                WHERE 
+                    DATE(lk.NgayKham) = CURDATE()
+                    AND HOUR(lk.NgayKham) < 12
+                ORDER BY 
+                    lk.NgayKham ASC';
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    //NhatCuong; Usecase: Xem danh sách khám bệnh; Hàm truy vấn for input-radio:Chiều
+    public function GetDanhSachKhamChieu()
+    {
+        $str = 'SELECT 
+                    lk.MaLK, 
+                    bn.HovaTen, 
+                    bn.NgaySinh, 
+                    bn.SoDT,
+                    lk.NgayKham
+                FROM 
+                    lichkham2 lk
+                JOIN 
+                    benhnhan bn ON lk.MaBN = bn.MaBN
+                WHERE 
+                    DATE(lk.NgayKham) = CURDATE()
+                    AND HOUR(lk.NgayKham) >= 12
+                ORDER BY 
+                    lk.NgayKham ASC';
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    //NhatCuong; Usecase: Xem danh sách khám bệnh; Hàm truy vấn for input-radio:Tất cả
+    public function GetDanhSachKhamAll()
+    {
+        $str = 'SELECT 
+                    lk.MaLK, 
+                    bn.HovaTen, 
+                    bn.NgaySinh, 
+                    bn.SoDT,
+                    lk.NgayKham
+                FROM 
+                    lichkham2 lk
+                JOIN 
+                    benhnhan bn ON lk.MaBN = bn.MaBN
+                WHERE 
+                    DATE(lk.NgayKham) = CURDATE()
+                ORDER BY 
+                    lk.NgayKham ASC';
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
 }
