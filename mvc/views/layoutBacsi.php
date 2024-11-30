@@ -27,7 +27,7 @@
                         <div class="d-grid gap-2">
                             <a href="DangKyLichLamViec" class="btn btn-light text-start sidebar-link">Đăng ký lịch làm việc</a>
                             <a href="XemLichLamViec" class="btn btn-light text-start sidebar-link">Xem lịch làm việc</a>
-                            <a href="XemDanhSachKham" class="btn btn-light text-start sidebar-link">Xem danh sách khám</a>
+                            <a href="Bacsi/XemDanhSachKham" class="btn btn-light text-start sidebar-link">Xem danh sách khám</a>
                             <a href="XemThongTinBenhNhan" class="btn btn-light text-start sidebar-link">Xem thông tin bệnh nhân</a>
                             <a href="XemLichSuKhamBenh" class="btn btn-light text-start sidebar-link">Xem lịch sử khám bệnh</a>
                         </div>

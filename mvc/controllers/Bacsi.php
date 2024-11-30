@@ -86,13 +86,41 @@ class Bacsi extends Controller
         ]);
     }
 
-    function XemDanhSachKham()
-    {
-        $this->view("layoutBacsi", [
-            "Page"
+    //NhatCuong function 1/2: Xem Danh Sách Khám Bệnh
+    function XemDanhSachKham() {
+        $bacsi = $this->model("MBacsi");
+        $this->view("LayoutXemDanhSachKham", [
+            "Page" => "Danhsachkham",
+            "DanhSachKham" => $bacsi->GetDanhSachKhamAll()
         ]);
     }
+    //NhatCuong function 2/2: Xem Danh Sách Khám Bệnh
+    function GetDanhSach() {
+        if (isset($_POST["shift"])) {
+            $bacsi = $this->model("MBacsi");
+            $shift = $_POST["shift"];
+            
+            switch ($shift) {
+                case "morning":
+                    $danhSach = $bacsi->GetDanhSachKhamSang();
+                    break;
+                case "afternoon":
+                    $danhSach = $bacsi->GetDanhSachKhamChieu();
+                    break;
+                default:
+                    $danhSach = $bacsi->GetDanhSachKhamAll();
+                    break;
+            }
+            
+            // Chỉ trả về nội dung của Danhsachkham.php
+            $this->view("pages/Danhsachkham", [
+                "DanhSachKham" => $danhSach
+            ]);
+        }
+    }
 
+    
+    
     function XemThongTinBenhNhan()
     {
         $this->view("layoutBacsi", [
