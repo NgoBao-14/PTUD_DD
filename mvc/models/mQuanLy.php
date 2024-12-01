@@ -116,7 +116,7 @@ class mQuanLy extends DB {
         $str = 'select * 
                 from bacsi as bs 
                 join nhanvien as nv on bs.MaNV=nv.MaNV 
-                join lichlamviec as lv on nv.MaLLV=lv.MaLLV 
+                join lichlamviec as lv on nv.MaNV=lv.MaNV
                 ORDER BY lv.NgayLamViec'; 
         $rows = mysqli_query($this->con, $str);
         $mang = array();
@@ -131,7 +131,7 @@ class mQuanLy extends DB {
         $str = "
         SELECT *
         FROM lichlamviec llv
-        INNER JOIN nhanvien nv ON llv.MaLLV = nv.MaLLV
+        INNER JOIN nhanvien nv ON llv.MaNV = nv.MaNV
         INNER JOIN bacsi bs ON nv.MaNV = bs.MaNV
         INNER JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
         WHERE ck.MaKhoa = '$MaKhoa'
@@ -154,14 +154,36 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
+    //lấy danh sách bác sĩ
+    public function GetDSBS() {
+        $str = "SELECT * FROM bacsi bs JOIN nhanvien nv
+        ON bs.MaNV=nv.MaNV
+        JOIN chuyenkhoa ck
+        ON bs.MaKhoa=ck.MaKhoa";
+        $tblBS = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblBS)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
     public function DelLLV($MaNV) {
-        $str = "DELETE llv 
-                FROM lichlamviec llv
-                JOIN nhanvien nv ON llv.MaLLV = nv.MaLLV
-                WHERE nv.MaNV = '$MaNV'";
+        $str = "UPDATE lichlamviec llv
+        JOIN nhanvien nv ON llv.MaNV = nv.MaNV
+        SET llv.TrangThai = 'Nghỉ'
+        WHERE nv.MaNV = '$MaNV';
+";
         $result = mysqli_query($this->con, $str);
         return json_encode(array("success" => $result));
     }
+    //thêm ca nhân viên
+    public function AddLLV($MaNV, $NgayLamViec, $CaLamViec) {
+        $str = "INSERT INTO lichlamviec(MaNV, NgayLamViec, CaLamViec, TrangThai) 
+                VALUES ('$MaNV', '$NgayLamViec', '$CaLamViec', 'Đang làm')";
+        $result = mysqli_query($this->con, $str);
+        return $result;
+    }    
     // ------------------------------
 
 }

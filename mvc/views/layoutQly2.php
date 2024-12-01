@@ -130,59 +130,6 @@
         <?php require_once "./mvc/views/pages/".$data["Page"].".php" ?>
     </div>
 <?php require_once "./mvc/views/blocks/footer.php" ?>
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa bác sĩ này không?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteDoctor()">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="addDoctorModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm bác sĩ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <input
-                        type="text"
-                        class="form-control mb-3"
-                        id="doctorSearch"
-                        placeholder="Tìm kiếm bác sĩ..."
-                    />
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Chọn</th>
-                                <th>Tên</th>
-                                <th>Khoa</th>
-                                <th>Chuyên môn</th>
-                            </tr>
-                        </thead>
-                        <tbody id="doctorTableBody">
-                            <!-- Doctor rows will be dynamically added here -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" onclick="addSelectedDoctors()">Xác nhận</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
