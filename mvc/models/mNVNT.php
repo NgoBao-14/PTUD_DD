@@ -20,19 +20,20 @@ class mNVNT extends DB{
         }
         return json_encode($mang);
     }
-    // public function GetDT(){
-    //     $str = 'SELECT *
-    //             FROM donthuoc AS d
-    //             JOIN benhnhan AS b ON d.MaBN = b.MaBN
-    //             ORDER by d.MaDT desc';
-    //     $rows = mysqli_query($this->con, $str);
-    //     $mang = array();
-    //     while ($row = mysqli_fetch_array($rows))
-    //     {
-    //         $mang[] = $row;
-    //     }
-    //     return json_encode($mang);
-    // }
+    public function GetDTTheoLoc($offset, $limit,$loc) {
+        $str = "SELECT d.*, b.HovaTen
+                FROM donthuoc AS d
+                JOIN benhnhan AS b ON d.MaBN = b.MaBN
+                WHERE d.TrangThai = $loc
+                ORDER by d.MaDT desc
+                LIMIT $offset, $limit";
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
     public function getCTDT($MaDT)
     {
         $str = 'SELECT *

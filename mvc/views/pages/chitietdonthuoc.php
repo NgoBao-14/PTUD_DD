@@ -5,7 +5,7 @@
     <form action="" method="post">
     <h1>Đơn thuốc #'.$r["MaDT"].'</h1>
     <input type="hidden" name="MaDT" value="'.$r["MaDT"].'">
-    <span class="status status-completed">'.$r["TrangThai"].'</span>
+    <span class="status status-'.$r["TrangThai"].'">'.$r["TrangThai"].'</span>
     <div class="customer-info">
         <h2>Thông tin bệnh nhân</h2>
         <div class="info-grid">

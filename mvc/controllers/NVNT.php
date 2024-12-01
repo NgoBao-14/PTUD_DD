@@ -11,17 +11,31 @@
             {
                 $page = 1;
             }
-
+            
             $totalInvoices = $nvnt->GetTotalInvoices();
             $itemsPerPage = 5;
-            $pagination = new Pagination($totalInvoices, $itemsPerPage, $page);
-            
-            $invoices = $nvnt->GetDT($pagination->getOffset(), $pagination->getLimit());
-    
+            $pagination = new Pagination($totalInvoices, $itemsPerPage, $page); 
+            if(isset($_POST['btnLoc']))
+            {
+                $loc = $_POST['loc'];
+                $invoices = $nvnt->GetDTTheoLoc($pagination->getOffset(), $pagination->getLimit(), $loc);
+                
+            }
+            else if (isset($_POST['btnPage']))
+            {
+                $loc = $_POST['loc'];
+                $invoices = $nvnt->GetDTTheoLoc($pagination->getOffset(), $pagination->getLimit(), $loc);
+            }
+            else
+            {
+                $loc = "d.TrangThai";
+                $invoices = $nvnt->GetDT($pagination->getOffset(), $pagination->getLimit());
+            }
             $this->view("layoutNVNT", [
                 "Page" => "donthuoc",
                 "DT" => $invoices,
-                "Pagination" => $pagination
+                "Pagination" => $pagination,
+                "loc" => $loc
             ]);
         }
         public function CTDT(){

@@ -2,7 +2,19 @@
 $dt = json_decode($data["DT"],true);
 $pagination = $data["Pagination"];
 $dem = $pagination->getOffset() + 1;
-            echo '<h1>Danh Sách Đơn Thuốc</h1>
+?>
+            <h1 style="margin-top:20px;">Danh Sách Đơn Thuốc</h1>
+            <div class="loc" style=" display: flex; justify-content: right; text-align: center; padding: 10px 0;">
+                <form action="/PTUD_DD/NVNT" method="POST">
+                <select name="loc" style="width: 200px; text-align: center; height:30px; border-radius:30px; font-sizing:15px">
+                    <option value= "d.TrangThai" <?php echo $data["loc"] === "d.TrangThai" ? "selected" : ""; ?>>Tất cả</option>
+                    <option value="'Pending'" <?php echo $data["loc"] === "'Pending'" ? "selected" : ""; ?>>Chờ xử lý</option>
+                    <option value="'Completed'" <?php echo $data["loc"] === "'Completed'" ? "selected" : ""; ?>>Đã xử lý</option>
+                    <option value="'Cancelled'" <?php echo $data["loc"] === "'Cancelled'" ? "selected" : ""; ?>>Đã hủy</option>
+                <input type="submit" name="btnLoc" value="Lọc" style="margin: 0 20px; height: 30px; width: 60px; text-align: center;  border:none; margin-right:50px; border-radius:15px">
+                </select>
+                </form> 
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -15,15 +27,15 @@ $dem = $pagination->getOffset() + 1;
                         <th style="text-align: center;"></th>
                     </tr>
                 </thead>
-                <tbody>';
+                <tbody>
+<?php     
             foreach ($dt as $r):
-            
                 echo '<tr>
                     <td data-label="STT">'.$dem.'</td>
                     <td data-label="Order ID">'.$r["MaDT"].'</td>
                     <td data-label="Customer" style="text-align: left;">'.$r["HovaTen"].'</td>
                     <td data-label="Date">'.$r["NgayTao"].'</td>
-                    <td data-label="Status"><span class="status status-completed">'.$r["TrangThai"].'</span>
+                    <td data-label="Status"><span class="status status-'.$r["TrangThai"].'">'.$r["TrangThai"].'</span>
                     <td data-label="MT" style="text-align: left;">'.$r["MoTa"].'</td>
                     <form action="NVNT/CTDT" method="POST">
                     <input type="hidden"  name="ctdt" value="'.$r["MaDT"].'">
@@ -48,7 +60,8 @@ if ($pagination instanceof Pagination) {
     if ($pagination->hasPreviousPage()) {
         echo '<form action="" method="POST" style="display: inline;">
                 <input type="hidden" name="page" value="'.($pagination->getCurrentPage() - 1).'">
-                <input type="submit" name="btnPage" value="<" style="margin: 0 5px; width: 60px; text-align: center;  border:none;">
+                <input type="hidden" name="loc" value="'.$data["loc"].'">
+                <input type="submit" name="btnPage" value="<" style="margin: 0   5px; width: 60px; text-align: center;  border:none;">
             </form>';
     }
 
@@ -64,6 +77,7 @@ if ($pagination instanceof Pagination) {
             } else {
                 echo '<form action="" method="POST" style="display: inline;">
                         <input type="hidden" name="page" value="'.$i.'" style="margin: 0 5px; width: 30px; text-align: center;">
+                        <input type="hidden" name="loc" value="'.$data["loc"].'">
                         <input type="submit" name="btnPage" value="'.$i.'" style="margin: 0 5px; width: 30px; text-align: center; border:none;">
                     </form>';
             }
@@ -76,6 +90,7 @@ if ($pagination instanceof Pagination) {
     if ($pagination->hasNextPage()) {
         echo '      <form action="" method="POST" style="display: inline;">
                         <input type="hidden" name="page" value="'.($pagination->getCurrentPage() + 1).'">
+                        <input type="hidden" name="loc" value="'.$data["loc"].'">
                         <input type="submit" name="btnPage" value=">" style="margin: 0 5px; width: 60px; text-align: center;  border:none;">
                     </form>';
     }
