@@ -19,8 +19,8 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">THÔNG TIN QUẢN LÝ</h2>
                     <div class="d-grid gap-3">
-                    <a href="./DSBS" class="btn btn-primary " id="btnDSBS">Thông tin bác sĩ</a>
-                    <a href="./DSNVYT" class="btn btn-primary" id="btnDSNVYT">Thông tin nhân viên y tế</a>
+                    <a href="./DSBS" class="btn <?php echo ($data['Page'] == 'qlbs') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSBS">Thông tin bác sĩ</a>
+                    <a href="./DSNVYT" class="btn <?php echo ($data['Page'] == 'qlnvyt') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSNVYT">Thông tin nhân viên y tế</a>
                     </div>
                 </div>
             </div>

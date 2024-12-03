@@ -9,6 +9,7 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
+                <th>STT</th>
                 <th>Mã NV</th>
                 <th>Họ và Tên</th>
                 <th>Ngày sinh</th>
@@ -19,9 +20,11 @@
         <tbody>
             <?php
             if (isset($data['NhanVien']) && !empty($data['NhanVien'])) {
+                $stt = 1;
                 $nhanVien = json_decode($data['NhanVien'], true);
                 foreach ($nhanVien as $row) {
                     echo "<tr>
+                        <td>{$stt}</td>
                         <td>{$row['MaNV']}</td>
                         <td>{$row['HovaTenNV']}</td>
                         <td>{$row['NgaySinh']}</td>
@@ -33,6 +36,7 @@
                             </form>
                         </td>
                     </tr>";
+                    $stt++;
                 }
             } else {
                 echo "<tr><td colspan='5'>Không có dữ liệu nhân viên y tế.</td></tr>";

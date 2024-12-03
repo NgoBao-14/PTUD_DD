@@ -1,5 +1,13 @@
 <?php
 class mQLBS extends DB {
+    public function GetDoctorCount() {
+        $str = "SELECT COUNT(*) as count FROM bacsi bs
+                JOIN nhanvien nv ON bs.MaNV = nv.MaNV
+                WHERE nv.TrangThaiLamViec = 'Đang làm việc'";
+        $result = $this->con->query($str);
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
     public function GetAllBS() {
         $str = "SELECT bs.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa
                 FROM bacsi bs

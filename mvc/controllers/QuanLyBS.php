@@ -1,5 +1,11 @@
 <?php
 class QuanLyBS extends Controller {
+    function SayHi()
+    {
+        $this->view("layoutQL", [
+            "Page"
+        ]);
+    }
     function DSBS() {
         $ql = $this->model("mQLBS");
         $bacsi = json_decode($ql->GetAllBS(), true);
@@ -9,7 +15,26 @@ class QuanLyBS extends Controller {
             "BacSi" => $bacsi
         ]);
     }
-
+    public function index() {
+        $counts = $this->GetDashboardCounts();
+        
+        $this->view("layoutQL", [
+            "doctorCount" => $counts['doctorCount'],
+            "staffCount" => $counts['staffCount']
+        ]);
+    }
+    public function GetDashboardCounts() {
+        $qlBS = $this->model("mQLBS");
+        $qlNVYT = $this->model("mQLNVYT");
+        
+        $doctorCount = $qlBS->GetDoctorCount();
+        $staffCount = $qlNVYT->GetStaffCount();
+        
+        return [
+            'doctorCount' => $doctorCount,
+            'staffCount' => $staffCount
+        ];
+    }
     function CTBS() {
         if (isset($_POST["btnCTBS"])) {
             $MaNV = $_POST["ctbs"];
