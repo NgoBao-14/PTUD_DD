@@ -1,5 +1,13 @@
 <?php
 class mQLNVYT extends DB {
+    public function GetStaffCount() {
+        $str = "SELECT COUNT(*) as count FROM nhanvien
+                WHERE ChucVu = 'Nhân viên y tế' AND TrangThaiLamViec = 'Đang làm việc'";
+        $result = $this->con->query($str);
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+
     public function GetAllNVYT($search = '') {
         $str = "SELECT nv.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
                 FROM nhanvien nv

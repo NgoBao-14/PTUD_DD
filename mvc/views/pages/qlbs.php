@@ -9,6 +9,7 @@
     <table class="table table-striped table-bordered" style='width: 800px;'>
     <thead>
         <tr>
+            <th>STT</th>
             <th>Mã NV</th>
             <th>Họ và Tên</th>
             <th>Chuyên khoa</th>
@@ -18,8 +19,10 @@
     <tbody>
         <?php
         if (isset($data['BacSi']) && !empty($data['BacSi'])) {
+            $stt = 1;
             foreach ($data['BacSi'] as $row) {
                 echo "<tr>
+                    <td>{$stt}</td>
                     <td>{$row['MaNV']}</td>
                     <td>{$row['HovaTenNV']}</td>
                     <td>{$row['TenKhoa']}</td>
@@ -30,6 +33,7 @@
                         </form>
                     </td>
                 </tr>";
+                $stt++;
             }
         } else {
             echo "<tr><td colspan='8'>Không có dữ liệu bác sĩ.</td></tr>";
