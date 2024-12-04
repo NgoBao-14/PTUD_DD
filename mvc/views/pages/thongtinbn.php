@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="edit-button">
-                    <form action="./UDTT" method="post">
+                    <form action="/PTUD_DD/BN/UDTT" method="post">
                         <button type="submit" class="btn btn-primary" name="btnUDTT">Thay đổi thông tin</button>
                     </form>
                 </div>

@@ -1,3 +1,13 @@
+<?php
+if (isset($data["XL"])) {
+    if($data["XL"] == true) {
+        echo '<script>alert("Cập nhật thông tin bệnh nhân thành công.")</script>';
+    } else {
+        echo '<script>alert("Cập nhật thông tin bệnh nhân thất bại. Vui lòng thử lại.")</script>';
+
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,12 +56,22 @@
 
         .radio-group {
             display: flex;
-            gap: 20px;
+            gap: 20px; /* Khoảng cách giữa các radio button */
             margin-bottom: 15px;
+            align-items: center; /* Căn giữa các phần tử trong dòng */
+        }
+
+        .il-gr {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .gr-rdo {
+            margin-right: 20px;
         }
 
         .radio-group label {
             font-weight: normal;
+            margin-left: 5px;
         }
 
         input[type="radio"] {
@@ -113,27 +133,37 @@
 </head>
 <body>
     <?php 
-        $ud = json_decode($data["UD"],true);
+        // if (isset($data["UD"])) {
+        $ud = json_decode($data["UD"], true);
         foreach($ud as $r):
-        echo '<div class="profile-container">
+            echo '<div class="profile-container">
             <h4>Điều chỉnh thông tin</h4>
-            <form class="updateform" method="POST">
+            <form class="updateform" action="/PTUD_DD/BN/UDTT" method="POST">
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Họ và tên *</label>
-                    <input type="text" name="hovaten" class="form-control" id="fullName" value="'.$r['HovaTen'].'">
+                    <input type="text" name="hovaten" class="form-control" id="fullName" value="'.$r["HovaTen"].'">
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Số điện thoại *</label>
-                    <input type="text" name="sdt" class="form-control" id="phone" value="'.$r['SoDT'].'">
+                    <span>'.$r["SoDT"].'</span>
                 </div>
                 <div class="mb-3">
                     <label for="dob" class="form-label">Ngày sinh *</label>
                     <input type="date" name="ngaysinh" class="form-control" id="dob" value="'.$r['NgaySinh'].'">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Giới tính *</label>
-                    <input type="text" name="gioitinh" class="form-control" id="gt" value="'.$r['GioiTinh'].'">
-                </div>
+                    <label class="gt form-label">Giới tính *</label>';
+                    echo '<div class="il-gr">';
+                        $genders = ['Nam', 'Nữ'];
+                        foreach ($genders as $gender) {
+                            $checked = ($gender === $r['GioiTinh']) ? 'checked' : '';
+                            echo '<div class="gr-rdo">';
+                            echo '<input type="radio" name="gt" id="gender_' . $gender . '" value="' . $gender . '" ' . $checked . ' required>';
+                            echo '<label class="rdo" for="gender_' . $gender . '">' . $gender . '</label>';
+                            echo '</div>';
+                        }
+                    '</div>';
+                echo '</div>
                 <div class="mb-3">
                     <label for="insurance" class="form-label">Mã thẻ BHYT</label>
                     <input type="text" name="bhyt" class="form-control" id="insurance" value="'.$r['BHYT'].'">
@@ -142,13 +172,19 @@
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" id="email" value="'.$r['Email'].'">
                 </div>
+                <div class="mb-3">
+                    <label for="diachi" class="form-label">Đia chỉ</label>
+                    <input type="text" name="diachi" class="form-control" id="diachi" value="'.$r['DiaChi'].'">
+                </div>
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-secondary me-2"><a href="?hoso">Hủy</a></button>
                     <button type="submit" name="btn-updatebn" class="btn btn-primary">Cập nhật</button>
                 </div>
+                
             </form>
         </div>';
         endforeach;
+        // }
     ?>
 </body>
 </html>

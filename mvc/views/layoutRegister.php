@@ -1,9 +1,21 @@
 <?php
-if(isset($data["result"])){
-    if($data["result"] == true){
-        echo '<script>alert("Đăng ký thành công")</script>';
-    } else{
+    if(isset($_SESSION["role"])){
+        header("refresh: 0; url='/PTUD_DD'");
+    }
+?>
+
+<?php
+if (isset($data["result"])) {
+    $result = json_decode($data["result"], true);
+
+    if ($result["success"] === true) {
+        $last_id = $result["last_id"];
+
+        echo '<script>alert("Đăng ký thành công. Mời bạn tạo hồ sơ.")</script>';
+        header("refresh:0; url='/PTUD_DD/Register/BNHS'");
+    } else {
         echo '<script>alert("Đăng ký thất bại")</script>';
+        header("refresh:0; url='/PTUD_DD/Register'");
     }
 }
 ?>

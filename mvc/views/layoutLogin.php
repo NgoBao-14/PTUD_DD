@@ -1,3 +1,9 @@
+<?php
+    if(isset($_SESSION["role"])){
+        header("refresh: 0; url='/PTUD_DD'");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
