@@ -99,6 +99,18 @@ class QuanLy extends Controller {
         ]);
     }
     
+    function ThongKe() {
+        $ql = $this->model("mQuanLy");
+    
+        // Lấy dữ liệu tổng tiền theo tháng
+        $thongKeTheoThang = $ql->GetThongKeTheoThang();
+    
+        // Truyền dữ liệu vào view
+        $this->view("layoutQLy3", [
+            "Page" => "thongke",
+            "ThongKe" => $thongKeTheoThang  // Dữ liệu được truyền vào view
+        ]);
+    }
     
     
     }
