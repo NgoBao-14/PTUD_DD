@@ -1,9 +1,3 @@
-<?php
-    if($_SESSION["role"] != 5){
-        echo "<script>alert('Bạn không có quyền truy cập')</script>";
-        header("refresh: 0; url='/PTUD_DD'");
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="./public/css/khachhang.css">
+    <link rel="stylesheet" href="../public/css/khachhang.css">
     <style>
         body {
             background-color: #e9ecef;
@@ -21,78 +17,43 @@
             margin-bottom: 50px;
         }
 
-        /* Typography */
+        
+        .sidebar a:hover {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        li{
+            list-style-type: none;
+        }
         .main-title {
             font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
-        /* Layout Components */
-        .sidebar {
-            background-color: #f8f9fa; /* Màu nền nhẹ nhàng */
-            padding: 20px;
-            border-radius: 8px; /* Bo góc cho mềm mại */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
-            height: 100%;
-        }
 
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 10px; /* Khoảng cách giữa các mục */
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 10px 15px; /* Tăng vùng nhấn */
-            text-decoration: none;
-            color: #495057; /* Màu chữ */
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-radius: 4px; /* Bo góc cho các link */
-        }
-
-        .sidebar a:hover {
-            background-color: #0d6efd; /* Màu nền khi hover */
-            color: #fff; /* Màu chữ khi hover */
-            font-weight: bold; /* Tăng độ đậm */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-        }
-
-        /* Đánh dấu mục đang chọn */
-        .sidebar a.active {
-            background-color: #0d6efd;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        /* Profile Styles */
         .profile-container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .profile-header {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
         }
-
         .profile-header .avatar {
             font-size: 3rem;
             color: #6c757d;
             margin-right: 15px;
         }
-
         .profile-header h5 {
             margin: 0;
+        }
+
+        .info-section {
+            
         }
 
         .profile-section {
@@ -103,24 +64,19 @@
             margin-bottom: 15px;
             border-left: 4px solid #0d6efd;
         }
-
         .profile-section p {
             margin: 0;
             font-weight: bold;
         }
-
         .profile-section div {
             display: flex;
             justify-content: space-between;
             padding: 5px 0;
         }
-
-        /* Button Styles */
         .edit-button {
             text-align: right;
             margin-top: 20px;
         }
-
         .btn a {
             color: white;
             text-decoration: none;
@@ -136,10 +92,10 @@
                 <div class="row">
                     <div class="col-md-2 sidebar">
                         <ul>
-                            <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
-                            <li ><a href="KhachHang.php?thanhToan">Thanh toán</a></li>
-                            <li><a href="/PTUD_DD/BN">Hồ sơ cá nhân</a></li>
-                            <li ><a href="KhachHang.php?hoSoPhieuKham">Hồ sơ phiếu khám</a></li>
+                            <li><a href="/PTUD_DD/LichKham">Lịch khám</a></li>
+                            <li ><a href="/PTUD_DD/ThanhToan">Thanh toán</a></li>
+                            <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ cá nhân</a></li>
+                            <li ><a href="/PTUD_DD/XemPhieuKham">Hồ sơ phiếu khám</a></li>
                             <li><a href="">Tài khoản</a></li>
                             <li><a href="Home.php">Đăng xuất</a></li>
                         </ul>
