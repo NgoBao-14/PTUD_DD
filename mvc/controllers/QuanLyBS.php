@@ -15,14 +15,7 @@ class QuanLyBS extends Controller {
             "BacSi" => $bacsi
         ]);
     }
-    public function index() {
-        $counts = $this->GetDashboardCounts();
-        
-        $this->view("layoutQL", [
-            "doctorCount" => $counts['doctorCount'],
-            "staffCount" => $counts['staffCount']
-        ]);
-    }
+    
     public function GetDashboardCounts() {
         $qlBS = $this->model("mQLBS");
         $qlNVYT = $this->model("mQLNVYT");
