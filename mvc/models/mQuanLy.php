@@ -184,8 +184,43 @@ class mQuanLy extends DB {
         $result = mysqli_query($this->con, $str);
         return $result;
     }    
-    // ------------------------------
 
+    public function GetHD(){
+        $str = "SELECT * FROM hoadon hd 
+        JOIN chitiethoadon ct
+        on hd.MaHD=ct.MaHD";
+        $tblHD = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblHD)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    public function GetThongKeTheoThang(){
+        $str = "SELECT 
+    ct.DichVu,
+    YEAR(hd.NgayLapHoaDon) AS Nam,
+    MONTH(hd.NgayLapHoaDon) AS Thang,
+    SUM(hd.TongTien) AS TongTienTheoThang
+    FROM 
+        hoadon hd
+    JOIN 
+        chitiethoadon ct ON hd.MaHD = ct.MaHD
+    GROUP BY 
+        ct.DichVu, YEAR(hd.NgayLapHoaDon), MONTH(hd.NgayLapHoaDon)
+    ORDER BY 
+        Thang, Nam;";
+                    
+        $tblThongKe = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblThongKe)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);  // Trả về dữ liệu dưới dạng JSON
+    }
+    
+    // ------------------------------
 }
 
 ?>
