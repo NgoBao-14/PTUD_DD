@@ -84,40 +84,47 @@ class mQLBS extends DB {
             if ($this->CheckExistingEmail($EmailNV)) {
                 return "Email đã tồn tại";
             }
-
+    
             // Generate new IDs
             $MaNV = $this->GenerateNewMaNV();
             $ID = $this->GenerateNewID();
-            $MaLLV = $this->GenerateNewMaLLV();
-
+    
             // Insert into nhanvien table
-            $str1 = "INSERT INTO nhanvien (MaNV, HovaTenNV, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID, MaLLV) 
-                     VALUES (?, ?, ?, ?, ?, ?, 'Bác sĩ', 'Đang làm việc', ?, ?)";
+            $str1 = "INSERT INTO nhanvien (MaNV, HovaTenNV, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
+                     VALUES (?, ?, ?, ?, ?, ?, 'Bác sĩ', 'Đang làm việc', ?)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssssii", $MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID, $MaLLV);
-            $stmt1->execute();
-
+            if ($stmt1 === false) {
+                throw new Exception("Error preparing nhanvien statement: " . $this->con->error);
+            }
+            $stmt1->bind_param("isssssi", $MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
+            if (!$stmt1->execute()) {
+                throw new Exception("Error executing nhanvien statement: " . $stmt1->error);
+            }
+    
             // Insert into bacsi table
             $str2 = "INSERT INTO bacsi (MaNV, MaKhoa) VALUES (?, ?)";
             $stmt2 = $this->con->prepare($str2);
+            if ($stmt2 === false) {
+                throw new Exception("Error preparing bacsi statement: " . $this->con->error);
+            }
             $stmt2->bind_param("ii", $MaNV, $MaKhoa);
-            $stmt2->execute();
-
+            if (!$stmt2->execute()) {
+                throw new Exception("Error executing bacsi statement: " . $stmt2->error);
+            }
+    
             // Insert into taikhoan table
             $username = $this->GenerateUsername($HovaTenNV);
-            $password = password_hash($SoDT, PASSWORD_DEFAULT); // Using phone number as initial password
-            $str3 = "INSERT INTO taikhoan (ID, username, password, phanquyen) VALUES (?, ?, ?, 'Bác sĩ')";
+            $password = password_hash($SoDT, PASSWORD_DEFAULT);
+            $str3 = "INSERT INTO taikhoan (ID, username, password, MaPQ) VALUES (?, ?, ?, 2)";
             $stmt3 = $this->con->prepare($str3);
+            if ($stmt3 === false) {
+                throw new Exception("Error preparing taikhoan statement: " . $this->con->error);
+            }
             $stmt3->bind_param("iss", $ID, $username, $password);
-            $stmt3->execute();
-
-            // Insert into lichlamviec table
-            $str4 = "INSERT INTO lichlamviec (MaLLV, NgayLamViec, TrangThai, GhiChu, CaLamViec) 
-                     VALUES (?, NOW(), 'Chưa phân công', '', '')";
-            $stmt4 = $this->con->prepare($str4);
-            $stmt4->bind_param("i", $MaLLV);
-            $stmt4->execute();
-
+            if (!$stmt3->execute()) {
+                throw new Exception("Error executing taikhoan statement: " . $stmt3->error);
+            }
+    
             $this->con->commit();
             return true;
         } catch (Exception $e) {
@@ -125,54 +132,59 @@ class mQLBS extends DB {
             return "Lỗi: " . $e->getMessage();
         }
     }
-
+    
     private function GenerateNewMaNV() {
         $str = "SELECT MAX(MaNV) as max_id FROM nhanvien";
         $result = $this->con->query($str);
+        if ($result === false) {
+            throw new Exception("Error querying for new MaNV: " . $this->con->error);
+        }
         $row = $result->fetch_assoc();
-        return $row['max_id'] + 1;
+        return ($row['max_id'] ?? 0) + 1;
     }
-
+    
     private function GenerateNewID() {
         $str = "SELECT MAX(ID) as max_id FROM taikhoan";
         $result = $this->con->query($str);
+        if ($result === false) {
+            throw new Exception("Error querying for new ID: " . $this->con->error);
+        }
         $row = $result->fetch_assoc();
-        return $row['max_id'] + 1;
+        return ($row['max_id'] ?? 0) + 1;
     }
-
-    private function GenerateNewMaLLV() {
-        $str = "SELECT MAX(MaLLV) as max_id FROM lichlamviec";
-        $result = $this->con->query($str);
-        $row = $result->fetch_assoc();
-        return $row['max_id'] + 1;
-    }
-
+    
     private function GenerateUsername($HovaTenNV) {
         $name_parts = explode(' ', $HovaTenNV);
         $last_name = end($name_parts);
-        $first_letter = strtolower(substr($HovaTenNV, 0, 1));
-        $username = $first_letter . strtolower($last_name);
-
-        // Check if username exists and append number if necessary
+        $first_letter = mb_strtolower(mb_substr($HovaTenNV, 0, 1, 'UTF-8'), 'UTF-8');
+        $username = $first_letter . mb_strtolower($last_name, 'UTF-8');
+    
         $i = 1;
         $original_username = $username;
         while ($this->CheckExistingUsername($username)) {
             $username = $original_username . $i;
             $i++;
         }
-
+    
         return $username;
     }
-
+    
     private function CheckExistingUsername($username) {
         $str = "SELECT COUNT(*) as count FROM taikhoan WHERE username = ?";
         $stmt = $this->con->prepare($str);
+        if ($stmt === false) {
+            throw new Exception("Error preparing CheckExistingUsername statement: " . $this->con->error);
+        }
         $stmt->bind_param("s", $username);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            throw new Exception("Error executing CheckExistingUsername statement: " . $stmt->error);
+        }
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row['count'] > 0;
     }
+    
+    
 
     public function CheckExistingPhoneNumber($SoDT, $MaNV = null) {
         $str = "SELECT COUNT(*) as count FROM nhanvien WHERE SoDT = ? AND MaNV != ?";
