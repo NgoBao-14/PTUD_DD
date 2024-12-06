@@ -42,15 +42,20 @@ class mQLNVYT extends DB {
     
 
     public function UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
-        $str = "UPDATE nhanvien 
-                SET HovaTenNV = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? 
-                WHERE MaNV = ? AND ChucVu = 'Nhân viên y tế'";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("sssssi", $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
-        $result = $stmt->execute();
-        return json_encode(['success' => $result]);
-    }
+        $this->con->begin_transaction();
+        try {
+            $str = "UPDATE nhanvien SET HovaTenNV = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
+            $stmt = $this->con->prepare($str);
+            $stmt->bind_param("sssssi", $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
+            $stmt->execute();
 
+            $this->con->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->con->rollback();
+            return false;
+        }
+    }
     public function DeleteNVYT($MaNV) {
         $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm' 
                 WHERE MaNV = ? AND ChucVu = 'Nhân viên y tế'";
@@ -65,10 +70,10 @@ class mQLNVYT extends DB {
         try {
             // Check for existing phone number and email
             if ($this->CheckExistingPhoneNumber($SoDT)) {
-                return json_encode(['success' => false, 'message' => "Số điện thoại đã tồn tại"]);
+                return "Số điện thoại đã tồn tại";
             }
             if ($this->CheckExistingEmail($EmailNV)) {
-                return json_encode(['success' => false, 'message' => "Email đã tồn tại"]);
+                return "Email đã tồn tại";
             }
     
             // Generate new IDs
@@ -79,53 +84,55 @@ class mQLNVYT extends DB {
             $str1 = "INSERT INTO nhanvien (MaNV, HovaTenNV, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
                      VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', ?)";
             $stmt1 = $this->con->prepare($str1);
-            if ($stmt1 === false) {
-                throw new Exception("Error preparing nhanvien statement: " . $this->con->error);
-            }
             $stmt1->bind_param("isssssi", $MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
-            if (!$stmt1->execute()) {
-                throw new Exception("Error executing nhanvien statement: " . $stmt1->error);
-            }
+            $stmt1->execute();
     
             // Insert into nhanvienyte table
             $this->con->query("SET FOREIGN_KEY_CHECKS = 0");
             $str2 = "INSERT INTO nhanvienyte (MaNV) VALUES (?)";
             $stmt2 = $this->con->prepare($str2);
-            if ($stmt2 === false) {
-                throw new Exception("Error preparing nhanvienyte statement: " . $this->con->error);
-            }
             $stmt2->bind_param("i", $MaNV);
-            if (!$stmt2->execute()) {
-                throw new Exception("Error executing nhanvienyte statement: " . $stmt2->error);
-            }
+            $stmt2->execute();
     
             // Insert into taikhoan table
             $username = $this->GenerateUsername($HovaTenNV);
             $password = password_hash($SoDT, PASSWORD_DEFAULT); // Using phone number as initial password
             $str3 = "INSERT INTO taikhoan (ID, username, password, MaPQ) VALUES (?, ?, ?, 3)";
             $stmt3 = $this->con->prepare($str3);
-            if ($stmt3 === false) {
-                throw new Exception("Error preparing taikhoan statement: " . $this->con->error);
-            }
             $stmt3->bind_param("iss", $ID, $username, $password);
-            if (!$stmt3->execute()) {
-                throw new Exception("Error executing taikhoan statement: " . $stmt3->error);
-            }
+            $stmt3->execute();
     
             $this->con->commit();
-            return json_encode(['success' => true, 'message' => 'Thêm nhân viên y tế thành công']);
+            return true;
         } catch (Exception $e) {
             $this->con->rollback();
-            return json_encode(['success' => false, 'message' => "Lỗi: " . $e->getMessage()]);
+            return "Lỗi: " . $e->getMessage();
         }
+    }
+    
+    public function CheckExistingPhoneNumber($SoDT) {
+        $str = "SELECT COUNT(*) as count FROM nhanvien WHERE SoDT = ?";
+        $stmt = $this->con->prepare($str);
+        $stmt->bind_param("s", $SoDT);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
+    }
+    
+    public function CheckExistingEmail($EmailNV) {
+        $str = "SELECT COUNT(*) as count FROM nhanvien WHERE EmailNV = ?";
+        $stmt = $this->con->prepare($str);
+        $stmt->bind_param("s", $EmailNV);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
     }
     
     private function GenerateNewMaNV() {
         $str = "SELECT MAX(MaNV) as max_id FROM nhanvien";
         $result = $this->con->query($str);
-        if ($result === false) {
-            throw new Exception("Error querying for new MaNV: " . $this->con->error);
-        }
         $row = $result->fetch_assoc();
         return ($row['max_id'] ?? 0) + 1;
     }
@@ -133,9 +140,6 @@ class mQLNVYT extends DB {
     private function GenerateNewID() {
         $str = "SELECT MAX(ID) as max_id FROM taikhoan";
         $result = $this->con->query($str);
-        if ($result === false) {
-            throw new Exception("Error querying for new ID: " . $this->con->error);
-        }
         $row = $result->fetch_assoc();
         return ($row['max_id'] ?? 0) + 1;
     }
@@ -159,37 +163,13 @@ class mQLNVYT extends DB {
     private function CheckExistingUsername($username) {
         $str = "SELECT COUNT(*) as count FROM taikhoan WHERE username = ?";
         $stmt = $this->con->prepare($str);
-        if ($stmt === false) {
-            throw new Exception("Error preparing CheckExistingUsername statement: " . $this->con->error);
-        }
         $stmt->bind_param("s", $username);
-        if (!$stmt->execute()) {
-            throw new Exception("Error executing CheckExistingUsername statement: " . $stmt->error);
-        }
+        $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row['count'] > 0;
     }
     
     
-    public function CheckExistingPhoneNumber($SoDT, $MaNV = null) {
-        $str = "SELECT COUNT(*) as count FROM nhanvien WHERE SoDT = ? AND MaNV != ?";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("si", $SoDT, $MaNV);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['count'] > 0;
-    }
-
-    public function CheckExistingEmail($EmailNV, $MaNV = null) {
-        $str = "SELECT COUNT(*) as count FROM nhanvien WHERE EmailNV = ? AND MaNV != ?";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("si", $EmailNV, $MaNV);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['count'] > 0;
-    }
 }
 ?>

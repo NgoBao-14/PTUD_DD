@@ -74,21 +74,24 @@ class QuanLyBS extends Controller {
 
             $ql = $this->model("mQLBS");
 
-            // Kiểm tra số điện thoại và email
-            if ($ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
+            // Lấy thông tin hiện tại của bác sĩ
+            $currentBS = json_decode($ql->Get1BS($MaNV), true);
+
+            // Kiểm tra số điện thoại và email chỉ khi có sự thay đổi
+            if ($SoDT !== $currentBS['SoDT'] && $ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietbs",
                     "Error" => "Số điện thoại đã tồn tại trong hệ thống.",
-                    "CTBS" => $ql->Get1BS($MaNV)
+                    "CTBS" => $currentBS
                 ]);
                 return;
             }
 
-            if ($ql->CheckExistingEmail($EmailNV, $MaNV)) {
+            if ($EmailNV !== $currentBS['EmailNV'] && $ql->CheckExistingEmail($EmailNV, $MaNV)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietbs",
                     "Error" => "Email đã tồn tại trong hệ thống.",
-                    "CTBS" => $ql->Get1BS($MaNV)
+                    "CTBS" => $currentBS
                 ]);
                 return;
             }
@@ -101,7 +104,7 @@ class QuanLyBS extends Controller {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietbs",
                     "Error" => "Không thể cập nhật thông tin bác sĩ.",
-                    "CTBS" => $ql->Get1BS($MaNV)
+                    "CTBS" => $currentBS
                 ]);
             }
         } else {
@@ -111,7 +114,6 @@ class QuanLyBS extends Controller {
             ]);
         }
     }
-
     function XoaBS() {
         if (isset($_POST["btnXoaBS"])) {
             $MaNV = $_POST["MaNV"];
@@ -143,7 +145,7 @@ class QuanLyBS extends Controller {
             $SoDT = $_POST['SoDT'];
             $EmailNV = $_POST['EmailNV'];
             $MaKhoa = $_POST['MaKhoa'];
-
+    
             // Kiểm tra dữ liệu đầu vào
             if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
                 $this->view("layoutQLyBS", [
@@ -152,7 +154,7 @@ class QuanLyBS extends Controller {
                 ]);
                 return;
             }
-
+    
             if (!preg_match("/^[0-9]+$/", $SoDT)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "thembacsi",
@@ -160,19 +162,30 @@ class QuanLyBS extends Controller {
                 ]);
                 return;
             }
-
+    
             $ql = $this->model("mQLBS");
             
+            // Kiểm tra số điện thoại và email trùng lặp
+            if ($ql->CheckExistingPhoneNumber($SoDT)) {
+                $this->view("layoutQLyBS", [
+                    "Page" => "thembacsi",
+                    "Error" => "Số điện thoại đã tồn tại trong hệ thống."
+                ]);
+                return;
+            }
+    
+            if ($ql->CheckExistingEmail($EmailNV)) {
+                $this->view("layoutQLyBS", [
+                    "Page" => "thembacsi",
+                    "Error" => "Email đã tồn tại trong hệ thống."
+                ]);
+                return;
+            }
+            
             $result = $ql->AddBS($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
-
+    
             if ($result === true) {
                 header("Location: ./DSBS");
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlbs",
-                    "Message" => "Thêm bác sĩ mới thành công."
-                    
-
-                ]);
             } else {
                 $this->view("layoutQLyBS", [
                     "Page" => "thembacsi",
@@ -202,7 +215,7 @@ class QuanLyBS extends Controller {
 
             if (!empty($MaNV)) {
                 $ql = $this->model("mQLNVYT");
-                $chitietNV = $ql->Get1NVYT($MaNV);
+                $chitietNV = json_decode($ql->Get1NVYT($MaNV), true);
 
                 if ($chitietNV) {
                     $this->view("layoutQLyBS", [
@@ -212,7 +225,7 @@ class QuanLyBS extends Controller {
                 } else {
                     $this->view("layoutQLyBS", [
                         "Page" => "qlchitietnvyt",
-                        "Error" => "Không tìm thấy thông tin nhân viên với mã đã nhập."
+                        "Error" => "Không tìm thấy thông tin bác sĩ với mã đã nhập."
                     ]);
                 }
             } else {
@@ -221,9 +234,14 @@ class QuanLyBS extends Controller {
                     "Error" => "Mã nhân viên không hợp lệ."
                 ]);
             }
+        } else {
+            $this->view("layoutQLyBS", [
+                "Page" => "qlchitietnvyt",
+                "Error" => "Yêu cầu không hợp lệ."
+            ]);
         }
     }
-
+    
     function SuaNVYT() {
         if (isset($_POST["btnSuaNVYT"])) {
             $MaNV = $_POST["MaNV"];
@@ -235,36 +253,55 @@ class QuanLyBS extends Controller {
 
             $ql = $this->model("mQLNVYT");
 
-            // Kiểm tra số điện thoại và email
-            if ($ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
+            // Lấy thông tin hiện tại của nhân viên y tế
+            $currentNV = json_decode($ql->Get1NVYT($MaNV), true);
+
+            // Kiểm tra số điện thoại và email chỉ khi có sự thay đổi
+            if ($SoDT !== $currentNV['SoDT'] && $ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietnvyt",
                     "Error" => "Số điện thoại đã tồn tại trong hệ thống.",
-                    "CTNV" => $ql->Get1NVYT($MaNV)
+                    "CTNV" => $currentNV
                 ]);
                 return;
             }
 
-            if ($ql->CheckExistingEmail($EmailNV, $MaNV)) {
+            if ($EmailNV !== $currentNV['EmailNV'] && $ql->CheckExistingEmail($EmailNV, $MaNV)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietnvyt",
                     "Error" => "Email đã tồn tại trong hệ thống.",
-                    "CTNV" => $ql->Get1NVYT($MaNV)
+                    "CTNV" => $currentNV
                 ]);
                 return;
             }
 
-            $result = json_decode($ql->UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV), true);
+            $result = $ql->UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
 
-            if ($result['success']) {
+            if ($result) {
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
                     "Page" => "qlchitietnvyt",
-                    "Error" => "Không thể cập nhật thông tin nhân viên.",
-                    "CTNV" => $ql->Get1NVYT($MaNV)
+                    "Error" => "Không thể cập nhật thông tin nhân viên y tế.",
+                    "CTNV" => $currentNV
                 ]);
             }
+        } elseif (isset($_POST["btnCancelEdit"])) {
+            // Handle cancellation of edit
+            $MaNV = $_POST["MaNV"];
+            $ql = $this->model("mQLNVYT");
+            $chitietNV = $ql->Get1NVYT($MaNV);
+
+            $this->view("layoutQLyBS", [
+                "Page" => "qlchitietnvyt",
+                "CTNV" => $chitietNV,
+                "showEditForm" => false
+            ]);
+        } else {
+            $this->view("layoutQLyBS", [
+                "Page" => "qlchitietnvyt",
+                "Error" => "Yêu cầu không hợp lệ."
+            ]);
         }
     }
 
@@ -293,7 +330,7 @@ class QuanLyBS extends Controller {
             $GioiTinh = $_POST['GioiTinh'];
             $SoDT = $_POST['SoDT'];
             $EmailNV = $_POST['EmailNV'];
-
+    
             // Kiểm tra dữ liệu đầu vào
             if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
                 $this->view("layoutQLyBS", [
@@ -302,7 +339,7 @@ class QuanLyBS extends Controller {
                 ]);
                 return;
             }
-
+    
             if (!preg_match("/^[0-9]+$/", $SoDT)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "themnvyt",
@@ -310,17 +347,34 @@ class QuanLyBS extends Controller {
                 ]);
                 return;
             }
-
+    
             $ql = $this->model("mQLNVYT");
             
-            $result = json_decode($ql->AddNVYT($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV), true);
-
-            if ($result['success']) {
+            // Kiểm tra số điện thoại và email trùng lặp
+            if ($ql->CheckExistingPhoneNumber($SoDT)) {
+                $this->view("layoutQLyBS", [
+                    "Page" => "themnvyt",
+                    "Error" => "Số điện thoại đã tồn tại trong hệ thống."
+                ]);
+                return;
+            }
+    
+            if ($ql->CheckExistingEmail($EmailNV)) {
+                $this->view("layoutQLyBS", [
+                    "Page" => "themnvyt",
+                    "Error" => "Email đã tồn tại trong hệ thống."
+                ]);
+                return;
+            }
+            
+            $result = $ql->AddNVYT($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+    
+            if ($result === true) {
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
                     "Page" => "themnvyt",
-                    "Error" => $result['message']
+                    "Error" => $result
                 ]);
             }
         } else {
