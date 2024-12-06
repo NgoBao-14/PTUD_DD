@@ -1,51 +1,48 @@
 <?php
 class MBacsi extends DB
 {
-    // Thêm lịch làm việc với MaNV từ session
+    // Thêm lịch làm việc
     public function themLichLamViec($maNV, $ngayLamViec, $caLamViec)
     {
-        $stmt = $this->con->prepare("INSERT INTO LichLamViec (MaNV, NgayLamViec, CaLamViec, TrangThai) VALUES (?, ?, ?, 'chưa duyệt')");
-        $stmt->bind_param("iss", $maNV, $ngayLamViec, $caLamViec);
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        $str = "INSERT INTO LichLamViec (MaNV, NgayLamViec, CaLamViec, TrangThai) 
+                VALUES ('$maNV', '$ngayLamViec', '$caLamViec', 'chưa duyệt')";
+        return mysqli_query($this->con, $str);
     }
 
-    // Kiểm tra lịch làm việc đã tồn tại hay chưa
+    // Kiểm tra lịch làm việc đã tồn tại
     public function kiemTraLichDaTonTai($maNV, $ngayLamViec, $caLamViec)
     {
-        $stmt = $this->con->prepare("SELECT COUNT(*) FROM LichLamViec WHERE MaNV = ? AND NgayLamViec = ? AND CaLamViec = ?");
-        $stmt->bind_param("iss", $maNV, $ngayLamViec, $caLamViec);
-        $stmt->execute();
-        $count = 0;
-        $stmt->bind_result($count);
-        $stmt->fetch();
-        $stmt->close();
-        return $count > 0; // Trả về true nếu đã tồn tại
+        $str = "SELECT COUNT(*) as count 
+                FROM LichLamViec 
+                WHERE MaNV = '$maNV' AND NgayLamViec = '$ngayLamViec' AND CaLamViec = '$caLamViec'";
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['count'] > 0;
     }
 
     // Kiểm tra số lượng bác sĩ đã đăng ký trong ca làm việc
     public function kiemTraSoLuongCaLamViec($ngayLamViec, $caLamViec)
     {
-        $stmt = $this->con->prepare("SELECT COUNT(*) FROM LichLamViec WHERE NgayLamViec = ? AND CaLamViec = ?");
-        $stmt->bind_param("ss", $ngayLamViec, $caLamViec);
-        $stmt->execute();
-        $count = 0;
-        $stmt->bind_result($count);
-        $stmt->fetch();
-        $stmt->close();
-        return $count;
+        $str = "SELECT COUNT(*) as count 
+                FROM LichLamViec 
+                WHERE NgayLamViec = '$ngayLamViec' AND CaLamViec = '$caLamViec'";
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['count'];
     }
-    
+
+    // Xem lịch làm việc của bác sĩ
     public function XemLichLamViec($maNV)
     {
-        $stmt = $this->con->prepare("SELECT NgayLamViec, CaLamViec FROM lichlamviec WHERE MaNV = ?");
-        $stmt->bind_param("i", $maNV);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $data = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $data;
+        $str = "SELECT NgayLamViec, CaLamViec 
+                FROM LichLamViec 
+                WHERE MaNV = '$maNV'";
+        $result = mysqli_query($this->con, $str);
+        $mang = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
 
     //NhatCuong; Usecase: Xem danh sách khám bệnh; Hàm truy vấn for input-radio:Sáng

@@ -15,6 +15,7 @@ class Login extends Controller{
                     $_SESSION['idbn'] = $r['MaBN'];
 					$_SESSION['ten'] = $r['HovaTen'];
                     $_SESSION['idql'] = $r['MaQL'];
+                    $_SESSION['idnv'] = $r['MaNV'];
                 }
                 echo "<script>alert('Đăng nhập thành công');</script>";
                 header("refresh:0; url='index.php'");

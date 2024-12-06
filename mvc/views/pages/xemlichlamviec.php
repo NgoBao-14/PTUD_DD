@@ -1,7 +1,10 @@
+<?php
+$data = json_decode($data["LichLamViec"], true);
+?>
 <div class="container">
     <h2 class="mb-4">Xem lịch làm việc</h2>
 
-    <?php if (!empty($data['LichLamViec'])): ?>
+    <?php if (!empty($data)): ?>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -10,11 +13,10 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['LichLamViec'] as $lich): ?>
+                <?php foreach ($data as $lich): ?>
                     <tr>
                         <td><?= date('d/m/Y', strtotime($lich['NgayLamViec'])) ?></td>
                         <td><?= htmlspecialchars($lich['CaLamViec']) ?></td>
-                        
                     </tr>
                 <?php endforeach; ?>
             </tbody>

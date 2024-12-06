@@ -35,7 +35,6 @@
 
     <!-- Work Schedule Form -->
     <form id="workScheduleForm" method="POST">
-        <input type="hidden" name="MaBS" value="1"> <!-- Replace with actual doctor ID from session -->
         <input type="hidden" id="selectedDateRange" name="dateRange">
 
         <!-- Schedule Table -->

@@ -12,7 +12,7 @@ class Bacsi extends Controller
     function DangKyLichLamViec()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $maNV = $_SESSION['MaNV'] ?? rand(1, 100); // Mã nhân viên (bác sĩ đăng nhập)
+            $maNV = $_SESSION['idnv']; // Mã nhân viên (bác sĩ đăng nhập)
             $schedule = $_POST['schedule']; // Dữ liệu lịch làm việc
             $dateRange = $_POST['dateRange']; // Khoảng thời gian của tuần được chọn
 
@@ -77,7 +77,7 @@ class Bacsi extends Controller
     function XemLichLamViec()
     {
         $model = $this->model("MBacsi");
-        $maNV = $_SESSION['MaNV'] ?? 1;
+        $maNV = $_SESSION['idnv'];
         $lichLamViec = $model->XemLichLamViec($maNV);
 
         $this->view("layoutBacsi", [
