@@ -127,11 +127,28 @@ class Bacsi extends Controller
             "Page"
         ]);
     }
-
+ 
+    //NhatCuong: usecase: Xem lịch sử khám bệnh
     function XemLichSuKhamBenh()
     {
-        $this->view("layoutBacsi", [
-            "Page"
-        ]);
+        if(isset($_POST['search'])) {
+            $maBN = $_POST['maBN'];
+            $model = $this->model("MBacsi");
+            $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
+            $phieuKhamBenhNhan = $model->GetPhieuKhamBenhNhan($maBN);
+            $soLanKhamBenh = $model->GetSoLanKhamBenh($maBN);
+
+            $this->view("LayoutXemLichSuKhamBenh", [
+                "Page" => "DanhSachLichSuKham",
+                "ThongTinBenhNhan" => $thongTinBenhNhan,
+                "PhieuKhamBenhNhan" => $phieuKhamBenhNhan,
+                "SoLanKhamBenh" => $soLanKhamBenh
+            ]);
+        } else {
+            $this->view("LayoutXemLichSuKhamBenh", [
+                "Page" => "DanhSachLichSuKham"
+            ]);
+        }
     }
 }
+
