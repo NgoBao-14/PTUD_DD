@@ -1,6 +1,9 @@
 <?php
-    if(isset($_SESSION["role"])){
-        header("refresh: 0; url='/PTUD_DD'");
+    if($_SESSION["role"] != 5){
+        if(!isset($_SESSION['last_id'])){
+            echo "<script>alert('Bạn không có quyền truy cập')</script>";
+            // header("refresh: 0; url='/PTUD_DD'");
+        }
     }
 ?>
 
@@ -22,109 +25,16 @@ if(isset($data["result"])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="../public/css/main.css">
-    <style>
-        .model{
-            margin: auto;
-            width: 800px;
-        }
-        .container {
-        max-width: 600px;
-        margin: 50px auto;
-        background-color: #fff;
-        padding: 30px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        font-family: Arial, sans-serif;
-        }
-        
-        /* Tiêu đề form */
-        .container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
-        
-        /* Căn chỉnh nhãn */
-        .container label {
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-        }
-        .radio-group {
-            display: flex;
-            margin-top: 10px;
-        }
-        .gr-rdo {
-            margin-right: 20px;
-        }
-        .rdo{
-            margin-left: 5px;
-        }
-                
-        /* Styling cho các input */
-        .container input[type="text"],
-        .container input[type="email"],
-        .container input[type="date"],
-        .container select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        /* Đổi màu border khi input được focus */
-        .container input[type="text"]:focus,
-        .container input[type="email"]:focus,
-        .container input[type="date"]:focus,
-        .container select:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        
-        /* Nút xác nhận */
-        .container button {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .container button:hover {
-            background-color: #0056b3;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-        
-            .container h2 {
-                font-size: 20px;
-            }
-        
-            .container button {
-                font-size: 16px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./public/css/taohs.css">
+    <link rel="stylesheet" href="../public/css/taohs.css">
 </head>
 <body>
 <?php include "blocks/header.php" ?>
 <div class="model">
         <div class="container">
-        <h2>Thông tin Hồ sơ </h2>
+        <h2>Thông tin Hồ sơ</h2>
         <form action="/PTUD_DD/Register/XNHS" method="POST">
             <input type="hidden" name="last_id" value="<?php echo $_SESSION['last_id']; ?>">
             <div class="mb-3">

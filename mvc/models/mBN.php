@@ -17,5 +17,14 @@ class mBN extends DB
         $result = mysqli_query($this->con, $str);
         return json_encode(array("success" => $result));
     }
+
+    public function getDKXN($ngayxn, $ketqua, $loaixn, $mabn){
+        $str = "INSERT INTO xetnghiem VALUES(null, '$ngayxn', '$ketqua', '$loaixn', '$mabn')";
+        $result = false;
+        if(mysqli_query($this->con, $str)){
+            $result = true;
+        }
+        return json_encode($result);
+    }
 }
 ?>

@@ -24,6 +24,31 @@ class BN extends Controller{
             "Page"=>"lichkhambn"
         ]);
     }
+
+    public function DKXN(){
+        $bn = $this->model("mBN");
+        $mabn = $_SESSION['idbn'];
+
+        $this->view("layoutDKXN",[
+            "DKXN"=>$bn->get1BN($mabn)
+        ]);
+        if(isset($_POST["confirm"])){
+            $mabn = $_SESSION["idbn"];
+            $dayxn = $_POST["ngayxn"];
+            $gioxn = $_POST["gioxn"];
+            $ngayxn = $dayxn . ' ' . $gioxn;
+            $ketqua = $_POST["kqxn"];
+            $loaixn = $_POST["loaixn"];
+
+            $result = $bn->getDKXN($ngayxn, $ketqua, $loaixn, $mabn);
+
+            $this->view("layoutDKXN",[
+                "DKXN"=>$bn->get1BN($mabn),
+                "XLXN"=>$result
+            ]);
+        }
+    }
+
     function UDTT(){
         $udbn = $this->model("mBN");
         if(isset($_POST["btnUDTT"])){
@@ -39,7 +64,7 @@ class BN extends Controller{
             
         }
         if (isset($_POST["btn-updatebn"])) {
-            $mabn = $_SESSION["idbn"]; // Mã bệnh nhân từ session
+            $mabn = $_SESSION["idbn"];
             $tenbn = $_POST["hovaten"];
             $gioitinh = $_POST["gt"];
             $ngaysinh = $_POST["ngaysinh"];
@@ -47,19 +72,16 @@ class BN extends Controller{
             $email = $_POST["email"];
             $bhyt = $_POST["bhyt"];
     
-            // Gọi model để cập nhật thông tin
             $result = $udbn->UpdateBN($mabn, $tenbn, $gioitinh, $ngaysinh, $diachi, $email, $bhyt);
     
-            // Nếu cập nhật thành công, cập nhật session tên mới
             if ($result) {
-                $_SESSION["ten"] = $tenbn; // Cập nhật tên mới vào session
+                $_SESSION["ten"] = $tenbn;
             }
     
-            // Truyền kết quả vào View
             $this->view("layoutBN", [
                 "Page" => "udthongtinbn",
                 "UD"=>$udbn->get1BN($mabn),
-                "XL" => $result // Truyền kết quả cập nhật
+                "XL" => $result
             ]);
         }
     }

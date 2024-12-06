@@ -11,7 +11,7 @@ class Login extends Controller{
             if ($login && mysqli_num_rows($login) > 0) {
                 while ($r = mysqli_fetch_assoc($login)) {
                     $_SESSION['role'] = $r['MaPQ'];
-                    $_SESSION['dn'] = $r['ID'];
+                    $_SESSION['id'] = $r['ID'];
                     $_SESSION['idbn'] = $r['MaBN'];
 					$_SESSION['ten'] = $r['HovaTen'];
                     $_SESSION['idql'] = $r['MaQL'];
