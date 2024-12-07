@@ -1,15 +1,11 @@
 <?php
 class QuanLy extends Controller {
-    // ... (other methods remain unchanged)
     function SayHi()
     {
         $this->view("layoutQL", [
             "Page"
         ]);
     }
-    function DSBS() {
-        $ql = $this->model("mQLBS");
-        $bacsi = json_decode($ql->GetAllBS(), true);
 
         $this->view("layoutQLyBS", [
             "Page" => "qlbs",
@@ -495,8 +491,6 @@ class QuanLy extends Controller {
                 "Page" => "themnvyt"
             ]);
         }
-    }
-    
     }
 ?>
 
