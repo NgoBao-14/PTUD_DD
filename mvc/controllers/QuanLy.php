@@ -1,6 +1,11 @@
 <?php
 class QuanLy extends Controller {
-    // ... (other methods remain unchanged)
+    function SayHi()
+    {
+        $this->view("layoutQL", [
+            "Page"
+        ]);
+    }
 
     function TTBN() {
         $ql = $this->model("mQuanLy");
