@@ -10,8 +10,8 @@
 
 // At the top of the file, after starting the session:
 require_once "./mvc/controllers/QuanLy.php";
-$quanLyBS = new QuanLyBS();
-$counts = $quanLyBS->GetDashboardCounts();
+$quanLy = new QuanLy();
+$counts = $quanLy->GetDashboardCounts();
 ?>
 <!DOCTYPE html>
 <html lang="en">
