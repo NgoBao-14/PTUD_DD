@@ -1,6 +1,6 @@
 <?php
-$nv = json_decode($data["CTNV"], true);
-if (!empty($nv)):
+if (isset($data["CTNV"]) && !empty($data["CTNV"])):
+    $nv = $data["CTNV"];
 ?>
     <div class="card">
         <div class="card-header">

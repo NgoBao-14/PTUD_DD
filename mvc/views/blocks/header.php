@@ -102,23 +102,33 @@
                         $tenbn = $_SESSION['ten'];
                             echo '<div class="navbar-nav ms-auto">
                                     <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
-                                    <a class="nav-link" href="BN">Đặt lịch khám</a>
+                                    <a class="nav-link" href="/PTUD_DD/BN/LK">Đặt lịch khám</a>
+                                    <a class="nav-link" href="/PTUD_DD/BN/DKXN">Đặt lịch xét nghiệm</a>
                                     <a class="nav-link" href="#">Tư vấn trực tiếp</a>
-                                </div>
-                                <nav>
+
+                                </div>';
+                                if(isset($_SESSION['idbn'])){
+                                    echo '<nav>
                                     <ul class="menu">
                                         <li>
                                             <a class="nav-link" href="BN">'.$tenbn.'</a>
                                             <ul class="submenu">
                                                 <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
                                                 <li><a href="#">Thanh toán</a></li>
-                                                <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ cá nhân</a></li>
+                                                <li><a href="/PTUD_DD/BN">Hồ sơ cá nhân</a></li>
                                                 <li><a href="#">Hồ sơ phiếu khám</a></li>
                                                 <li><a href="/PTUD_DD/Logout" onclick="return confirm(\'Bạn có muốn đăng xuất?\')">Đăng xuất</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-                                </nav>';
+                                    </nav>';
+                                }else{
+                                    echo '<div class="navbar-nav">
+                                    <a class="nav-link" href="/PTUD_DD/Register/BNHS">Tạo hồ sơ</a>
+                                    <a class="nav-link" href="/PTUD_DD/Logout" onclick="return confirm(\'Bạn có muốn đăng xuất?\')">Đăng xuất</a>
+                                    </div>';
+                                }
+                                
                     } else if (isset($_SESSION['role']) && $_SESSION['role'] == 4) { // Nhân viên nhà thuốc
                         $tennvnt = $_SESSION['ten'];
                         echo '<div class="navbar-nav ms-auto">
