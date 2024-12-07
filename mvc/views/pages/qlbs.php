@@ -6,7 +6,7 @@
     <?php if (isset($data["Error"])): ?>
         <div class="alert alert-danger"><?= $data["Error"] ?></div>
     <?php endif; ?>
-    <table class="table table-striped table-bordered" style='width: 800px;'>
+    <table class="table table-striped table-bordered" style='width: 800px;box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);'>
     <thead>
         <tr>
             <th>STT</th>
