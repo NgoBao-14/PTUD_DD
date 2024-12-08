@@ -49,6 +49,14 @@ class BN extends Controller{
         }
     }
 
+    public function LSXN(){
+        
+        
+        $this->view("layoutBN",[
+            "Page"=>"lsxetnghiem"
+        ]);
+    }
+
     function UDTT(){
         $udbn = $this->model("mBN");
         if(isset($_POST["btnUDTT"])){
@@ -71,17 +79,17 @@ class BN extends Controller{
             $diachi = $_POST["diachi"];
             $email = $_POST["email"];
             $bhyt = $_POST["bhyt"];
-    
+        
             $result = $udbn->UpdateBN($mabn, $tenbn, $gioitinh, $ngaysinh, $diachi, $email, $bhyt);
-    
-            if ($result) {
+            $resultData = json_decode($result, true); 
+        
+            if ($resultData['success']) {
                 $_SESSION["ten"] = $tenbn;
             }
-    
             $this->view("layoutBN", [
                 "Page" => "udthongtinbn",
-                "UD"=>$udbn->get1BN($mabn),
-                "XL" => $result
+                "UD" => $udbn->get1BN($mabn),
+                "XL" => $resultData
             ]);
         }
     }

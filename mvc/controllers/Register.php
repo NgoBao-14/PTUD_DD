@@ -70,8 +70,20 @@ class Register extends Controller{
             $mapk = $_POST["maphieukham"];
             $hs = $this->DKModel->TaoHS($hoten, $gioitinh, $ngaysinh, $sdt, $diachi, $email, $bhyt, $mapk, $id);
             $result = json_decode($hs, true);
-            $this->view("layoutTaoHS",[
-                "result"=>$hs
+
+            if ($result['success']) {
+                $message = $result['message']; // "Thêm hồ sơ thành công"
+            } else {
+                $message = $result['message']; // "Email đã tồn tại hoặc đã được sử dụng!"
+            }
+
+            // $this->view("layoutTaoHS",[
+            //     "result"=>$hs
+            // ]);
+
+            $this->view("layoutTaoHS", [
+                "result" => $result,
+                "message" => $message
             ]);
         }
     }

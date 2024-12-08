@@ -192,7 +192,7 @@ function generateCalendar($month, $year) {
                 <div class="time-section mt-3">
                     <h6>Buổi chiều</h6>
                     <div class="time-slots">
-                        <div class="form-check">
+                        <div claspúhs="form-check">
                             <input class="form-check-input" type="radio" name="time_slot" id="afternoon1" value="14:00:00" <?php echo get_form_data('time_slot') === '14:00-16:00' ? 'checked' : ''; ?> required>
                             <label class="form-check-label" for="afternoon1">14:00:00</label>
                         </div>
@@ -209,7 +209,7 @@ function generateCalendar($month, $year) {
                 <p><strong>Loại xét nghiệm:</strong> <?php echo get_form_data('test_type'); ?></p>
                 <p><strong>Ngày xét nghiệm:</strong> <?php echo get_form_data('test_date'); ?></p>
                 <p><strong>Giờ xét nghiệm:</strong> <?php echo get_form_data('time_slot'); ?></p>
-                <input type="hidden" name="loaixn" id="loaixn" value="<?php echo get_form_data('test_type'); ?>">
+                <input type="hidden" name="loaixn" id="loaixn" value="<?php echo get_form_data('test_type');?>">
                 <input type="hidden" name="ngayxn" id="ngayxn" value="<?php echo get_form_data('test_date'); ?>">
                 <input type="hidden" name="gioxn" id="gioxn" value="<?php echo get_form_data('time_slot'); ?>">
                 <input type="hidden" name="kqxn" value=" ">

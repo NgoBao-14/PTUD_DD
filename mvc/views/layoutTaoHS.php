@@ -9,12 +9,14 @@
 
 <?php
 $genders = ['Nam', 'Nữ'];
-if(isset($data["result"])){
-    if($data["result"] == true){
-        echo '<script>alert("Tạo hồ sơ thành công. Bạn có thể đăng nhập")</script>';
+
+if (isset($data["result"])) {
+    $result = $data["result"]; // Mảng chứa kết quả trả về từ `TaoHS`
+    if ($result['success']) { // Kiểm tra trạng thái thành công
+        echo '<script>alert("' . $result['message'] . '")</script>'; // Thông báo thành công
         header("refresh:0; url='/PTUD_DD/Login'");
-    } else{
-        echo '<script>alert("Tạo hồ sơ thất bại")</script>';
+    } else {
+        echo '<script>alert("' . $result['message'] . '")</script>'; // Thông báo lỗi
         header("refresh:0; url='/PTUD_DD/Register/BNHS'");
     }
 }

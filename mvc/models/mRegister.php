@@ -38,11 +38,27 @@ class mRegister extends DB{
         return json_encode($mang);
     }
 
+    public function emailExists($email) {
+        $str = "SELECT COUNT(*) as count FROM benhnhan WHERE email = '$email'";
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['count'] > 0;
+    }
     public function TaoHS($hoten, $gioitinh, $ngaysinh, $sdt, $diachi, $email, $bhyt, $mapk, $id){
+        if ($this->emailExists($email)) {
+            return json_encode([
+                'success' => false,
+                'message' => 'Email đã tồn tại hoặc đã được sử dụng!'
+            ]);
+        }
         $str = "INSERT INTO benhnhan VALUES(null, '$hoten', '$gioitinh', '$ngaysinh', '$sdt', '$diachi', '$email', '$bhyt', '0', $id)";
-        $result = false;
-        if(mysqli_query($this->con, $str)){
-            $result = true;
+        $result = [
+            'success' => false,
+            'message' => 'Thêm hồ sơ thất bại'
+        ];
+        if (mysqli_query($this->con, $str)) {
+            $result['success'] = true;
+            $result['message'] = 'Thêm hồ sơ thành công. Bạn có thể đăng nhập';
         }
         return json_encode($result);
     }

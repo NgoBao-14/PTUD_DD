@@ -34,6 +34,7 @@
                             <li ><a href="KhachHang.php?thanhToan">Thanh toán</a></li>
                             <li><a href="/PTUD_DD/BN">Hồ sơ cá nhân</a></li>
                             <li ><a href="KhachHang.php?hoSoPhieuKham">Hồ sơ phiếu khám</a></li>
+                            <li><a href="/PTUD_DD/BN/LSXN">LS xét nghiệm</a></li>
                             <li><a href="">Tài khoản</a></li>
                             <li><a href="Home.php">Đăng xuất</a></li>
                         </ul>

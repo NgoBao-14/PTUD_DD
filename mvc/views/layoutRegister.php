@@ -82,7 +82,7 @@ if (isset($data["result"])) {
                         </div>
                         <div class="mb-3">
                             <label for="password2" class="form-label">Nhập lại mật khẩu</label>
-                            <input type="password" class="form-control" name="password2" id="password2" placeholder="Nhập lại mật khẩu" required minlength="6">
+                            <input type="password" class="form-control" name="password2" id="password2" placeholder="Nhập lại mật khẩu" required>
                         </div>
                         <button type="submit" name="btn-dk" id="btn-dk" class="btn btn-primary w-100">Đăng ký</button>
                     </form>
