@@ -55,7 +55,7 @@ class MBacsi extends DB
                     bn.SoDT,
                     lk.NgayKham
                 FROM 
-                    lichkham2 lk
+                    lichkham lk
                 JOIN 
                     benhnhan bn ON lk.MaBN = bn.MaBN
                 WHERE 
@@ -82,7 +82,7 @@ class MBacsi extends DB
                     bn.SoDT,
                     lk.NgayKham
                 FROM 
-                    lichkham2 lk
+                    lichkham lk
                 JOIN 
                     benhnhan bn ON lk.MaBN = bn.MaBN
                 WHERE 
@@ -136,7 +136,7 @@ class MBacsi extends DB
                 pk2.LoiDan,
                 pk2.NgayTaiKham
             FROM 
-                PhieuKham2 pk2
+                PhieuKham pk2
             JOIN 
                 NhanVien nv ON pk2.MaNV = nv.MaNV
             WHERE 
@@ -167,7 +167,7 @@ class MBacsi extends DB
     public function GetSoLanKhamBenh($maBN)
     {
         $str = "SELECT COUNT(*) as SoLanKham
-            FROM PhieuKham2
+            FROM PhieuKham
             WHERE MaBN = '$maBN'";
         $result = mysqli_query($this->con, $str);
         $row = mysqli_fetch_assoc($result);
