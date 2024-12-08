@@ -84,6 +84,70 @@ class mNVYT extends DB
         $tblTT = mysqli_query($this->con, $str);
         return $tblTT;
     }
+
+    // Lịch khám
+    public function GetTotalInvoicesLK() {
+        $str = 'SELECT COUNT(*) as total FROM lichkham';
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'];
+    }
+    public function GetAllLK($offset, $limit)
+    {
+        $str = "SELECT * 
+                FROM lichkham lk
+                JOIN phieukham pk on lk.MaLK = pk.MaLK
+                JOIN benhnhan bn  on pk.MaPK = bn.MaPK
+                LIMIT $offset, $limit";
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+    public function GetLKTheoLoc($offset, $limit, $loc)
+    {
+        $str = "SELECT * 
+                FROM lichkham lk
+                JOIN phieukham pk on lk.MaLK = pk.MaLK
+                JOIN benhnhan bn  on pk.MaPK = bn.MaPK
+                WHERE lk.NgayKham = '$loc'
+                LIMIT $offset, $limit";
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+    public function getCTLK($MaLK)
+    {
+        $str = "SELECT * 
+                FROM lichkham lk
+                JOIN phieukham pk on lk.MaLK = pk.MaLK
+                JOIN benhnhan bn  on pk.MaPK = bn.MaPK
+                JOIN  bacsi bs ON pk.MaBS = bs.MaNV 
+                JOIN nhanvien nv ON bs.MaNV = nv.MaNV
+                JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
+                WHERE lk.MaLK = '$MaLK'";
+        $rows = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($rows))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+    public function ThayDoiLK($MaLK, $NgayKham, $GioKham)
+        {
+            $str = "UPDATE lichkham 
+                    SET NgayKham = '$NgayKham', GioKham = '$GioKham' WHERE MaLK = $MaLK";
+            $tblPTTT = mysqli_query($this->con, $str);
+            return $tblPTTT;
+        }
 }
 
 

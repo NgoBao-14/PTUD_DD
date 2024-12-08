@@ -112,7 +112,7 @@ class MBacsi extends DB
                     bn.SoDT,
                     lk.NgayKham
                 FROM 
-                    lichkham2 lk
+                    lichkham lk
                 JOIN 
                     benhnhan bn ON lk.MaBN = bn.MaBN
                 WHERE 

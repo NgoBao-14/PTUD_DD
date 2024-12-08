@@ -1,8 +1,8 @@
 <?php
-    if($_SESSION["role"] != 3){
-        echo "<script>alert('Bạn không có quyền truy cập')</script>";
-        header("refresh: 0; url='/PTUD_DD'");
-    }
+    // if($_SESSION["role"] != 3){
+    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
+    //     header("refresh: 0; url='/PTUD_DD'");
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <h5 class="card-title mb-3">Chức năng</h5>
                             <div class="list-group">
-                                <a href="/PTUD_DD/NVYT"><button class="tab_btn active" id="a">Hóa đơn</button></a>
-                                <a href=""><button class="tab_btn" id="a">Sửa lịch khám</button></a>
+                                <a href="/PTUD_DD/NVYT"><button class="tab_btn" id="a">Hóa đơn</button></a>
+                                <a href="/PTUD_DD/NVYT/LichKham"><button class="tab_btn" id="a">Sửa lịch khám</button></a>
                             </div>
                         </div>
                     </div>
