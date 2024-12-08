@@ -9,9 +9,9 @@
 // File: layoutQL.php
 
 // At the top of the file, after starting the session:
-require_once "./mvc/controllers/QuanLyBS.php";
-$quanLyBS = new QuanLyBS();
-$counts = $quanLyBS->GetDashboardCounts();
+require_once "./mvc/controllers/QuanLy.php";
+$quanLy = new QuanLy();
+$counts = $quanLy->GetDashboardCounts();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +55,7 @@ $counts = $quanLyBS->GetDashboardCounts();
         <div class="col-md-3">
             <div class="card bg-success text-white">
                 <div class="card-body">
-                    <a href="./QuanLyBS/DSBS" class="text-white text-decoration-none"><h5 class="card-title">Quản Lý Thông Tin Bác Sĩ</h5></a>
+                    <a href="./QuanLy/DSBS" class="text-white text-decoration-none"><h5 class="card-title">Quản Lý Thông Tin Bác Sĩ</h5></a>
                     <p class="card-text display-4"><?php echo $counts['doctorCount']; ?></p>
                 </div>
             </div>
@@ -63,7 +63,7 @@ $counts = $quanLyBS->GetDashboardCounts();
         <div class="col-md-3">
             <div class="card bg-info text-white">
                 <div class="card-body">
-                    <a href="./QuanLyBS/DSNVYT" class="text-white text-decoration-none"><h5 class="card-title">Quản Lý Thông Tin Nhân Viên Y Tế</h5></a>
+                    <a href="./QuanLy/DSNVYT" class="text-white text-decoration-none"><h5 class="card-title">Quản Lý Thông Tin Nhân Viên Y Tế</h5></a>
                     <p class="card-text display-4"><?php echo $counts['staffCount']; ?></p>
                 </div>
             </div>

@@ -10,11 +10,8 @@ if (isset($data["result"])) {
 
     if ($result["success"] === true) {
         $last_id = $result["last_id"];
-
-        echo '<script>alert("Đăng ký thành công. Mời bạn tạo hồ sơ.")</script>';
         header("refresh:0; url='/PTUD_DD/Register/BNHS'");
     } else {
-        echo '<script>alert("Đăng ký thất bại")</script>';
         header("refresh:0; url='/PTUD_DD/Register'");
     }
 }
@@ -76,11 +73,11 @@ if (isset($data["result"])) {
                     <form action="./Register/BNDK" method="POST">
                         <div class="mb-3">
                             <label for="txtuser" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" name="txtuser" id="txtuser" placeholder="Nhập username">
+                            <input type="tel" class="form-control" name="txtuser" id="txtuser" placeholder="Nhập số điện thoại" pattern="[0-9]{10,11}" maxlength="11" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Mật khẩu</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Nhập mật khẩu">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Nhập mật khẩu" required minlength="6">
                             <input type="hidden" name="hiddenphanquyen" id="hiddenphanquyen" value="Bệnh Nhân">
                         </div>
                         <div class="mb-3">

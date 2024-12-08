@@ -1,10 +1,10 @@
 <?php
 if (isset($data["XL"])) {
-    if($data["XL"] == true) {
-        echo '<script>alert("Cập nhật thông tin bệnh nhân thành công.")</script>';
+    $result = $data["XL"]; 
+    if ($result['success']) {
+        echo '<script>alert("' . $result['message'] . '")</script>'; 
     } else {
-        echo '<script>alert("Cập nhật thông tin bệnh nhân thất bại. Vui lòng thử lại.")</script>';
-
+        echo '<script>alert("' . $result['message'] . '")</script>'; 
     }
 }
 ?>
@@ -141,7 +141,7 @@ if (isset($data["XL"])) {
             <form class="updateform" action="/PTUD_DD/BN/UDTT" method="POST">
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Họ và tên *</label>
-                    <input type="text" name="hovaten" class="form-control" id="fullName" value="'.$r["HovaTen"].'">
+                    <input type="text" name="hovaten" class="form-control" id="fullName" value="'.$r["HovaTen"].'" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Số điện thoại *</label>
@@ -149,7 +149,7 @@ if (isset($data["XL"])) {
                 </div>
                 <div class="mb-3">
                     <label for="dob" class="form-label">Ngày sinh *</label>
-                    <input type="date" name="ngaysinh" class="form-control" id="dob" value="'.$r['NgaySinh'].'">
+                    <input type="date" name="ngaysinh" class="form-control" id="dob" value="'.$r['NgaySinh'].'" required>
                 </div>
                 <div class="mb-3">
                     <label class="gt form-label">Giới tính *</label>';
@@ -170,14 +170,14 @@ if (isset($data["XL"])) {
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" value="'.$r['Email'].'">
+                    <input type="email" name="email" class="form-control" id="email" value="'.$r['Email'].'" required>
                 </div>
                 <div class="mb-3">
                     <label for="diachi" class="form-label">Đia chỉ</label>
                     <input type="text" name="diachi" class="form-control" id="diachi" value="'.$r['DiaChi'].'">
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-secondary me-2"><a href="?hoso">Hủy</a></button>
+                    <button type="reset" class="btn btn-secondary me-2">Hủy</button>
                     <button type="submit" name="btn-updatebn" class="btn btn-primary">Cập nhật</button>
                 </div>
                 

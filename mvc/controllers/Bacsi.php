@@ -12,7 +12,7 @@ class Bacsi extends Controller
     function DangKyLichLamViec()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $maNV = $_SESSION['MaNV'] ?? rand(1, 100); // Mã nhân viên (bác sĩ đăng nhập)
+            $maNV = $_SESSION['idnv']; // Mã nhân viên (bác sĩ đăng nhập)
             $schedule = $_POST['schedule']; // Dữ liệu lịch làm việc
             $dateRange = $_POST['dateRange']; // Khoảng thời gian của tuần được chọn
 
@@ -31,9 +31,12 @@ class Bacsi extends Controller
 
             foreach ($schedule as $day => $shifts) {
                 foreach ($shifts as $shift) {
+                    // Tạo bản sao của $monday để tránh thay đổi giá trị gốc
+                    $currentDay = clone $monday;
+            
                     // Tính ngày làm việc dựa vào thứ
-                    $ngayLamViec = $monday->modify("+{$daysMap[$day]} days")->format('Y-m-d');
-
+                    $ngayLamViec = $currentDay->modify("+{$daysMap[$day]} days")->format('Y-m-d');
+            
                     // Kiểm tra số lượng bác sĩ đã đăng ký trong ca làm việc
                     $soLuong = $model->kiemTraSoLuongCaLamViec($ngayLamViec, $shift);
                     if ($soLuong >= 10) {
@@ -41,7 +44,7 @@ class Bacsi extends Controller
                         $failed[] = "Ngày $ngayLamViec ($shift) đã đạt giới hạn số lượng bác sĩ.";
                         continue;
                     }
-
+            
                     // Kiểm tra xem lịch đã tồn tại chưa
                     if ($model->kiemTraLichDaTonTai($maNV, $ngayLamViec, $shift)) {
                         $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
@@ -77,7 +80,7 @@ class Bacsi extends Controller
     function XemLichLamViec()
     {
         $model = $this->model("MBacsi");
-        $maNV = $_SESSION['MaNV'] ?? 1;
+        $maNV = $_SESSION['idnv'];
         $lichLamViec = $model->XemLichLamViec($maNV);
 
         $this->view("layoutBacsi", [
@@ -127,11 +130,28 @@ class Bacsi extends Controller
             "Page"
         ]);
     }
-
+ 
+    //NhatCuong: usecase: Xem lịch sử khám bệnh
     function XemLichSuKhamBenh()
     {
-        $this->view("layoutBacsi", [
-            "Page"
-        ]);
+        if(isset($_POST['search'])) {
+            $maBN = $_POST['maBN'];
+            $model = $this->model("MBacsi");
+            $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
+            $phieuKhamBenhNhan = $model->GetPhieuKhamBenhNhan($maBN);
+            $soLanKhamBenh = $model->GetSoLanKhamBenh($maBN);
+
+            $this->view("LayoutXemLichSuKhamBenh", [
+                "Page" => "DanhSachLichSuKham",
+                "ThongTinBenhNhan" => $thongTinBenhNhan,
+                "PhieuKhamBenhNhan" => $phieuKhamBenhNhan,
+                "SoLanKhamBenh" => $soLanKhamBenh
+            ]);
+        } else {
+            $this->view("LayoutXemLichSuKhamBenh", [
+                "Page" => "DanhSachLichSuKham"
+            ]);
+        }
     }
 }
+

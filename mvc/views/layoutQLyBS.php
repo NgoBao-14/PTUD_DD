@@ -33,7 +33,15 @@
             </div>
         </div>
         <div class="col-md-8">
-            <h1>Quản lý Nhân Viên</h1>
+           <h1 class="display-5 text-white fw-bold" 
+                style="
+                    text-shadow: 2px 2px 4px #000;
+                    background-color: #3498db;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); ">
+                    Quản lý Nhân Viên
+            </h1>
             <?php if (isset($data["Message"])): ?>
             <div class="alert alert-success"><?= $data["Message"] ?></div>
             <?php endif; ?>
