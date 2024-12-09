@@ -5,7 +5,7 @@ class MBacsi extends DB
     public function themLichLamViec($maNV, $ngayLamViec, $caLamViec)
     {
         $str = "INSERT INTO LichLamViec (MaNV, NgayLamViec, CaLamViec, TrangThai) 
-                VALUES ('$maNV', '$ngayLamViec', '$caLamViec', 'chưa duyệt')";
+                VALUES ('$maNV', '$ngayLamViec', '$caLamViec', 'Đang làm')";
         return mysqli_query($this->con, $str);
     }
 
@@ -44,6 +44,7 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
+
 
     //NhatCuong; Usecase: Xem danh sách khám bệnh1/3; Hàm truy vấn for input-radio:Sáng 
     public function GetDanhSachKhamSang()

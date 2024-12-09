@@ -78,16 +78,19 @@ class Bacsi extends Controller
         }
     }
     function XemLichLamViec()
-    {
-        $model = $this->model("MBacsi");
-        $maNV = $_SESSION['idnv'];
-        $lichLamViec = $model->XemLichLamViec($maNV);
+{
+    $model = $this->model("MBacsi");
+    $maNV = $_SESSION['idnv'];
+    $lichLamViec = json_decode($model->XemLichLamViec($maNV), true);
 
-        $this->view("layoutBacsi", [
-            "Page" => "xemlichlamviec",
-            "LichLamViec" => $lichLamViec
-        ]);
-    }
+    // Truyền dữ liệu sang view
+    $this->view("layoutBacsi", [
+        "Page" => "xemlichlamviec",
+        "LichLamViec" => $lichLamViec
+    ]);
+}
+
+
 
     //NhatCuong function 1/2: Xem Danh Sách Khám Bệnh
     function XemDanhSachKham() {
