@@ -41,12 +41,12 @@ class mQLNVYT extends DB {
     }
     
 
-    public function UpdateNVYT($MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
+    public function UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV) {
         $this->con->begin_transaction();
         try {
-            $str = "UPDATE nhanvien SET HovaTen = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
+            $str = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt = $this->con->prepare($str);
-            $stmt->bind_param("sssssi", $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
+            $stmt->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
             $stmt->execute();
 
             $this->con->commit();
@@ -75,33 +75,24 @@ class mQLNVYT extends DB {
             if ($this->CheckExistingEmail($EmailNV)) {
                 return "Email đã tồn tại";
             }
-    
-            // Generate new IDs
+
+            // Generate new MaNV
             $MaNV = $this->GenerateNewMaNV();
-            $ID = $this->GenerateNewID();
-    
+
             // Insert into nhanvien table
             $str1 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
-                     VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', ?)";
+                     VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', 0)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssssi", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
+            $stmt1->bind_param("isssss", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
             $stmt1->execute();
-    
+
             // Insert into nhanvienyte table
             $this->con->query("SET FOREIGN_KEY_CHECKS = 0");
             $str2 = "INSERT INTO nhanvienyte (MaNV) VALUES (?)";
             $stmt2 = $this->con->prepare($str2);
             $stmt2->bind_param("i", $MaNV);
             $stmt2->execute();
-    
-            // Insert into taikhoan table
-            $username = $this->GenerateUsername($HovaTen);
-            $password = password_hash($SoDT, PASSWORD_DEFAULT); // Using phone number as initial password
-            $str3 = "INSERT INTO taikhoan (ID, username, password, MaPQ) VALUES (?, ?, ?, 3)";
-            $stmt3 = $this->con->prepare($str3);
-            $stmt3->bind_param("iss", $ID, $username, $password);
-            $stmt3->execute();
-    
+
             $this->con->commit();
             return true;
         } catch (Exception $e) {

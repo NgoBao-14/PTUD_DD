@@ -53,7 +53,7 @@ if (isset($data["CTNV"]) && !empty($data["CTNV"])):
                     <input type="hidden" name="MaNV" value="<?= $nv['MaNV'] ?>">
                     <div class="mb-3">
                         <label for="HovaTen" class="form-label">Họ và Tên</label>
-                        <input type="text" class="form-control" id="HovaTen" name="HovaTen" value="<?= $nv['HovaTen'] ?>" disabled >
+                        <input type="text" class="form-control" id="HovaTen" name="HovaTen" value="<?= $nv['HovaTen'] ?>" readonly >
                     </div>
                     <div class="mb-3">
                         <label for="NgaySinh" class="form-label">Ngày sinh</label>
@@ -68,7 +68,7 @@ if (isset($data["CTNV"]) && !empty($data["CTNV"])):
                     </div>
                     <div class="mb-3">
                         <label for="SoDT" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $nv['SoDT'] ?>" disabled >
+                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $nv['SoDT'] ?>" readonly >
                     </div>
                     <div class="mb-3">
                         <label for="EmailNV" class="form-label">Email</label>
