@@ -1,5 +1,13 @@
 <div class="container">
 <h2 class="mb-4">Danh sách Bác Sĩ</h2>
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success">
+        <?php 
+        echo $_SESSION['success_message'];
+        unset($_SESSION['success_message']);
+        ?>
+    </div>
+<?php endif; ?>
     <?php if (isset($data["Message"])): ?>
         <div class="alert alert-success"><?= $data["Message"] ?></div>
     <?php endif; ?>

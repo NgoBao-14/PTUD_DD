@@ -211,6 +211,7 @@ class QuanLy extends Controller {
             $result = $ql->UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa);
 
             if ($result) {
+                $_SESSION['success_message'] = "Cập nhật thông tin Bác sĩ thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -234,6 +235,7 @@ class QuanLy extends Controller {
             $result = $ql->DeleteBS($MaNV);
 
             if ($result) {
+                $_SESSION['success_message'] = "Xóa thông tin Bác sĩ thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -297,6 +299,7 @@ class QuanLy extends Controller {
             $result = $ql->AddBS($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
     
             if ($result === true) {
+                $_SESSION['success_message'] = "Thêm thông tin bác sĩ mới thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -378,6 +381,7 @@ class QuanLy extends Controller {
             $result = $ql->UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV);
 
             if ($result) {
+                $_SESSION['success_message'] = "Cập nhật thông tin Nhân viên y tế thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
@@ -402,6 +406,7 @@ class QuanLy extends Controller {
             $result = json_decode($ql->DeleteNVYT($MaNV), true);
 
             if ($result['success']) {
+                $_SESSION['success_message'] = "Xóa thông tin nhân viên y tế thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
@@ -459,6 +464,7 @@ class QuanLy extends Controller {
             $result = $ql->AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
     
             if ($result === true) {
+                $_SESSION['success_message'] = "Thêm thông tin nhân viên y tế mới thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [

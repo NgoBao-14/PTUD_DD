@@ -1,8 +1,8 @@
 <?php
-    // if($_SESSION["role"] != 1){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 1){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
 
 <!DOCTYPE html>
