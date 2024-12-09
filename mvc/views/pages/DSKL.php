@@ -40,7 +40,7 @@ foreach ($dt as $r):
                 <form action="/PTUD_DD/NVYT/CTLK" method="POST">
                 <input type="hidden" name="ctlk" value="'.$r["MaLK"].'">
                 </td>
-                <td><input type="submit" name="btnCTLK" value="Thay đổi">
+                <td><input type="submit" name="btnCTLK" value="Thay đổi" style=" height: 30px; width: 100px; text-align: center;  border:none; border-radius:15px;">
                 </form>
                 </td>
             </tr>';
