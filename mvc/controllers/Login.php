@@ -18,7 +18,14 @@ class Login extends Controller{
                     $_SESSION['idnv'] = $r['MaNV'];
                 }
                 echo "<script>alert('Đăng nhập thành công');</script>";
-                header("refresh:0; url='index.php'");
+                switch($_SESSION['role'])
+                {   
+                    case 1: header("refresh:0; url='/PTUD_DD/QuanLy'"); break;
+                    case 2: header("refresh:0; url='/PTUD_DD/Bacsi'"); break;
+                    case 3: header("refresh:0; url='/PTUD_DD/NVYT'"); break;
+                    case 4: header("refresh:0; url='/PTUD_DD/NVNT'"); break;
+                    case 5: header("refresh:0; url='/PTUD_DD'"); break;
+                }
                 exit;
             } else {
                 echo "<script>alert('Sai tên đăng nhập hoặc mật khẩu');</script>";

@@ -1,8 +1,10 @@
 <?php
+
       if($_SESSION["role"] != 2){
           echo "<script>alert('Bạn không có quyền truy cập')</script>";
           header("refresh: 0; url='/PTUD_DD'");
       }
+
 ?>
 
 <!DOCTYPE html>

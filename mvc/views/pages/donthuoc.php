@@ -40,7 +40,7 @@ $dem = $pagination->getOffset() + 1;
                     <form action="NVNT/CTDT" method="POST">
                     <input type="hidden"  name="ctdt" value="'.$r["MaDT"].'">
                     </td>
-                    <td><input type="submit" name="btnCTDT" value="Xem">
+                    <td><input type="submit" name="btnCTDT" value="Xem" style=" height: 30px; width: 60px; text-align: center;  border:none; border-radius:15px">
                     </form>
                     </td>
                     </tr>';
