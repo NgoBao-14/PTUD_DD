@@ -36,98 +36,113 @@ if (isset($_POST['currentWeekStart'])) {
     $week = date('w');
     $ngaydautuan = date('Y-m-d', strtotime("-" . (0 + $week) . " days"));
 }
-$t2 = date('d-m', strtotime($ngaydautuan . " +1 day")); 
-$t3 = date('d-m', strtotime($ngaydautuan . " +2 days")); 
-$t4 = date('d-m', strtotime($ngaydautuan . " +3 days")); 
-$t5 = date('d-m', strtotime($ngaydautuan . " +4 days")); 
-$t6 = date('d-m', strtotime($ngaydautuan . " +5 days")); 
-$t7 = date('d-m', strtotime($ngaydautuan . " +6 days")); 
-$t8 = date('d-m', strtotime($ngaydautuan . " +7 days")); 
+$t2 = date('d-m-Y', strtotime($ngaydautuan . " +1 day")); 
+$t3 = date('d-m-Y', strtotime($ngaydautuan . " +2 days")); 
+$t4 = date('d-m-Y', strtotime($ngaydautuan . " +3 days")); 
+$t5 = date('d-m-Y', strtotime($ngaydautuan . " +4 days")); 
+$t6 = date('d-m-Y', strtotime($ngaydautuan . " +5 days")); 
+$t7 = date('d-m-Y', strtotime($ngaydautuan . " +6 days")); 
+$t8 = date('d-m-Y', strtotime($ngaydautuan . " +7 days")); 
 $daysOfWeek = [];
-for ($i = 1; $i < 7; $i++) {
+for ($i = 1; $i < 8; $i++) {
     $daysOfWeek[] = date('Y-m-d', strtotime($ngaydautuan . " +{$i} days"));
 }
-echo '
-        <form method="POST" action="./LLV">
-        <div class="mb-4 d-flex align-items-center gap-3">
-            <select class="form-select" style="width: auto" id="khoaSelect" name="khoaSelect" onchange="this.form.submit()">
-            <option value="">Danh sách khoa</option>';    
-            foreach ($K as $k) {
-                $selected = (isset($_POST['khoaSelect']) && $_POST['khoaSelect'] == $k["MaKhoa"]) ? 'selected' : '';
-                echo '<option value="' . $k["MaKhoa"] . '" ' . $selected . '>' . $k["TenKhoa"] . '</option>';
-            }
-echo'       </select>
-        </div>
-        </form>
+echo '<div class="row mb-4">';
+    // Danh sách khoa
+    echo '<div class="col-md-3 d-flex align-items-center">';
+        echo '<form method="POST" action="./LLV" class="w-100">';
+            echo '<div class="d-flex align-items-center">';
+                echo '<select class="form-select" id="khoaSelect" name="khoaSelect" onchange="this.form.submit()">';
+                    echo '<option value="">Danh sách khoa</option>';
+                    foreach ($K as $k) {
+                        $selected = (isset($_POST["khoaSelect"]) && $_POST["khoaSelect"] == $k["MaKhoa"]) ? "selected" : "";
+                        echo '<option value="' . $k["MaKhoa"] . '" ' . $selected . '>' . $k["TenKhoa"] . '</option>';
+                    }
+                echo '</select>';
+            echo '</div>';
+        echo '</form>';
+    echo '</div>';
+echo '<div class="col-md-3 ">';
+        echo '<form method="POST" action="" class="d-flex gap-4">'; 
+            echo '<input type="hidden" name="currentWeekStart" value="' . $ngaydautuan . '">';
+            echo '<input type="hidden" name="khoaSelect" value="' . $selectedKhoa . '">';
+            
+            echo '<button class="btn btn-outline-secondary" type="submit" name="changeWeek" value="prev">';
+                echo 'Tuần trước';
+            echo '</button>';
+            echo '<button class="btn btn-outline-primary" type="submit" name="changeWeek" value="current">';
+                echo 'Hiện tại';
+            echo '</button>';
+            echo '<button class="btn btn-outline-secondary" type="submit" name="changeWeek" value="next">';
+                echo 'Tuần sau';
+            echo '</button>';
+        echo '</form>';
+    echo '</div>';
+    // Thêm lịch
+    echo '<div class="col-md-4">';
+        echo '<button class="btn btn-outline-secondary" type="button" name="them" data-bs-toggle="modal" data-bs-target="#addDoctorModal">';
+            echo 'Thêm lịch';
+        echo '</button>';
+    echo '</div>';
+    
+echo '</div>
 
-
-    <form method="POST" action="">
-    <input type="hidden" name="currentWeekStart" value="'.$ngaydautuan.'">
-    <input type="hidden" name="khoaSelect" value="' . $selectedKhoa . '">
-    <div class="mb-4 d-flex gap-3 align-items-center">
-        <button class="btn btn-outline-secondary" type="submit" name="changeWeek" value="prev">Tuần trước</button>
-        <span class="fw-bold" id="currentWeek">
-        <button class="btn btn-outline-primary" type="submit" name="changeWeek" value="current">Hiện tại</button>
-        </span>
-        <button class="btn btn-outline-secondary" type="submit" name="changeWeek" value="next">Tuần sau</button> 
-    </div>
-    </form>
-    <button class="btn btn-outline-secondary" type="submit" name="them" data-bs-toggle="modal" data-bs-target="#addDoctorModal">Thêm lịch</button>
         <div class="schedule-grid mb-4" id="schedule-container">
             <table class="schedule-table table table-bordered">
                 <thead>
-                    <tr class="bg-light">
-                        <th>Ca</th>
-                        <th>Thứ 2|' . $t2 . '</th>
-                        <th>Thứ 3|' . $t3 . '</th>
-                        <th>Thứ 4|' . $t4 . '</th>
-                        <th>Thứ 5|' . $t5 . '</th>
-                        <th>Thứ 6|' . $t6 . '</th>
-                        <th>Thứ 7|' . $t7 . '</th>
-                        <th>Chủ nhật|' . $t8 . '</th>
+                    <tr>
+                        <th id="a" class="shift">Ca</th>
+                        <th id="a">Thứ 2<br>' . $t2 . '</th>
+                        <th id="a">Thứ 3<br>' . $t3 . '</th>
+                        <th id="a">Thứ 4<br>' . $t4 . '</th>
+                        <th id="a">Thứ 5<br>' . $t5 . '</th>
+                        <th id="a">Thứ 6<br>' . $t6 . '</th>
+                        <th id="a">Thứ 7<br>' . $t7 . '</th>
+                        <th id="a">Chủ nhật<br>' . $t8 . '</th>
                     </tr>
                 </thead>
                 <tbody>';
                 echo '<tr>';
-                echo '<td>Ca Sáng</td>';
+                echo '<td class="ca morning-shift shift">Ca Sáng</td>';
 
                 foreach ($daysOfWeek as $day) {
-                    echo '<td class="shift-cell">';
+                    echo '<td class="shift-cell morning">';
                     foreach ($dt as $data) {
                         if ($data['NgayLamViec'] === $day && $data['CaLamViec'] === 'Sáng' && $data['TrangThai'] === 'Đang làm') {
-                        echo $data['HovaTenNV'] . ' 
-                        <form method="POST" action="" style="display: inline;">
-                        <input type="hidden" name="MaNV" value="' . $data['MaNV'] . '">
-                        <button type="submit" class="delete-btn" onclick="return confirm(\'Bạn có chắc chắn muốn xóa bác sĩ này không?\')">
-                        <i class="bi bi-person-dash"></i>
-                        </button>
-                        </form><br>';
+                            echo $data['HovaTen'] . ' 
+                            <form method="POST" action="" style="display: inline;">
+                            <input type="hidden" name="MaNV" value="' . $data['MaNV'] . '">
+                            <button type="submit" class="delete-btn" onclick="return confirm(\'Bạn có chắc chắn muốn xóa bác sĩ này không?\')">
+                            <i class="bi bi-person-dash"></i>
+                            </button>
+                            </form><hr>';
                         }
                     }
                     echo '</td>';
                 }
                 echo '</tr>';
+
                 echo '<tr>';
-                echo '<td>Ca Chiều</td>';
+                echo '<td class="ca afternoon-shift shift">Ca Chiều</td>';
+
                 foreach ($daysOfWeek as $day) {
                     echo '<td class="shift-cell afternoon">';
                     $hasWork = false;
                     foreach ($dt as $data) {
                         if ($data['NgayLamViec'] === $day && $data['CaLamViec'] === 'Chiều' && $data['TrangThai'] === 'Đang làm') {
-                            echo $data['HovaTenNV'] . ' 
+                            echo $data['HovaTen'] . ' 
                             <form method="POST" action="./LLV" style="display: inline;">
                             <input type="hidden" name="MaNV" value="' . $data['MaNV'] . '">
                             <button type="submit" class="delete-btn" onclick="return confirm(\'Bạn có chắc chắn muốn xóa bác sĩ này không?\')">
                             <i class="bi bi-person-dash"></i>
                             </button>
-                            </form><br>';
+                            </form><hr><br>';
                         }
                     }
                     echo '</td>';
                 }
-                
-                echo '</tr>';
 
+                echo '</tr>';
         echo '  </tbody>
             </table>
         </div>';
@@ -163,7 +178,7 @@ echo'       </select>
                                 <tr>';
                                 foreach($BS as $data):
                     echo'           <td><input type="checkbox" class="doctor-checkbox" value="'.$data["MaNV"].'" name="MaNVien"></td>
-                                    <td>' . $data["HovaTenNV"] . '</td>
+                                    <td>' . $data["HovaTen"] . '</td>
                                     <td>' . $data["TenKhoa"] . '</td>
                                 </tr>';
                                 endforeach;

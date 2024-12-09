@@ -7,6 +7,10 @@ class QuanLy extends Controller {
         ]);
     }
 
+    function DSBS() {
+        $ql = $this->model("mQLBS");
+        $bacsi = json_decode($ql->GetAllBS(), true);
+
         $this->view("layoutQLyBS", [
             "Page" => "qlbs",
             "BacSi" => $bacsi
@@ -174,7 +178,7 @@ class QuanLy extends Controller {
     function SuaBS() {
         if (isset($_POST["btnSuaBS"])) {
             $MaNV = $_POST["MaNV"];
-            $HovaTenNV = $_POST["HovaTenNV"];
+            $HovaTen = $_POST["HovaTen"];
             $NgaySinh = $_POST["NgaySinh"];
             $GioiTinh = $_POST["GioiTinh"];
             $SoDT = $_POST["SoDT"];
@@ -205,7 +209,7 @@ class QuanLy extends Controller {
                 return;
             }
 
-            $result = $ql->UpdateBS($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
+            $result = $ql->UpdateBS($MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
 
             if ($result) {
                 header("Location: ./DSBS");
@@ -248,7 +252,7 @@ class QuanLy extends Controller {
 
     function ThemBS() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $HovaTenNV = $_POST['HovaTenNV'];
+            $HovaTen = $_POST['HovaTen'];
             $NgaySinh = $_POST['NgaySinh'];
             $GioiTinh = $_POST['GioiTinh'];
             $SoDT = $_POST['SoDT'];
@@ -256,7 +260,7 @@ class QuanLy extends Controller {
             $MaKhoa = $_POST['MaKhoa'];
     
             // Kiểm tra dữ liệu đầu vào
-            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
+            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTen)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "thembacsi",
                     "Error" => "Họ tên không được chứa ký tự đặc biệt và số."
@@ -291,7 +295,7 @@ class QuanLy extends Controller {
                 return;
             }
             
-            $result = $ql->AddBS($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
+            $result = $ql->AddBS($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
     
             if ($result === true) {
                 header("Location: ./DSBS");
@@ -354,7 +358,7 @@ class QuanLy extends Controller {
     function SuaNVYT() {
         if (isset($_POST["btnSuaNVYT"])) {
             $MaNV = $_POST["MaNV"];
-            $HovaTenNV = $_POST["HovaTenNV"];
+            $HovaTen = $_POST["HovaTen"];
             $NgaySinh = $_POST["NgaySinh"];
             $GioiTinh = $_POST["GioiTinh"];
             $SoDT = $_POST["SoDT"];
@@ -384,7 +388,7 @@ class QuanLy extends Controller {
                 return;
             }
 
-            $result = $ql->UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $result = $ql->UpdateNVYT($MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
 
             if ($result) {
                 header("Location: ./DSNVYT");
@@ -434,14 +438,14 @@ class QuanLy extends Controller {
 
     function ThemNVYT() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $HovaTenNV = $_POST['HovaTenNV'];
+            $HovaTen = $_POST['HovaTen'];
             $NgaySinh = $_POST['NgaySinh'];
             $GioiTinh = $_POST['GioiTinh'];
             $SoDT = $_POST['SoDT'];
             $EmailNV = $_POST['EmailNV'];
     
             // Kiểm tra dữ liệu đầu vào
-            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
+            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTen)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "themnvyt",
                     "Error" => "Họ tên không được chứa ký tự đặc biệt và số."
@@ -476,7 +480,7 @@ class QuanLy extends Controller {
                 return;
             }
             
-            $result = $ql->AddNVYT($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $result = $ql->AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
     
             if ($result === true) {
                 header("Location: ./DSNVYT");
@@ -492,5 +496,6 @@ class QuanLy extends Controller {
             ]);
         }
     }
+}
 ?>
 

@@ -15,7 +15,7 @@ class mQuanLy extends DB {
         $str = "SELECT 
                     pk.MaPK AS MaPK,
                     pk.NgayTao AS NgayTaoPhieuKham,
-                    nv.HovaTenNV AS BacSiPhuTrach,
+                    nv.HovaTen AS BacSiPhuTrach,
                     pk.KetQua AS KetQua
                 FROM 
                     phieukham pk
@@ -37,7 +37,7 @@ class mQuanLy extends DB {
         $str = "SELECT 
     pk.MaPK,
     pk.NgayTao AS NgayTaoPhieuKham,
-    nv.HovaTenNV AS BacSiPhuTrach,
+    nv.HovaTen AS BacSiPhuTrach,
     pk.KetQua,
     GROUP_CONCAT(DISTINCT CONCAT(xn.LoaiXN, ': ', xn.KetQua) SEPARATOR '; ') AS KetQuaXetNghiem,
     GROUP_CONCAT(DISTINCT CONCAT(t.TenThuoc, ' - ', ct.LieuDung, ' - ', ct.CachDung) SEPARATOR '; ') AS DonThuoc,

@@ -24,7 +24,7 @@
                 echo "<tr>
                     <td>{$stt}</td>
                     <td>{$row['MaNV']}</td>
-                    <td>{$row['HovaTenNV']}</td>
+                    <td>{$row['HovaTen']}</td>
                     <td>{$row['TenKhoa']}</td>
                     <td>
                         <form action='./CTBS' method='POST'>
