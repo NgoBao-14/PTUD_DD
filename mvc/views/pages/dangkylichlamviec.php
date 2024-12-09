@@ -3,11 +3,10 @@
     <?php if (isset($data['Message'])): ?>
         <?php if (!empty($data['Message']['success'])): ?>
             <div class="alert alert-success">
-                <h5>Thành công:</h5>
                 <ul>
-                    <?php foreach ($data['Message']['success'] as $msg): ?>
-                        <li><?= $msg ?></li>
-                    <?php endforeach; ?>
+                    <?php ($data['Message']['success']) ?>
+                        <li>Đăng ký lịch làm việc thành công</li>
+                    <?php ?>
                 </ul>
             </div>
         <?php endif; ?>
