@@ -36,7 +36,7 @@ class MBacsi extends DB
     {
         $str = "SELECT NgayLamViec, CaLamViec 
                 FROM LichLamViec 
-                WHERE MaNV = '$maNV'";
+                WHERE MaNV = '$maNV' AND TrangThai = 'Đang làm'";
         $result = mysqli_query($this->con, $str);
         $mang = [];
         while ($row = mysqli_fetch_assoc($result)) {
