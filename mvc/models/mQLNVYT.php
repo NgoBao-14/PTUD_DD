@@ -9,11 +9,11 @@ class mQLNVYT extends DB {
     }
 
     public function GetAllNVYT($search = '') {
-        $str = "SELECT nv.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
+        $str = "SELECT nv.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
                 FROM nhanvien nv
                 WHERE nv.TrangThaiLamViec = 'Đang làm việc'
                 AND nv.ChucVu = 'Nhân viên y tế'
-                AND (nv.MaNV LIKE ? OR nv.HovaTenNV LIKE ?)
+                AND (nv.MaNV LIKE ? OR nv.HovaTen LIKE ?)
                 ORDER BY nv.MaNV DESC";
         $search = "%$search%";
         $stmt = $this->con->prepare($str);
@@ -28,7 +28,7 @@ class mQLNVYT extends DB {
     }
 
     public function Get1NVYT($MaNV) {
-        $str = "SELECT nv.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
+        $str = "SELECT nv.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
                 FROM nhanvien nv
                 JOIN nhanvienyte nvyt ON nv.MaNV = nvyt.MaNV
                 WHERE nv.MaNV = ? AND nv.ChucVu = 'Nhân viên y tế'";
@@ -41,12 +41,12 @@ class mQLNVYT extends DB {
     }
     
 
-    public function UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
+    public function UpdateNVYT($MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
         $this->con->begin_transaction();
         try {
-            $str = "UPDATE nhanvien SET HovaTenNV = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
+            $str = "UPDATE nhanvien SET HovaTen = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt = $this->con->prepare($str);
-            $stmt->bind_param("sssssi", $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
+            $stmt->bind_param("sssssi", $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
             $stmt->execute();
 
             $this->con->commit();
@@ -65,7 +65,7 @@ class mQLNVYT extends DB {
         return json_encode(['success' => $result]);
     }
 
-    public function AddNVYT($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
+    public function AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
         $this->con->begin_transaction();
         try {
             // Check for existing phone number and email
@@ -81,10 +81,10 @@ class mQLNVYT extends DB {
             $ID = $this->GenerateNewID();
     
             // Insert into nhanvien table
-            $str1 = "INSERT INTO nhanvien (MaNV, HovaTenNV, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
+            $str1 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
                      VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', ?)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssssi", $MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
+            $stmt1->bind_param("isssssi", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
             $stmt1->execute();
     
             // Insert into nhanvienyte table
@@ -95,7 +95,7 @@ class mQLNVYT extends DB {
             $stmt2->execute();
     
             // Insert into taikhoan table
-            $username = $this->GenerateUsername($HovaTenNV);
+            $username = $this->GenerateUsername($HovaTen);
             $password = password_hash($SoDT, PASSWORD_DEFAULT); // Using phone number as initial password
             $str3 = "INSERT INTO taikhoan (ID, username, password, MaPQ) VALUES (?, ?, ?, 3)";
             $stmt3 = $this->con->prepare($str3);
@@ -144,10 +144,10 @@ class mQLNVYT extends DB {
         return ($row['max_id'] ?? 0) + 1;
     }
     
-    private function GenerateUsername($HovaTenNV) {
-        $name_parts = explode(' ', $HovaTenNV);
+    private function GenerateUsername($HovaTen) {
+        $name_parts = explode(' ', $HovaTen);
         $last_name = end($name_parts);
-        $first_letter = mb_strtolower(mb_substr($HovaTenNV, 0, 1, 'UTF-8'), 'UTF-8');
+        $first_letter = mb_strtolower(mb_substr($HovaTen, 0, 1, 'UTF-8'), 'UTF-8');
         $username = $first_letter . mb_strtolower($last_name, 'UTF-8');
     
         $i = 1;

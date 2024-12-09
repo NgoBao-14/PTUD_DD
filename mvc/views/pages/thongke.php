@@ -32,7 +32,7 @@ window.onload = function () {
         animationEnabled: true,
         theme: "light2",
         title:{
-            text: "Doanh thu giữa Khám bệnh và Xét nghiệm theo tháng"
+            text: "Doanh thu giữa các dịch vụ theo tháng"
         },
         axisY:{
             includeZero: true,
@@ -73,4 +73,4 @@ window.onload = function () {
     }
 }
 </script>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div> 
+<div id="chartContainer" style="height: 400px; width: 100%;"></div> 
