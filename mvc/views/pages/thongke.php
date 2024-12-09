@@ -32,7 +32,7 @@ window.onload = function () {
         animationEnabled: true,
         theme: "light2",
         title:{
-            text: "Doanh thu giữa các dịch vụ theo tháng"
+            text: "Doanh thu giữa các dịch vụ trong năm 2024"
         },
         axisY:{
             includeZero: true,

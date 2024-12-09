@@ -1,8 +1,8 @@
 <?php
-    // if($_SESSION["role"] != 1){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 1){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
 
 <?php
@@ -37,8 +37,8 @@ $counts = $quanLy->GetDashboardCounts();
     </style>
 </head>
 <body>
- <!-- header -->
- <?php include "blocks/header.php" ?>
+<!-- header -->
+<?php include "blocks/header.php" ?>
 <div class="main">
 <div class="container mt-4">
         <h1 class="mb-4">Welcome, Admin...!</h1>
@@ -47,7 +47,7 @@ $counts = $quanLy->GetDashboardCounts();
             <div class="col-md-3">
                 <div class="card bg-primary text-white">
                     <div class="card-body">
-                        <h5 class="card-title">Quản Lý Thông Tin Bệnh Nhân</h5>
+                    <a href="./QuanLy/TTBN" class="text-white text-decoration-none"><h5 class="card-title">Quản Lý Thông Tin Bệnh Nhân</h5></a>
                         <p class="card-text display-4">1,234</p>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ $counts = $quanLy->GetDashboardCounts();
             <div class="col-md-3">
                 <div class="card bg-warning text-white">
                     <div class="card-body">
-                        <h5 class="card-title">Thống Kê Hóa Đơn</h5>
+                    <a href="./QuanLy/ThongKe" class="text-white text-decoration-none"><h5 class="card-title">Thống Kê Hóa Đơn</h5></a>
                         <p class="card-text display-4">27</p>
                     </div>
                 </div>
@@ -83,27 +83,27 @@ $counts = $quanLy->GetDashboardCounts();
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Admit Patient</h5>
-                        <p class="card-text">Register and admit a new patient to the hospital.</p>
-                        <a href="#" class="btn btn-primary">Admit Patient</a>
+                        <h5 class="card-title">Nhân sự</h5>
+                        <p class="card-text">Cập nhật thay đổi nhân sự bệnh viện.</p>
+                        <a href="./QuanLy/DSBS" class="btn btn-primary">Admit Patient</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Schedule Appointment</h5>
-                        <p class="card-text">Schedule a new appointment for a patient.</p>
-                        <a href="#" class="btn btn-primary">Schedule Appointment</a>
+                        <h5 class="card-title">Xử lý lịch làm việc</h5>
+                        <p class="card-text">Xử lý yêu cầu thay đổi lịch làm việc.</p>
+                        <a href="./QuanLy/LLV" class="btn btn-primary">Schedule Appointment</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Generate Report</h5>
-                        <p class="card-text">Create and download various hospital reports.</p>
-                        <a href="#" class="btn btn-primary">Generate Report</a>
+                        <h5 class="card-title">Báo cáo thống kê</h5>
+                        <p class="card-text">Tổng hợp, phân tích và trình bày các số liệu thống kê hỗ trợ quản lý và đưa ra quyết định hiệu quả.</p>
+                        <a href="./QuanLy/ThongKe" class="btn btn-primary">Generate Report</a>
                     </div>
                 </div>
             </div>
@@ -112,6 +112,5 @@ $counts = $quanLy->GetDashboardCounts();
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
  <!-- footer -->
- <?php require_once "./mvc/views/blocks/footer.php" ?>
 </body>
 </html>

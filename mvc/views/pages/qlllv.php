@@ -55,13 +55,14 @@ echo '<div class="row mb-4">';
                 echo '<select class="form-select" id="khoaSelect" name="khoaSelect" onchange="this.form.submit()">';
                     echo '<option value="">Danh sách khoa</option>';
                     foreach ($K as $k) {
-                        $selected = (isset($_POST["khoaSelect"]) && $_POST["khoaSelect"] == $k["MaKhoa"]) ? "selected" : "";
-                        echo '<option value="' . $k["MaKhoa"] . '" ' . $selected . '>' . $k["TenKhoa"] . '</option>';
+                    $selected = (isset($_POST["khoaSelect"]) && $_POST["khoaSelect"] == $k["MaKhoa"]) ? "selected" : "";
+                    echo '<option value="' . $k["MaKhoa"] . '" ' . $selected . '>' . $k["TenKhoa"] . '</option>';
                     }
                 echo '</select>';
             echo '</div>';
         echo '</form>';
     echo '</div>';
+    //chuyển tuần
 echo '<div class="col-md-3 ">';
         echo '<form method="POST" action="" class="d-flex gap-4">'; 
             echo '<input type="hidden" name="currentWeekStart" value="' . $ngaydautuan . '">';
@@ -86,7 +87,6 @@ echo '<div class="col-md-3 ">';
     echo '</div>';
     
 echo '</div>
-
         <div class="schedule-grid mb-4" id="schedule-container">
             <table class="schedule-table table table-bordered">
                 <thead>
@@ -147,74 +147,66 @@ echo '</div>
             </table>
         </div>';
 
-
         // modal thêm lịch làm việc
         echo '
         <div class="modal fade" id="addDoctorModal" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Thêm bác sĩ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm bác sĩ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST">
+                    <!-- Hidden input để lưu mã khoa đã chọn -->
+                    <input type="hidden" name="khoaSelect" value="' . $selectedKhoa . '">
+                    <table class="table mb-3">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-person-plus-fill"></i></th>
+                                <th>Tên</th>
+                                <th>Khoa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorTableBody">';
+                        echo'<div>';
+                            foreach($BS as $data):
+                                if($data["MaKhoa"] == $selectedKhoa):
+                                    echo '
+                                    <tr style="text-align:center;">
+                                        <td><input type="radio" class="doctor-checkbox" value="' . $data["MaNV"] . '" name="MaNVien"></td>
+                                        <td>' . $data["HovaTen"] . '</td>
+                                        <td>' . $data["TenKhoa"] . '</td>
+                                    </tr>';
+                                endif;
+                            endforeach;
+                        echo '</div>';
+                echo '
+                        </tbody>
+                    </table>
+                    <!-- Chọn lịch -->
+                    <div class="mb-3">
+                        <label for="scheduleDate" class="form-label">Chọn lịch</label>
+                        <input type="date" class="form-control" id="NgayLamViec" name="NgayLamViec" required>
                     </div>
-                    <div class="modal-body">
-                        <!-- Input tìm kiếm bác sĩ -->
-                        <input
-                            type="text"
-                            class="form-control mb-3"
-                            id="doctorSearch"
-                            placeholder="Tìm kiếm bác sĩ..."
-                        >
-                        <table class="table mb-3">
-                            <thead>
-                                <tr>
-                                    <th>Chọn</th>
-                                    <th>Tên</th>
-                                    <th>Khoa</th>
-                                </tr>
-                            </thead>
-                            <form action="" method="POST">
-                            <tbody id="doctorTableBody">
-                                <tr>';
-                                foreach($BS as $data):
-                    echo'           <td><input type="checkbox" class="doctor-checkbox" value="'.$data["MaNV"].'" name="MaNVien"></td>
-                                    <td>' . $data["HovaTen"] . '</td>
-                                    <td>' . $data["TenKhoa"] . '</td>
-                                </tr>';
-                                endforeach;
-                    echo'        </tbody>
-                        </table>
-                        <!-- Chọn lịch -->
-                        <div class="mb-3">
-                            <label for="scheduleDate" class="form-label">Chọn lịch</label>
-                            <input
-                            type="date"
-                            class="form-control"
-                            id="NgayLamViec"
-                            name="NgayLamViec"
-                            required
-                        >
-                        </div>
-        
-                        <!-- Chọn ca -->
-                        <div class="mb-3">
-                            <label for="scheduleShift" class="form-label">Chọn ca</label>
-                            <select class="form-select" id="scheduleShift" name="cl">';
-                    echo'       <option value="">-- Chọn ca --</option>
-                                <option value="Sáng" >Ca sáng</option>
-                                <option value="Chiều"Cl>Ca chiều</option>
-                            </select>';
-                    echo' </div>
-                        
+                    <div class="mb-3">
+                        <label for="scheduleShift" class="form-label">Chọn ca</label>
+                        <select class="form-select" id="scheduleShift" name="cl">
+                            <option value="">-- Chọn ca --</option>
+                            <option value="Sáng">Ca sáng</option>
+                            <option value="Chiều">Ca chiều</option>
+                        </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-<button type="submit" class="btn btn-primary" name="btnDKL">Xác nhận</button>                    </div>
-                    </form>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary" name="btnDKL">Xác nhận</button>
+                </div>
+                </form>
                 </div>
             </div>
         </div>';
-        
 ?>
 <script>
 document.addEventListener("DOMContentLoaded", function () {

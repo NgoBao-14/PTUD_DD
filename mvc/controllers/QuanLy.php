@@ -6,7 +6,7 @@ class QuanLy extends Controller {
             "Page"
         ]);
     }
-
+    //QuanLy_Nguoi thuc hien: Dkhuong
     function DSBS() {
         $ql = $this->model("mQLBS");
         $bacsi = json_decode($ql->GetAllBS(), true);
@@ -16,6 +16,7 @@ class QuanLy extends Controller {
             "BacSi" => $bacsi
         ]);
     }
+
     function TTBN() {
         $ql = $this->model("mQuanLy");
         $benhnhan = null;
@@ -60,15 +61,37 @@ class QuanLy extends Controller {
             ]);
         }
     }
+
     function LLV($date = null) {
         $ql = $this->model("mQuanLy");
 
-        if(isset($_POST['btnDKL'])) {
-            $MaNV=$_POST['MaNVien'];
-            $NgayLamViec=$_POST['NgayLamViec'];
-            $CaLamViec=$_POST['cl'];
+        if (isset($_POST['btnDKL'])) {
+            $MaNV = $_POST['MaNVien'];
+            $NgayLamViec = $_POST['NgayLamViec'];
+            $CaLamViec = $_POST['cl'];
+    
+            // Kiểm tra nếu MaNV rỗng hoặc null
+            if (empty($MaNV)) {
+                $_SESSION['message'] = "Bạn phải chọn ít nhất một nhân viên để thêm lịch làm việc!";
+                $_SESSION['message_type'] = "error";
+                header('Location: ' . $_SERVER['REQUEST_URI']);
+                exit();
+            }
+    
             $result = $ql->AddLLV($MaNV, $NgayLamViec, $CaLamViec);
+    
+            if ($result) {
+                $_SESSION['message'] = "Thêm lịch làm việc thành công!";
+                $_SESSION['message_type'] = "success";
+            } else {
+                $_SESSION['message'] = "Thêm lịch làm việc thất bại!";
+                $_SESSION['message_type'] = "error";
+            }
+    
+            header('Location: ' . $_SERVER['REQUEST_URI']);
+            exit();
         }
+    
         if(isset($_POST['MaNV'])) {
             $maNV = $_POST['MaNV'];
             $result = $ql->DelLLV($maNV);
@@ -89,17 +112,15 @@ class QuanLy extends Controller {
         }
     
         $khoa = $ql->GetDanhSachKhoa();
-        
-        $maKhoa = '';
+        $maKhoa = 'A';
         if (isset($_POST['khoaSelect']) && $_POST['khoaSelect'] != '') {
             $maKhoa = $_POST['khoaSelect'];
         }
-    
         // Lấy lịch làm việc theo khoa nếu có, nếu không lấy tất cả bác sĩ
-        if ($maKhoa != '') {
+        if ($maKhoa != 'A') {
             $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         } else {
-            $listBacSi = $ql->GetBSLLV();
+            $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         }
     
         // Gửi dữ liệu tới view
@@ -122,11 +143,9 @@ class QuanLy extends Controller {
         // Truyền dữ liệu vào view
         $this->view("layoutQLy3", [
             "Page" => "thongke",
-            "ThongKe" => $thongKeTheoThang  // Dữ liệu được truyền vào view
+            "ThongKe" => $thongKeTheoThang
         ]);
     }
-    
-
 
     // phần của Quang Huy Quản Lý Bác sĩ/ NVYT
     public function GetDashboardCounts() {
