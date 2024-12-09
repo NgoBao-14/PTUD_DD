@@ -45,102 +45,91 @@
 </div>
 
 <script>
-    const workSchedule = <?= json_encode($data['LichLamViec'] ?? []); ?>;
+    // Dữ liệu lịch làm việc từ PHP
+const workSchedule = <?= json_encode($data['LichLamViec'] ?? []); ?>;
 
-    function getMonday(date) {
-        const d = new Date(date);
-        const day = d.getUTCDay(); // Lấy ngày theo UTC
-        const diff = day === 0 ? -6 : 1 - day; // Chủ Nhật trở về Thứ 2
-        d.setUTCDate(d.getUTCDate() + diff); // Tính lại ngày
-        return new Date(d.toISOString().slice(0, 10)); // Chuyển về định dạng ISO
-    }
+// Hàm lấy ngày Thứ 2 của tuần hiện tại
+function getMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Điều chỉnh về Thứ 2
+    return new Date(d.setDate(diff));
+}
 
+// Hàm định dạng ngày
+function formatDate(date) {
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
 
-    function formatDate(date) {
-        return date.getDate().toString().padStart(2, '0') + '/' +
-            (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
-            date.getFullYear();
-    }
+// Hàm cập nhật khoảng thời gian tuần
+function updateWeekRange(monday) {
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
 
-    function updateWeekRange(monday) {
-        const sunday = new Date(monday);
-        sunday.setDate(sunday.getDate() + 6);
+    // Hiển thị khoảng thời gian tuần
+    document.getElementById('weekRange').textContent = `${formatDate(monday)} - ${formatDate(sunday)}`;
 
-        // Hiển thị khoảng thời gian tuần
-        document.getElementById('weekRange').textContent =
-            formatDate(monday) + ' - ' + formatDate(sunday);
+    // Xóa lịch làm việc cũ
+    const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    days.forEach((day, index) => {
+        const date = new Date(monday);
+        date.setDate(date.getDate() + index);
 
-        // Xóa lịch làm việc cũ
-        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-        days.forEach((day, index) => {
-            // Tính toán ngày tương ứng
-            const date = new Date(monday);
-            date.setDate(date.getDate() + index);
+        // Cập nhật ngày hiển thị dưới "Thứ"
+        document.getElementById(`date-${day}`).textContent = formatDate(date);
 
-            // Cập nhật ngày hiển thị dưới "Thứ"
-            const dateLabel = document.getElementById(`date-${day}`);
-            if (dateLabel) {
-                dateLabel.textContent = formatDate(date);
-            }
+        // Xóa nội dung lịch làm việc cũ
+        const cell = document.getElementById(`schedule-${day}`);
+        if (cell) cell.innerHTML = '';
+    });
 
-            // Xóa nội dung lịch làm việc cũ
-            const cell = document.getElementById(`schedule-${day}`);
-            if (cell) {
-                cell.innerHTML = '';
-            }
-        });
-
-        // Cập nhật lịch làm việc
-        workSchedule.forEach(schedule => {
-            const date = new Date(schedule.NgayLamViec);
+    // Cập nhật nội dung lịch làm việc
+    workSchedule.forEach(schedule => {
+        const date = new Date(schedule.NgayLamViec);
+        if (date >= monday && date <= sunday) {
             const dayIndex = (date.getDay() + 6) % 7; // Thứ 2 = 0, Chủ Nhật = 6
+            const dayKey = days[dayIndex];
+            const cell = document.getElementById(`schedule-${dayKey}`);
 
-            // Kiểm tra nếu ngày thuộc tuần hiện tại
-            if (date >= monday && date <= sunday) {
-                const dayKey = days[dayIndex];
-                const cell = document.getElementById(`schedule-${dayKey}`);
-                if (cell) {
-                    const shift = document.createElement('div');
-                    shift.textContent = schedule.CaLamViec;
+            if (cell) {
+                const shift = document.createElement('div');
+                shift.textContent = schedule.CaLamViec;
 
-                    // Thay đổi màu sắc dựa vào ca làm việc
-                    if (schedule.CaLamViec.toLowerCase() === 'sáng') {
-                        shift.className = 'badge bg-primary text-light'; // Màu xanh
-                    } else if (schedule.CaLamViec.toLowerCase() === 'chiều') {
-                        shift.className = 'badge bg-warning text-dark'; // Màu vàng
-                    }
-
-                    cell.appendChild(shift);
-                    cell.appendChild(document.createElement('br')); // Thêm thẻ ngắt dòng
+                // Đặt màu sắc cho từng ca làm việc
+                if (schedule.CaLamViec.toLowerCase() === 'sáng') {
+                    shift.className = 'badge bg-primary text-light'; // Màu xanh
+                } else if (schedule.CaLamViec.toLowerCase() === 'chiều') {
+                    shift.className = 'badge bg-warning text-dark'; // Màu vàng
                 }
+
+                cell.appendChild(shift);
+                cell.appendChild(document.createElement('br')); // Ngắt dòng
             }
-        });
-
-    }
-
-
-    // Get current Monday
-    let currentMonday = getMonday(new Date());
-
-    // Week Navigation
-    document.getElementById('prevWeek').addEventListener('click', function() {
-        currentMonday.setDate(currentMonday.getDate() - 7);
-        updateWeekRange(currentMonday);
+        }
     });
+}
 
-    document.getElementById('nextWeek').addEventListener('click', function() {
-        currentMonday.setDate(currentMonday.getDate() + 7);
-        updateWeekRange(currentMonday);
-    });
-
-    document.getElementById('currentWeek').addEventListener('click', function() {
-        currentMonday = getMonday(new Date());
-        updateWeekRange(currentMonday);
-    });
-
-    // Initial interface update
+// Hàm thay đổi tuần
+function changeWeek(direction) {
+    currentMonday.setDate(currentMonday.getDate() + direction * 7);
     updateWeekRange(currentMonday);
-    document.getElementById('print-schedule').addEventListener('click', () => {
-        window.print();
-    });
+}
+
+// Thiết lập tuần hiện tại ban đầu
+let currentMonday = getMonday(new Date());
+
+// Sự kiện điều hướng tuần
+document.getElementById('prevWeek').addEventListener('click', () => changeWeek(-1));
+document.getElementById('nextWeek').addEventListener('click', () => changeWeek(1));
+document.getElementById('currentWeek').addEventListener('click', () => {
+    currentMonday = getMonday(new Date());
+    updateWeekRange(currentMonday);
+});
+
+// Cập nhật giao diện ban đầu
+updateWeekRange(currentMonday);
+
+// Sự kiện in lịch làm việc
+document.getElementById('print-schedule').addEventListener('click', () => window.print());
+
 </script>

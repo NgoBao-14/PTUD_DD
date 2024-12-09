@@ -91,76 +91,65 @@
         }
     });
 
-    function getMonday(d) {
-        d = new Date(d);
-        const day = d.getDay(),
-            diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    function getMonday(date) {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
         return new Date(d.setDate(diff));
     }
 
     function formatDate(date) {
-        return date.getDate().toString().padStart(2, '0') + '/' +
-            (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
-            date.getFullYear();
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
     }
 
     function updateWeekRange(monday) {
         const sunday = new Date(monday);
-        sunday.setDate(sunday.getDate() + 6);
+        sunday.setDate(monday.getDate() + 6);
         const today = new Date();
+        const maxNextWeek = getMonday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7));
 
-        // Update week range display
-        document.getElementById('weekRange').textContent =
-            formatDate(monday) + ' - ' + formatDate(sunday);
+        // Cập nhật tuần hiển thị
+        document.getElementById('weekRange').textContent = `${formatDate(monday)} - ${formatDate(sunday)}`;
+        document.getElementById('selectedDateRange').value = `${formatDate(monday)} - ${formatDate(sunday)}`;
 
-        // Sync with hidden input
-        document.getElementById('selectedDateRange').value =
-            formatDate(monday) + ' - ' + formatDate(sunday);
-
-        // Update dates for each column
+        // Cập nhật trạng thái các ngày và checkbox
         const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
         days.forEach((day, index) => {
             const date = new Date(monday);
             date.setDate(date.getDate() + index);
 
-            // Update date labels
+            // Cập nhật nhãn ngày
             document.getElementById(`date-${day}`).textContent = formatDate(date);
 
-            // Disable checkboxes for past dates
+            // Điều chỉnh trạng thái checkbox
+            const isPastOrToday = date <= today;
             const checkboxes = document.querySelectorAll(`#checkbox-${day}-sang, #checkbox-${day}-chieu`);
-            if (date <= today) {
-                checkboxes.forEach(checkbox => {
-                    checkbox.disabled = true;
-                    checkbox.parentElement.style.color = '#aaa'; // Make label gray
-                });
-            } else {
-                checkboxes.forEach(checkbox => {
-                    checkbox.disabled = false;
-                    checkbox.parentElement.style.color = ''; // Restore label color
-                });
-            }
+            checkboxes.forEach(checkbox => {
+                checkbox.disabled = isPastOrToday;
+                checkbox.parentElement.style.color = isPastOrToday ? '#aaa' : '';
+            });
         });
+
+        // Kiểm tra trạng thái nút "Tuần sau"
+        document.getElementById('nextWeek').disabled = monday >= maxNextWeek;
     }
 
-    // Get current Monday
+    function changeWeek(direction) {
+        currentMonday.setDate(currentMonday.getDate() + direction * 7);
+        updateWeekRange(currentMonday);
+    }
+
     let currentMonday = getMonday(new Date());
 
-    // Week Navigation
-    document.getElementById('prevWeek').addEventListener('click', function() {
-        currentMonday.setDate(currentMonday.getDate() - 7);
-        updateWeekRange(currentMonday);
-    });
-
-    document.getElementById('nextWeek').addEventListener('click', function() {
-        currentMonday.setDate(currentMonday.getDate() + 7);
-        updateWeekRange(currentMonday);
-    });
-
-    document.getElementById('currentWeek').addEventListener('click', function() {
+    // Các nút điều hướng
+    document.getElementById('prevWeek').addEventListener('click', () => changeWeek(-1));
+    document.getElementById('nextWeek').addEventListener('click', () => changeWeek(1));
+    document.getElementById('currentWeek').addEventListener('click', () => {
         currentMonday = getMonday(new Date());
         updateWeekRange(currentMonday);
+        document.getElementById('nextWeek').disabled = false;
     });
 
-    // Initial interface update
+    // Cập nhật giao diện ban đầu
     updateWeekRange(currentMonday);
 </script>
