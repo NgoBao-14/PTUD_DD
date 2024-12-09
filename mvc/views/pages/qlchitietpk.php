@@ -1,13 +1,12 @@
 <?php
 $dt = json_decode($data["CTPK"], true);
 foreach ($dt as $data):
-echo'<div class="container my-5" id="container">
+echo'<div class="container" id="container">
         <div class="card" id="card">
-                                <form action="/PTUD_DD/QuanLy/TTBN" method="POST">
-                                <input type="hidden" name="back" value="' . $data['MaBN'] . '">
-                                <input type="submit" name="nutBack" value="Back">
-                                
-                        </form>
+            <form action="/PTUD_DD/QuanLy/TTBN" method="POST">
+                <input type="hidden" name="back" value="' . $data['MaBN'] . '">
+                <input type="submit" name="nutBack" value="Back" class="btn-back">
+            </form>
             <div class="card-header text-center py-3" id="card-header">
                 <h4 class="mb-0">PHIẾU KHÁM BỆNH</h4>
             </div>

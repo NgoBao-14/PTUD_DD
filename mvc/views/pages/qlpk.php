@@ -7,7 +7,7 @@ echo'<div class="row mb-3">
                 <div class="col mt-2">
                 <form class="d-flex" method="post">
                     <input class="form-control me-2" type="search" name="txtsearch" placeholder="Nhập ID bệnh nhân" aria-label="Search">
-                    <button class="btn btn-custom-search" type="submit" name="btnsearch">Tìm kiếm</button>
+                    <button class="btn-custom-search" type="submit" name="btnsearch">Tìm kiếm</button>
                 </form>
                 </div>
             </div>';
@@ -85,13 +85,44 @@ echo'<div class="row mb-3">
     } 
     else if(isset($_POST['btnsearch']))
     {
-        echo '<div class="alert alert-info">Id không có thực</div>';
+        echo'<div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body" style="height: 340px;">
+                    <h5 class="card-title">Thông tin bệnh nhân</h5>';   
+                    echo '<div class="alert alert-info">Mã bệnh nhân không hợp lệ</div>';
+                    echo '
+                    </div>
+                </div>
+            </div>';
+        echo'<div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Danh sách phiếu khám</h5>';
+        echo '
+                        </div>
+                    </div>
+                </div>'; 
     }
     else {
-        echo '<div class="alert alert-info">Vui lòng nhập id bệnh nhân</div>';
+        echo'<div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body" style="height: 340px;">
+                    <h5 class="card-title">Thông tin bệnh nhân</h5>';   
+                    echo '<div class="alert alert-info">Vui lòng nhập mã bệnh nhân</div>';
+                    echo '
+                    </div>
+                </div>
+            </div>';
+        echo'<div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Danh sách phiếu khám</h5>';
+        echo '
+                        </div>
+                    </div>
+                </div>'; 
     }
-// } else {
-//     
-// }
 ?>
 

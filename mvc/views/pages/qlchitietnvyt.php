@@ -14,7 +14,7 @@ if (isset($data["CTNV"]) && !empty($data["CTNV"])):
                 </tr>
                 <tr>
                     <th>Họ và Tên</th>
-                    <td><?= $nv['HovaTenNV'] ?></td>
+                    <td><?= $nv['HovaTen'] ?></td>
                 </tr>
                 <tr>
                     <th>Ngày sinh</th>
@@ -52,8 +52,8 @@ if (isset($data["CTNV"]) && !empty($data["CTNV"])):
                 <form action="./SuaNVYT" method="POST">
                     <input type="hidden" name="MaNV" value="<?= $nv['MaNV'] ?>">
                     <div class="mb-3">
-                        <label for="HovaTenNV" class="form-label">Họ và Tên</label>
-                        <input type="text" class="form-control" id="HovaTenNV" name="HovaTenNV" value="<?= $nv['HovaTenNV'] ?>" required>
+                        <label for="HovaTen" class="form-label">Họ và Tên</label>
+                        <input type="text" class="form-control" id="HovaTen" name="HovaTen" value="<?= $nv['HovaTen'] ?>" disabled >
                     </div>
                     <div class="mb-3">
                         <label for="NgaySinh" class="form-label">Ngày sinh</label>
@@ -68,7 +68,7 @@ if (isset($data["CTNV"]) && !empty($data["CTNV"])):
                     </div>
                     <div class="mb-3">
                         <label for="SoDT" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $nv['SoDT'] ?>" required>
+                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $nv['SoDT'] ?>" disabled >
                     </div>
                     <div class="mb-3">
                         <label for="EmailNV" class="form-label">Email</label>

@@ -14,7 +14,7 @@ if (isset($data["CTBS"]) && !empty($data["CTBS"])):
                 </tr>
                 <tr>
                     <th>Họ và Tên</th>
-                    <td><?= $bs['HovaTenNV'] ?></td>
+                    <td><?= $bs['HovaTen'] ?></td>
                 </tr>
                 <tr>
                     <th>Ngày sinh</th>
@@ -57,8 +57,8 @@ if (isset($data["CTBS"]) && !empty($data["CTBS"])):
                 <form action="./SuaBS" method="POST">
                     <input type="hidden" name="MaNV" value="<?= $bs['MaNV'] ?>">
                     <div class="mb-3">
-                        <label for="HovaTenNV" class="form-label">Họ và Tên</label>
-                        <input type="text" class="form-control" id="HovaTenNV" name="HovaTenNV" value="<?= $bs['HovaTenNV'] ?>" required>
+                        <label for="HovaTen" class="form-label">Họ và Tên</label>
+                        <input type="text" class="form-control" id="HovaTen" name="HovaTen" value="<?= $bs['HovaTen'] ?>" disabled >
                     </div>
                     <div class="mb-3">
                         <label for="NgaySinh" class="form-label">Ngày sinh</label>
@@ -73,7 +73,7 @@ if (isset($data["CTBS"]) && !empty($data["CTBS"])):
                     </div>
                     <div class="mb-3">
                         <label for="SoDT" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $bs['SoDT'] ?>" required>
+                        <input type="tel" class="form-control" id="SoDT" name="SoDT" value="<?= $bs['SoDT'] ?>" disabled >
                     </div>
                     <div class="mb-3">
                         <label for="EmailNV" class="form-label">Email</label>

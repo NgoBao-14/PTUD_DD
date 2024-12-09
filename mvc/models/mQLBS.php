@@ -9,7 +9,7 @@ class mQLBS extends DB {
         return $row['count'];
     }
     public function GetAllBS() {
-        $str = "SELECT bs.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa
+        $str = "SELECT bs.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa
                 FROM bacsi bs
                 JOIN nhanvien nv ON bs.MaNV = nv.MaNV
                 JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
@@ -26,7 +26,7 @@ class mQLBS extends DB {
     }
 
     public function Get1BS($MaNV) {
-        $str = "SELECT bs.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa, ck.MaKhoa
+        $str = "SELECT bs.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa, ck.MaKhoa
                 FROM bacsi bs
                 JOIN nhanvien nv ON bs.MaNV = nv.MaNV
                 JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
@@ -39,12 +39,12 @@ class mQLBS extends DB {
         return json_encode($doctor);
     }
 
-    public function UpdateBS($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa) {
+    public function UpdateBS($MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa) {
         $this->con->begin_transaction();
         try {
-            $str1 = "UPDATE nhanvien SET HovaTenNV = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
+            $str1 = "UPDATE nhanvien SET HovaTen = ?, NgaySinh = ?, GioiTinh = ?, SoDT = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("sssssi", $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
+            $stmt1->bind_param("sssssi", $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaNV);
             $stmt1->execute();
 
             $str2 = "UPDATE bacsi SET MaKhoa = ? WHERE MaNV = ?";
@@ -73,7 +73,7 @@ class mQLBS extends DB {
         return $stmt->get_result();
     }
 
-    public function AddBS($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa) {
+    public function AddBS($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa) {
         $this->con->begin_transaction();
         try {
             // Check for existing phone number and email
@@ -89,10 +89,10 @@ class mQLBS extends DB {
             $ID = $this->GenerateNewID();
     
             // Insert into nhanvien table
-            $str1 = "INSERT INTO nhanvien (MaNV, HovaTenNV, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
+            $str1 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
                      VALUES (?, ?, ?, ?, ?, ?, 'Bác sĩ', 'Đang làm việc', ?)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssssi", $MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
+            $stmt1->bind_param("isssssi", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $ID);
             $stmt1->execute();
     
             // Insert into bacsi table
@@ -102,7 +102,7 @@ class mQLBS extends DB {
             $stmt2->execute();
     
             // Insert into taikhoan table
-            $username = $this->GenerateUsername($HovaTenNV);
+            $username = $this->GenerateUsername($HovaTen);
             $password = password_hash($SoDT, PASSWORD_DEFAULT);
             $str3 = "INSERT INTO taikhoan (ID, username, password, MaPQ) VALUES (?, ?, ?, 2)";
             $stmt3 = $this->con->prepare($str3);
@@ -151,10 +151,10 @@ class mQLBS extends DB {
         return ($row['max_id'] ?? 0) + 1;
     }
     
-    private function GenerateUsername($HovaTenNV) {
-        $name_parts = explode(' ', $HovaTenNV);
+    private function GenerateUsername($HovaTen) {
+        $name_parts = explode(' ', $HovaTen);
         $last_name = end($name_parts);
-        $first_letter = mb_strtolower(mb_substr($HovaTenNV, 0, 1, 'UTF-8'), 'UTF-8');
+        $first_letter = mb_strtolower(mb_substr($HovaTen, 0, 1, 'UTF-8'), 'UTF-8');
         $username = $first_letter . mb_strtolower($last_name, 'UTF-8');
     
         $i = 1;

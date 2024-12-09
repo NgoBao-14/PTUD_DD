@@ -26,7 +26,7 @@
                     echo "<tr>
                         <td>{$stt}</td>
                         <td>{$row['MaNV']}</td>
-                        <td>{$row['HovaTenNV']}</td>
+                        <td>{$row['HovaTen']}</td>
                         <td>{$row['NgaySinh']}</td>
                         <td>{$row['GioiTinh']}</td>
                         <td>
