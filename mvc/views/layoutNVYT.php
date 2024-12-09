@@ -52,8 +52,6 @@
     </div>
 
 
-    <!-- footer -->
-    <?php require_once "./mvc/views/blocks/footer.php" ?>
 
     <script>
     function selectPayment(method) {

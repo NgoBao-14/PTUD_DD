@@ -95,7 +95,7 @@
     <div class="header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">Đom Đóm</a>
+                <a class="navbar-brand" href="">Đom Đóm</a>
                 
                 <?php
                     if (isset($_SESSION['role']) && $_SESSION['role'] == 5) { // Bệnh nhân

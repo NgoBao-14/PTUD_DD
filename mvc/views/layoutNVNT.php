@@ -1,8 +1,8 @@
 <?php
-    // if($_SESSION["role"] != 4){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 4){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +41,6 @@
                         <div class="table-panel">
                             <div class="content active" id="a1">
                             <?php include "./mvc/views/pages/".$data["Page"].".php" ?>
-                                
                             </div>
                         </div>
                     </div>
@@ -52,8 +51,7 @@
     </div>
 
 
-    <!-- footer -->
-    <?php require_once "./mvc/views/blocks/footer.php" ?>
+
 
     <script>
     function initializeTabs(tabClass, contentClass) {

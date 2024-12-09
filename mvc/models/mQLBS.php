@@ -9,7 +9,7 @@ class mQLBS extends DB {
         return $row['count'];
     }
     public function GetAllBS() {
-        $str = "SELECT bs.MaNV, nv.HovaTenNV, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa
+        $str = "SELECT bs.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa, nv.img
                 FROM bacsi bs
                 JOIN nhanvien nv ON bs.MaNV = nv.MaNV
                 JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
