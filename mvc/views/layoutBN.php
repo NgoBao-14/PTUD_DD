@@ -1,11 +1,11 @@
 <?php
-    if($_SESSION["role"] != 5){
-        echo "<script>alert('Bạn không có quyền truy cập')</script>";
-        header("refresh: 0; url='/PTUD_DD'");
-    } else if(!isset($_SESSION["idbn"])){
-        echo "<script>alert('Mời bạn tạo hồ sơ để tiếp tục!')</script>";
-        header("refresh: 0; url='/PTUD_DD/Register/BNHS'");
-    }
+    // if($_SESSION["role"] != 5){
+    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
+    //     header("refresh: 0; url='/PTUD_DD'");
+    // } else if(!isset($_SESSION["idbn"])){
+    //     echo "<script>alert('Mời bạn tạo hồ sơ để tiếp tục!')</script>";
+    //     header("refresh: 0; url='/PTUD_DD/Register/BNHS'");
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -19,7 +19,7 @@ class mLogin extends DB
         JOIN phanquyen pq ON tk.MaPQ = pq.MaPQ
         WHERE tk.username = '$user' AND tk.password = '$pass'";
         $tblND = mysqli_query($this->con, $str);
-        return $tblND;
+        return $tblND;  
     }
 }
 ?>

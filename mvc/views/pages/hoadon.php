@@ -46,7 +46,7 @@ foreach ($dt as $r):
                 <form action="./NVYT/CTHD" method="POST">
                 <input type="hidden"  name="cthd" value="'.$r["MaHD"].'">
                 </td>
-                <td><input type="submit" name="btnCTHD" value="Xem">
+                <td><input type="submit" name="btnCTHD" value="Xem" style=" height: 30px; width: 60px; text-align: center;  border:none; border-radius:15px">
                 </form>
                 </td>
             </tr>';
