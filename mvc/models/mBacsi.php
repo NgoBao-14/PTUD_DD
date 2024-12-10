@@ -53,16 +53,16 @@ class MBacsi extends DB
                     bn.HovaTen, 
                     bn.NgaySinh, 
                     bn.SoDT,
-                    lk.NgayKham
+                    lk.GioKham
                 FROM 
                     lichkham lk
                 JOIN 
                     benhnhan bn ON lk.MaBN = bn.MaBN
                 WHERE 
                     DATE(lk.NgayKham) = CURDATE()
-                    AND HOUR(lk.NgayKham) < 12
+                    AND HOUR(lk.Giokham) < 12
                 ORDER BY 
-                    lk.NgayKham ASC';
+                    lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_array($rows))
@@ -80,16 +80,16 @@ class MBacsi extends DB
                     bn.HovaTen, 
                     bn.NgaySinh, 
                     bn.SoDT,
-                    lk.NgayKham
+                    lk.GioKham
                 FROM 
                     lichkham lk
                 JOIN 
                     benhnhan bn ON lk.MaBN = bn.MaBN
                 WHERE 
                     DATE(lk.NgayKham) = CURDATE()
-                    AND HOUR(lk.NgayKham) >= 12
+                    AND HOUR(lk.GioKham) >= 12
                 ORDER BY 
-                    lk.NgayKham ASC';
+                    lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_array($rows))
@@ -107,7 +107,7 @@ class MBacsi extends DB
                     bn.HovaTen, 
                     bn.NgaySinh, 
                     bn.SoDT,
-                    lk.NgayKham
+                    lk.GioKham
                 FROM 
                     lichkham lk
                 JOIN 
@@ -115,7 +115,7 @@ class MBacsi extends DB
                 WHERE 
                     DATE(lk.NgayKham) = CURDATE()
                 ORDER BY 
-                    lk.NgayKham ASC';
+                    lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_array($rows))
@@ -129,7 +129,7 @@ class MBacsi extends DB
     {
         $str = "SELECT 
                 pk2.NgayTao,
-                nv.HoVaTenNV AS BacSi,
+                nv.HoVaTen AS BacSi,
                 pk2.TrieuChung,
                 pk2.ChuanDoan,
                 pk2.KetQua,
@@ -138,7 +138,7 @@ class MBacsi extends DB
             FROM 
                 PhieuKham pk2
             JOIN 
-                NhanVien nv ON pk2.MaNV = nv.MaNV
+                NhanVien nv ON pk2.MaBS = nv.MaNV
             WHERE 
                 pk2.MaBN = '$maBN'
             ORDER BY 
