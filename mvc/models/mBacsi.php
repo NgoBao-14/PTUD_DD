@@ -66,8 +66,7 @@ class MBacsi extends DB
                     lk.NgayKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -93,8 +92,7 @@ class MBacsi extends DB
                     lk.NgayKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -119,8 +117,7 @@ class MBacsi extends DB
                     lk.NgayKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -146,8 +143,7 @@ class MBacsi extends DB
                 pk2.NgayTao";
         $result = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($result))
-        {
+        while ($row = mysqli_fetch_array($result)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -177,7 +173,7 @@ class MBacsi extends DB
 
     public function GetPhieuKham($maBN)
     {
-        $str = "SELECT 
+        $str = "SELECT
                 pk2.NgayTao,
                 nv.HoVaTen AS BacSi,
                 pk2.TrieuChung,
@@ -196,9 +192,9 @@ class MBacsi extends DB
                 PhieuKham pk2
             JOIN 
                 NhanVien nv ON pk2.MaNV = nv.MaNV
-            left JOIN 
+            JOIN 
                 XetNghiem xn ON pk2.MaXN = xn.MAXN
-            left JOIN
+            JOIN
                 donthuoc d on d.MaBN = pk2.MaBN
             JOIN 
                 chitietdonthuoc dt ON d.MaDT = dt.MaDT
@@ -210,11 +206,9 @@ class MBacsi extends DB
                 pk2.NgayTao";
         $result = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($result))
-        {
+        while ($row = mysqli_fetch_array($result)) {
             $mang[] = $row;
         }
         return json_encode($mang);
     }
 }
-

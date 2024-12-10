@@ -116,14 +116,19 @@
                         <select id="NgayTao" name="NgayTao" onchange="showMedicalDetails(this.value)">
                             <option value="">-- Chọn ngày khám --</option>
                             <?php
+                            $ngayTaoDaXuatHien = []; // Mảng lưu trữ các giá trị NgayTao đã xuất hiện
                             if ($phieuKhamBenhNhan) {
                                 foreach ($phieuKhamBenhNhan as $phieu) {
-                                    echo '<option value="' . $phieu['NgayTao'] . '">' . date('d/m/Y', strtotime($phieu['NgayTao'])) . '</option>';
+                                    if (!in_array($phieu['NgayTao'], $ngayTaoDaXuatHien)) {
+                                        $ngayTaoDaXuatHien[] = $phieu['NgayTao']; // Thêm vào mảng nếu chưa tồn tại
+                                        echo '<option value="' . $phieu['NgayTao'] . '">' . date('d/m/Y', strtotime($phieu['NgayTao'])) . '</option>';
+                                    }
                                 }
                             }
                             ?>
                         </select>
                     </div>
+
 
                     <!-- Thông tin chi tiết bệnh án -->
                     <div id="MedicalDetails" style="margin-top: 20px;">
