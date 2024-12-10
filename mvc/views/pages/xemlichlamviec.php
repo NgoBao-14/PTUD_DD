@@ -48,14 +48,14 @@
     // Dữ liệu lịch làm việc từ PHP
 const workSchedule = <?= json_encode($data['LichLamViec'] ?? []); ?>;
 
-// Hàm lấy ngày Thứ 2 của tuần hiện tại
 function getMonday(date) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Điều chỉnh về Thứ 2
-    return new Date(d.setDate(diff));
-}
-
+        const d = new Date(date);
+        const day = d.getUTCDay(); // Lấy ngày theo UTC
+        const diff = day === 0 ? -6 : 1 - day; // Chủ Nhật trở về Thứ 2
+        d.setUTCDate(d.getUTCDate() + diff); // Tính lại ngày
+        return new Date(d.toISOString().slice(0, 10)); // Chuyển về định dạng ISO
+    }
+    
 // Hàm định dạng ngày
 function formatDate(date) {
     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;

@@ -130,7 +130,7 @@ class MBacsi extends DB
     {
         $str = "SELECT 
                 pk2.NgayTao,
-                nv.HoVaTenNV AS BacSi,
+                nv.HoVaTen AS BacSi,
                 pk2.TrieuChung,
                 pk2.ChuanDoan,
                 pk2.KetQua,
