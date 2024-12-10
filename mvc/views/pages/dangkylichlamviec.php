@@ -59,14 +59,14 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
                                     name="schedule[<?= $day ?>][]"
-                                    value="sáng"
+                                    value="Sáng"
                                     id="checkbox-<?= $day ?>-sang">
                                 <label class="form-check-label">Ca sáng</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
                                     name="schedule[<?= $day ?>][]"
-                                    value="chiều"
+                                    value="Chiều"
                                     id="checkbox-<?= $day ?>-chieu">
                                 <label class="form-check-label">Ca chiều</label>
                             </div>
