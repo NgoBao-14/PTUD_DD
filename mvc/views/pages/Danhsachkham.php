@@ -26,7 +26,7 @@
             <th>Tên Bệnh nhân</th>
             <th>Ngày sinh</th>
             <th>Số điện thoại</th>
-            <th>Ngày khám</th>
+            <th>Giờ khám</th>
         </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
                 echo "<td>{$benhnhan['HovaTen']}</td>";
                 echo "<td>{$benhnhan['NgaySinh']}</td>";
                 echo "<td>{$benhnhan['SoDT']}</td>";
-                echo "<td>{$benhnhan['NgayKham']}</td>";
+                echo "<td>{$benhnhan['GioKham']}</td>";
                 echo "</tr>";
             }
         } else {
