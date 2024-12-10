@@ -70,7 +70,6 @@ class QuanLy extends Controller {
             $NgayLamViec = $_POST['NgayLamViec'];
             $CaLamViec = $_POST['cl'];
     
-            // Kiểm tra nếu MaNV rỗng hoặc null
             if (empty($MaNV)) {
                 $_SESSION['message'] = "Bạn phải chọn ít nhất một nhân viên để thêm lịch làm việc!";
                 $_SESSION['message_type'] = "error";
@@ -78,23 +77,44 @@ class QuanLy extends Controller {
                 exit();
             }
     
-            $result = $ql->AddLLV($MaNV, $NgayLamViec, $CaLamViec);
-    
-            if ($result) {
-                $_SESSION['message'] = "Thêm lịch làm việc thành công!";
-                $_SESSION['message_type'] = "success";
+        $isEmployeeInShift = $ql->CheckEmployeeInShift($MaNV, $NgayLamViec, $CaLamViec);
+
+        if ($isEmployeeInShift) {
+            // Nếu nhân viên đã có trong ca làm việc, thông báo lỗi
+            $_SESSION['message'] = "Nhân viên đã có trong ca làm việc này!";
+            $_SESSION['message_type'] = "error";
+        } else {
+            // Kiểm tra số lượng nhân viên trong ca làm việc
+            $employeeCount = $ql->CountEmployeeInShift($NgayLamViec, $CaLamViec);
+
+            if ($employeeCount < 5) {
+                // Nếu số lượng nhân viên trong ca chưa đủ 5, thực hiện thêm lịch làm việc
+                $result = $ql->AddLLV($MaNV, $NgayLamViec, $CaLamViec);
+
+                if ($result) {
+                    $_SESSION['message'] = "Thêm lịch làm việc thành công!";
+                    $_SESSION['message_type'] = "success";
+                } else {
+                    $_SESSION['message'] = "Thêm lịch làm việc thất bại!";
+                    $_SESSION['message_type'] = "error";
+                }
             } else {
-                $_SESSION['message'] = "Thêm lịch làm việc thất bại!";
+                // Nếu ca làm việc đã đầy (>= 5 người)
+                $_SESSION['message'] = "Ca làm việc đã đầy, không thể thêm nhân viên!";
                 $_SESSION['message_type'] = "error";
             }
-    
-            header('Location: ' . $_SERVER['REQUEST_URI']);
-            exit();
         }
+
+        // Chuyển hướng lại trang hiện tại với thông báo
+        header('Location: ' . $_SERVER['REQUEST_URI']);
+        exit();
+    }
     
         if(isset($_POST['MaNV'])) {
             $maNV = $_POST['MaNV'];
-            $result = $ql->DelLLV($maNV);
+            $NgayLamViec = $_POST['NgayLamViec'];
+            $CaLamViec = $_POST['CaLamViec'];
+            $result = $ql->DelLLV($maNV, $NgayLamViec, $CaLamViec);
             
             if($result) {
                 $_SESSION['message'] = "Xóa ca làm việc thành công!";
@@ -139,11 +159,18 @@ class QuanLy extends Controller {
     
         // Lấy dữ liệu tổng tiền theo tháng
         $thongKeTheoThang = $ql->GetThongKeTheoThang();
+        // xử lý lấy thời gian
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $homnay = date('Y-m-d');
+        $week = date('w', strtotime($homnay));
+        $dautuan = date('Y-m-d', strtotime($homnay . ' - ' . ($week ? $week - 1 : 6) . ' days'));
+        $cuoituan =date('Y-m-d', strtotime($dautuan . ' + 6 days'));
+        $thongKeTheoTuan = $ql->GetThongKeTheoTuan($dautuan, $cuoituan);
     
-        // Truyền dữ liệu vào view
         $this->view("layoutQLy3", [
             "Page" => "thongke",
-            "ThongKe" => $thongKeTheoThang
+            "ThongKeThang" => $thongKeTheoThang,
+            "ThongKeTuan" => $thongKeTheoTuan
         ]);
     }
 

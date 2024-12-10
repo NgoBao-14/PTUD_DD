@@ -112,6 +112,8 @@ echo '</div>
                             echo $data['HovaTen'] . ' 
                             <form method="POST" action="" style="display: inline;">
                             <input type="hidden" name="MaNV" value="' . $data['MaNV'] . '">
+                            <input type="hidden" name="NgayLamViec" value="' . $data['NgayLamViec'] . '">
+                            <input type="hidden" name="CaLamViec" value="' . $data['CaLamViec'] . '">
                             <button type="submit" class="delete-btn" onclick="return confirm(\'Bạn có chắc chắn muốn xóa bác sĩ này không?\')">
                             <i class="bi bi-person-dash"></i>
                             </button>
@@ -133,10 +135,12 @@ echo '</div>
                             echo $data['HovaTen'] . ' 
                             <form method="POST" action="./LLV" style="display: inline;">
                             <input type="hidden" name="MaNV" value="' . $data['MaNV'] . '">
+                            <input type="hidden" name="NgayLamViec" value="' . $data['NgayLamViec'] . '">
+                            <input type="hidden" name="CaLamViec" value="' . $data['CaLamViec'] . '">
                             <button type="submit" class="delete-btn" onclick="return confirm(\'Bạn có chắc chắn muốn xóa bác sĩ này không?\')">
-                            <i class="bi bi-person-dash"></i>
+                                <i class="bi bi-person-dash"></i>
                             </button>
-                            </form><hr><br>';
+                        </form><hr><br>';
                         }
                     }
                     echo '</td>';
@@ -209,63 +213,63 @@ echo '</div>
         </div>';
 ?>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll("button[name='changeWeek']");
-    buttons.forEach(button => {
-        button.addEventListener("click", function(e) {
-            e.preventDefault();
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll("button[name='changeWeek']");
+        buttons.forEach(button => {
+            button.addEventListener("click", function(e) {
+                e.preventDefault();
 
-            // Get the week change value
-            const weekChange = button.value;
+                // Get the week change value
+                const weekChange = button.value;
 
-            // Get the current week start date
-            let currentWeekStart = document.querySelector("input[name='currentWeekStart']").value;
-            currentWeekStart = new Date(currentWeekStart);
+                // Get the current week start date
+                let currentWeekStart = document.querySelector("input[name='currentWeekStart']").value;
+                currentWeekStart = new Date(currentWeekStart);
 
-            // Calculate the new week start date based on the button clicked
-            if (weekChange === 'prev') {
-                currentWeekStart.setDate(currentWeekStart.getDate() - 7);
-            } else if (weekChange === 'next') {
-                currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-            } else if (weekChange === 'current') {
-                // Set to the current week's Sunday
-                const today = new Date();
-                currentWeekStart = new Date(today.setDate(today.getDate() - today.getDay()));
-            }
-
-            // Ensure the week always starts on Sunday
-            currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
-
-            // Update the hidden input value for the server
-            document.querySelector("input[name='currentWeekStart']").value = currentWeekStart.toISOString().split('T')[0];
-
-            // Get the selected department code
-            const khoaSelect = document.querySelector("select[name='khoaSelect']") ? document.querySelector("select[name='khoaSelect']").value : "";
-
-            // Send request to update the work schedule
-            updateSchedule({ changeWeek: weekChange, currentWeekStart: currentWeekStart.toISOString().split('T')[0], khoaSelect: khoaSelect });
-        });
-    });
-
-    function updateSchedule(data) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", window.location.href, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                const parser = new DOMParser();
-                const responseDoc = parser.parseFromString(xhr.responseText, "text/html");
-                const newSchedule = responseDoc.querySelector("#schedule-container");
-                const container = document.querySelector("#schedule-container");
-                if (newSchedule && container) {
-                    container.innerHTML = newSchedule.innerHTML;
+                // Calculate the new week start date based on the button clicked
+                if (weekChange === 'prev') {
+                    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+                } else if (weekChange === 'next') {
+                    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+                } else if (weekChange === 'current') {
+                    // Set to the current week's Sunday
+                    const today = new Date();
+                    currentWeekStart = new Date(today.setDate(today.getDate() - today.getDay()));
                 }
-            }
-        };
 
-        // Create parameter string for the request
-        const params = Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join("&");
-        xhr.send(params);
-    }
-});
+                // Ensure the week always starts on Sunday
+                currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
+
+                // Update the hidden input value for the server
+                document.querySelector("input[name='currentWeekStart']").value = currentWeekStart.toISOString().split('T')[0];
+
+                // Get the selected department code
+                const khoaSelect = document.querySelector("select[name='khoaSelect']") ? document.querySelector("select[name='khoaSelect']").value : "";
+
+                // Send request to update the work schedule
+                updateSchedule({ changeWeek: weekChange, currentWeekStart: currentWeekStart.toISOString().split('T')[0], khoaSelect: khoaSelect });
+            });
+        });
+
+        function updateSchedule(data) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", window.location.href, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const parser = new DOMParser();
+                    const responseDoc = parser.parseFromString(xhr.responseText, "text/html");
+                    const newSchedule = responseDoc.querySelector("#schedule-container");
+                    const container = document.querySelector("#schedule-container");
+                    if (newSchedule && container) {
+                        container.innerHTML = newSchedule.innerHTML;
+                    }
+                }
+            };
+
+            // Create parameter string for the request
+            const params = Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join("&");
+            xhr.send(params);
+        }
+    });
 </script>
