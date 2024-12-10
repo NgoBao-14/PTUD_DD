@@ -156,7 +156,7 @@ class MBacsi extends DB
     //NhatCuong; Usecase 2/3: Xem lịch sử khám bệnh, thông tin bệnh nhân
     public function GetThongTinBenhNhan($maBN)
     {
-        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
+        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT, Email
             FROM benhnhan
             WHERE MaBN = '$maBN' or BHYT = '$maBN'";
         $result = mysqli_query($this->con, $str);
@@ -173,6 +173,48 @@ class MBacsi extends DB
         $result = mysqli_query($this->con, $str);
         $row = mysqli_fetch_assoc($result);
         return $row['SoLanKham'];
+    }
+
+    public function GetPhieuKham($maBN)
+    {
+        $str = "SELECT 
+                pk2.NgayTao,
+                nv.HoVaTen AS BacSi,
+                pk2.TrieuChung,
+                pk2.ChuanDoan,
+                pk2.KetQua,
+                pk2.LoiDan,
+                pk2.NgayTaiKham,
+                xn.NgayXetNghiem,
+                xn.KetQua as KetQuaXN,
+                xn.LoaiXN,
+                t.TenThuoc,
+                dt.SoLuong,
+                dt.LieuDung,
+                dt.CachDung
+            FROM 
+                PhieuKham pk2
+            JOIN 
+                NhanVien nv ON pk2.MaNV = nv.MaNV
+            left JOIN 
+                XetNghiem xn ON pk2.MaXN = xn.MAXN
+            left JOIN
+                donthuoc d on d.MaBN = pk2.MaBN
+            JOIN 
+                chitietdonthuoc dt ON d.MaDT = dt.MaDT
+            JOIN 
+                thuoc as t ON dt.MaThuoc = t.MaThuoc
+            WHERE 
+                pk2.MaBN = '$maBN'
+            ORDER BY 
+                pk2.NgayTao";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($result))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
 }
 

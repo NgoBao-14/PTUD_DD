@@ -133,10 +133,12 @@ class Bacsi extends Controller
             $maBN = $_POST['maBN'];
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
+            $phieuKham = $model->GetPhieuKham($maBN);
 
             $this->view("layoutBacsi", [
                 "Page" => "xemthongtinbenhnhan",
-                "ThongTinBenhNhan" => $thongTinBenhNhan
+                "ThongTinBenhNhan" => $thongTinBenhNhan,
+                "PhieuKhamBenhNhan" => $phieuKham
             ]);
         } else {
             $this->view("layoutBacsi", [
