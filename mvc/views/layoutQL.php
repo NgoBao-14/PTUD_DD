@@ -20,7 +20,8 @@ $counts = $quanLy->GetDashboardCounts();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/main.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <title>Trang chủ quản lý</title>
     <style>
         body {
             background-color: #f8f9fa;

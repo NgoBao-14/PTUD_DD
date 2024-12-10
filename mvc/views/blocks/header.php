@@ -188,7 +188,7 @@
                                 </ul>
                             </nav>';
                         
-                    } else if (isset($_SESSION['role']) && $_SESSION['role'] == 1) { // Quản lý, Cán bộ y tế
+                    } else if (isset($_SESSION['role']) && $_SESSION['role'] == 1) { // Quản lý
                         $tenql = $_SESSION['ten'];
                         echo '<div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD/QuanLy">Trang chủ</a>
@@ -213,9 +213,9 @@
                         echo '
                             <div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
-                                <a class="nav-link" href="BN">Tư vấn trực tiếp</a>
+                                <a class="nav-link" href="#">Tư vấn trực tiếp</a>
                                 <a class="nav-link" href="#">Tin y tế</a>
-                                <a class="nav-link" href="workSchedule.php">Về chúng tôi</a>
+                                <a class="nav-link" href="#">Về chúng tôi</a>
                             </div>
                         <div id="nutdn" class="navbar-nav"><a class="nav-link" href="Login">Đăng nhập</a></div>';
                     }

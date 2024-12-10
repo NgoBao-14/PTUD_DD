@@ -1,10 +1,9 @@
 <?php
-    // if($_SESSION["role"] != 1){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 1){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +12,7 @@
     <title>Lịch làm việc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <style>
         .schedule-grid {
@@ -67,31 +67,6 @@
         #a{
             background: #f0f0f0;
         }
-/* Định dạng màu nền cho ca sáng */
-        /* .morning-shift {
-            background-color: #e0f7fa; 
-            color: #00796b; 
-        }
-
-        .shift-cell.morning {
-            background-color: #e0f7fa;
-            color: #00796b;
-            text-align: center;
-            padding: 10px;
-            
-        }
-
-        .afternoon-shift {
-            background-color: #FCE0A6; 
-            color: #880e4f;
-        }
-
-        .shift-cell.afternoon {
-            background-color: #FCE0A6; 
-            color: #880e4f;
-            text-align: center;
-            padding: 10px;
-        } */
         .shift{
             width: 50px;
         }
