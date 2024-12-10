@@ -78,14 +78,14 @@ $counts = $quanLy->GetDashboardCounts();
             </div>
         </div>
 
-        <h2 class="mb-3">Quick Actions</h2>
+        <h2 class="mb-3">Thao tác nhanh</h2>
         <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Nhân sự</h5>
                         <p class="card-text">Cập nhật thay đổi nhân sự bệnh viện.</p>
-                        <a href="./QuanLy/DSBS" class="btn btn-primary">Admit Patient</a>
+                        <a href="./QuanLy/DSBS" class="btn btn-primary">Đi đến</a>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@ $counts = $quanLy->GetDashboardCounts();
                     <div class="card-body">
                         <h5 class="card-title">Xử lý lịch làm việc</h5>
                         <p class="card-text">Xử lý yêu cầu thay đổi lịch làm việc.</p>
-                        <a href="./QuanLy/LLV" class="btn btn-primary">Schedule Appointment</a>
+                        <a href="./QuanLy/LLV" class="btn btn-primary">Đi đến</a>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@ $counts = $quanLy->GetDashboardCounts();
                     <div class="card-body">
                         <h5 class="card-title">Báo cáo thống kê</h5>
                         <p class="card-text">Tổng hợp, phân tích và trình bày các số liệu thống kê hỗ trợ quản lý và đưa ra quyết định hiệu quả.</p>
-                        <a href="./QuanLy/ThongKe" class="btn btn-primary">Generate Report</a>
+                        <a href="./QuanLy/ThongKe" class="btn btn-primary">Đi đến</a>
                     </div>
                 </div>
             </div>

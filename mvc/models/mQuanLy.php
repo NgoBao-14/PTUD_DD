@@ -167,12 +167,12 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
-    public function DelLLV($MaNV) {
-        $str = "UPDATE lichlamviec llv
-        JOIN nhanvien nv ON llv.MaNV = nv.MaNV
-        SET llv.TrangThai = 'Nghỉ'
-        WHERE nv.MaNV = '$MaNV';
-        ";
+    public function DelLLV($maNV, $NgayLamViec, $CaLamViec) {
+        $str = "UPDATE lichlamviec
+        SET TrangThai = 'Nghỉ'
+        WHERE MaNV = '$maNV'
+        AND NgayLamViec = '$NgayLamViec'
+        AND CaLamViec = '$CaLamViec'";
         $result = mysqli_query($this->con, $str);
         return json_encode(array("success" => $result));
     }
@@ -184,6 +184,25 @@ class mQuanLy extends DB {
         return $result;
     }    
 
+    public function CountEmployeeInShift($NgayLamViec, $CaLamViec) {
+        $str = "SELECT COUNT(*) AS Total FROM lichlamviec 
+        WHERE NgayLamViec = '$NgayLamViec' AND CaLamViec = '$CaLamViec' AND TrangThai = 'Đang làm'";
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['Total'];
+    }
+
+    // Kiểm tra xem nhân viên đã có trong ca làm việc chưa
+    public function CheckEmployeeInShift($MaNV, $NgayLamViec, $CaLamViec) {
+        $str = "SELECT * FROM lichlamviec WHERE MaNV = '$MaNV' AND NgayLamViec = '$NgayLamViec' AND CaLamViec = '$CaLamViec' AND TrangThai = 'Đang làm'";
+        $result = mysqli_query($this->con, $str);
+    
+        if (mysqli_num_rows($result) > 0) {
+            return true; //có tồn tại
+        }
+        return false;
+    }
+    
     public function GetHD(){
         $str = "SELECT * FROM hoadon hd 
         JOIN chitiethoadon ct
@@ -218,6 +237,26 @@ class mQuanLy extends DB {
         }
         return json_encode($mang);
     }
-}
 
+    public function GetThongKeTheoTuan($dautuan, $cuoituan){
+        $str = "SELECT 
+                    ct.DichVu,
+                    SUM(hd.TongTien) AS TongTienTheoTuan
+                FROM 
+                    hoadon hd
+                JOIN 
+                    chitiethoadon ct ON hd.MaHD = ct.MaHD
+                WHERE 
+                    hd.NgayLapHoaDon BETWEEN '$dautuan' AND '$cuoituan'
+                GROUP BY 
+                    ct.DichVu"; 
+        $tblThongKe = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblThongKe)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+    
+}
 ?>

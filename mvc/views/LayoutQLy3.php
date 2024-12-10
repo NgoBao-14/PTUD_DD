@@ -19,7 +19,6 @@
 <?php include "blocks/header.php" ?>
     <div class="main">
         <div class="container mt-4 mb-3">
-
             <?php require_once "./mvc/views/pages/".$data["Page"].".php" ?>
         </div>
     </div>
