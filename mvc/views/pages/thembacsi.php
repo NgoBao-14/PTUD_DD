@@ -48,7 +48,10 @@
                 ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-success" name="btnThemBS">Thêm Bác sĩ</button>
+            <div class="text-center mt-3" >
+                <button type="submit" class="btn btn-success" name="btnThemBS">Thêm Bác sĩ</button>
+            </div>
+            
         </form>
     </div>
 </div>
