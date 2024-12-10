@@ -158,7 +158,7 @@ class MBacsi extends DB
     {
         $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
             FROM benhnhan
-            WHERE MaBN = '$maBN'";
+            WHERE MaBN = '$maBN' or BHYT = '$maBN'";
         $result = mysqli_query($this->con, $str);
         $row = mysqli_fetch_assoc($result);
         return json_encode($row);
