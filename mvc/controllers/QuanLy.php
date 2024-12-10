@@ -2,9 +2,7 @@
 class QuanLy extends Controller {
     function SayHi()
     {
-        $this->view("layoutQL", [
-            "Page"
-        ]);
+        $this->view("layoutQL");
     }
     //QuanLy_Nguoi thuc hien: Dkhuong
     function DSBS() {

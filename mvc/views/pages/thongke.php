@@ -1,9 +1,11 @@
 <?php
 $thongKe = json_decode($data["ThongKeThang"], true);
 $thongKeTuan = json_decode($data["ThongKeTuan"], true);
+// Lấy ngày hiện tại và xác định tuần hiện tại
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 $homnay = date('Y-m-d');
 $week = date('w', strtotime($homnay));
+// Tính ngày đầu tuần và cuối tuần
 $dautuan = date('d-m-Y', strtotime($homnay . ' - ' . ($week ? $week - 1 : 6) . ' days'));
 $cuoituan =date('d-m-Y', strtotime($dautuan . ' + 6 days'));
 // Khởi tạo mảng dữ liệu cho các loại dịch vụ
@@ -56,6 +58,7 @@ $dataPointsWeek = [
     ["label" => "Khám bệnh", "y" => $totalByServiceWeek["Khám bệnh"]],
     ["label" => "Xét nghiệm", "y" => $totalByServiceWeek["Xét nghiệm"]],
 ];
+echo '<h2 class="text-center mb-4">Thống kê doanh thu</h2>';
 echo '
     <div class="row mb-3">
     <div id="chartContainerWeek" style="height: 300px; width: 50%; border:1px #CFCFCF solid;"></div>

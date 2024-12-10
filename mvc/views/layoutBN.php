@@ -1,11 +1,11 @@
 <?php
-    // if($_SESSION["role"] != 5){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // } else if(!isset($_SESSION["idbn"])){
-    //     echo "<script>alert('Mời bạn tạo hồ sơ để tiếp tục!')</script>";
-    //     header("refresh: 0; url='/PTUD_DD/Register/BNHS'");
-    // }
+    if($_SESSION["role"] != 5){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    } else if(!isset($_SESSION["idbn"])){
+        echo "<script>alert('Mời bạn tạo hồ sơ để tiếp tục!')</script>";
+        header("refresh: 0; url='/PTUD_DD/Register/BNHS'");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +35,7 @@
                             <li><a href="/PTUD_DD/BN">Hồ sơ cá nhân</a></li>
                             <li ><a href="KhachHang.php?hoSoPhieuKham">Hồ sơ phiếu khám</a></li>
                             <li><a href="/PTUD_DD/BN/LSXN">LS xét nghiệm</a></li>
-                            <li><a href="">Tài khoản</a></li>
-                            <li><a href="Home.php">Đăng xuất</a></li>
+                            <li><a href="/PTUD_DD/Logout">Đăng xuất</a></li>
                         </ul>
                     </div>
                     <div class="col-md-10">
