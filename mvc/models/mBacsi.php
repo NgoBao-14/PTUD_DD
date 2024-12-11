@@ -156,8 +156,8 @@ class MBacsi extends DB
     public function GetThongTinBenhNhan($maBN)
     {
 
-        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
-            FROM benhnhan WHERE MaBN = '$maBN'";
+        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT, Email
+            FROM benhnhan WHERE MaBN = '$maBN' or BHYT = '$maBN'";
 
         $result = mysqli_query($this->con, $str);
         $mang = array();
@@ -167,8 +167,6 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
-
-    
     public function GetThongTinBenhNhan1($maBN,$malk)
     {
         $str = "SELECT bn.MaBN, bn.HovaTen, bn.NgaySinh, bn.GioiTinh, bn.BHYT, bn.DiaChi, bn.SoDT,lk.MaLK
@@ -270,7 +268,6 @@ class MBacsi extends DB
         }
         return true;
     }
-}
 
     public function GetPhieuKham($maBN)
     {
