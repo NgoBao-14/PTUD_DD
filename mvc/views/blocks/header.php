@@ -102,7 +102,7 @@
                         $tenbn = $_SESSION['ten'];
                             echo '<div class="navbar-nav ms-auto">
                                     <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
-                                    <a class="nav-link" href="BN">Đặt lịch khám</a>
+                                    <a class="nav-link" href="/PTUD_DD/DangKyLK">Đặt lịch khám</a>
                                     <a class="nav-link" href="#">Tư vấn trực tiếp</a>
                                 </div>
                                 <nav>
@@ -110,7 +110,7 @@
                                         <li>
                                             <a class="nav-link" href="BN">'.$tenbn.'</a>
                                             <ul class="submenu">
-                                                <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
+                                                <li><a href="/PTUD_DD/LichKham">Lịch khám</a></li>
                                                 <li><a href="#">Thanh toán</a></li>
                                                 <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ cá nhân</a></li>
                                                 <li><a href="#">Hồ sơ phiếu khám</a></li>

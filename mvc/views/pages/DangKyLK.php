@@ -60,10 +60,10 @@
                 <?php foreach ($bacsiList as $bs): ?>
                     <div class="row align-items-center mb-3">
                         <div class="col-3">
-                            <img src="<?= $bs['HinhAnh']; ?>" alt="Hình bác sĩ" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                            <img src="./public/img/<?= $bs['HinhAnh']; ?>" alt="Hình bác sĩ" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                         <div class="col-5">
-                            <p class="mb-0"><strong>BS.<?= $bs['HovaTenNV']; ?></strong></p>
+                            <p class="mb-0"><strong>BS.<?= $bs['HovaTen']; ?></strong></p>
                         </div>
                         <div class="col-4 text-end">
                             <form method="POST" action="/PTUD_DD/DangKyLK">

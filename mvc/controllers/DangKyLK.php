@@ -1,6 +1,6 @@
 <?php
 class DangKyLK extends Controller {
-    public $MaBN = 1;
+   
 
     public function SayHi() {
         if (session_status() == PHP_SESSION_NONE) {
@@ -8,8 +8,14 @@ class DangKyLK extends Controller {
         }       
         $dangky = $this->model("mDangKyLK");
         $searchTerm = isset($_POST['searchTerm']) ? $_POST['searchTerm'] : ""; 
-              
         
+        if (!isset($_SESSION['idbn'])) {
+            header("Location: /PTUD_DD/Login"); 
+            exit;
+        }
+        $MaBN = $_SESSION['idbn'];
+       
+    
         $MaBS = isset($_POST["MaBS"]) ? $_POST["MaBS"] : "";
         if (isset($_POST["MaBS"]) && !empty($_POST["MaBS"])) {
             $_SESSION["MaBS"] = $_POST["MaBS"];
@@ -32,7 +38,7 @@ class DangKyLK extends Controller {
                     $message = "Lịch khám đã bị trùng, vui lòng chọn giờ khác!";
                     $messageType = "error";
                 } else {
-                    $MaBN = $this->MaBN;
+                   
                     $dangky->InsertLichKham($MaBS, $NgayKham, $GioKham, $MaBN);
                     $message = "Đặt lịch khám thành công!";
                     $messageType = "success";
@@ -50,10 +56,20 @@ class DangKyLK extends Controller {
         }
       
 
+      
+        
+        if (isset($MaBN)){
+            $page='DangKyLK';
+            $view='layoutDKLK';
+        }else{
+            $page='Login';
+            $view='layoutLogin';
+        }
+
         $bacsiList = ($MaKhoa != "") ? $dangky->GetBS($MaKhoa) : [];    
         $page = ($MaBS != "") ? 'ThongTinLK' : 'DangKyLK';
-    
-        $this->view("layoutDKLK", [
+
+        $this->view($view, [
             "Page" => $page,
             "CK" => $chuyenkhoa,
             "BS" => $bacsiList,

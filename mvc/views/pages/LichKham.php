@@ -24,7 +24,7 @@ $lichKhamData = json_decode($data["LK"], true);
                     <input type="hidden" name="MaLK" value="<?= $lichKham['MaLK']; ?>">
                     <div class="patient-item list-group-item" onclick="this.closest('form').submit()">
                         <p style="font-size: 18px;">
-                            <?= $lichKham['HovaTenNV']; ?>
+                            <?= $lichKham['TenBS']; ?>
                         </p>
                         <p style="font-size: 14px; text-align: left;">
                             <?= $lichKham['NgayKham']; ?> - <?= $lichKham['GioKham']; ?>

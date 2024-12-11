@@ -6,6 +6,7 @@
             $str = " SELECT 
                         lichkham.*, 
                         nhanvien.*,
+                        nhanvien.HovaTen as TenBS,
                         benhnhan.*, 
                         chuyenkhoa.* 
                     FROM 

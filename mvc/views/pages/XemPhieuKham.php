@@ -12,7 +12,7 @@ $phieuKhamData = json_decode($data["PK"], true);
                     <input type="hidden" name="MaPK" value="<?= $phieuKham['phieukham_MaPK'];  ?>">
                     <div class="patient-item list-group-item" onclick="this.closest('form').submit()">
                         <p style="font-size: 18px;">
-                            <?= $phieuKham['HovaTenNV']; ?>
+                            <?= $phieuKham['TenBS']; ?>
                         </p>
                         <p style="font-size: 14px; text-align: left;">
                             <?= $phieuKham['NgayTao']; ?> 
@@ -62,7 +62,7 @@ $phieuKhamData = json_decode($data["PK"], true);
                     <h6><strong>KHÁM VÀ CHUẨN ĐOÁN</strong></h6>
                     <div>
                         <p><strong>Chỉ định xét nghiệm:</strong> <?= $ct['LoaiXN'] ?? 'Không'; ?></p>
-                        <p><strong>Kết quả xét nghiệm:</strong> <?= $ct['KetQua'] ?? 'Không'; ?></p>
+                        <p><strong>Kết quả xét nghiệm:</strong> <?= $ct['KetQuaXN'] ?? 'Không'; ?></p>
                         <p><strong>Chuẩn đoán:</strong> <?= $ct['ChuanDoan'] ?? 'Không'; ?></p>
                     </div>
                     
@@ -71,7 +71,7 @@ $phieuKhamData = json_decode($data["PK"], true);
                             <p><strong>Bác sĩ khám</strong></p>
                             <p>(Ký và ghi rõ họ tên)</p>
                             <br><br>
-                            <p><strong><?= $ct['HovaTenNV'] ?? 'Không'; ?></strong></p>
+                            <p><strong><?= $ct['TenBS'] ?? 'Không'; ?></strong></p>
                         </div>
                         <div class="signature">
                             <p><strong>Bệnh nhân</strong></p>

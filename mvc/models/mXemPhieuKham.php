@@ -7,6 +7,7 @@
                         phieukham.MaPK AS phieukham_MaPK, 
                         phieukham.*, 
                         nhanvien.*,
+                        nhanvien.HovaTen as TenBS,
                         benhnhan.*, 
                         xetnghiem.* 
                     FROM 
@@ -37,7 +38,9 @@
             $str = "SELECT 
                         phieukham.MaPK AS phieukham_MaPK, 
                         phieukham.*, 
+                        xetnghiem.KetQua as KetQuaXN, 
                         nhanvien.*,
+                        nhanvien.HovaTen as TenBS,
                         benhnhan.*, 
                         xetnghiem.* 
                     FROM 

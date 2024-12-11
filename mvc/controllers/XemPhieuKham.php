@@ -1,18 +1,29 @@
 <?php
 class XemPhieuKham extends Controller
 {
-    public $MaBN = 1; 
-
+  
     function SayHi()
     {
+        if (!isset($_SESSION['idbn'])) {
+            header("Location: /PTUD_DD/Login"); 
+            exit;
+        }
+
+        $MaBN = $_SESSION['idbn'];
         $khachhang = $this->model("mXemPhieuKham");
         $MaPK = isset($_POST["MaPK"]) ? $_POST["MaPK"] : "";
         $NgayTao = isset($_POST["NgayTao"]) ? $_POST["NgayTao"] : "";    
-        
-        $phieuKham = $khachhang->GetPK($this->MaBN);
+        if (isset($MaBN)){
+            $page='XemPhieuKham';
+            $view='layoutBN';
+        }else{
+            $page='Login';
+            $view='layoutLogin';
+        }
+        $phieuKham = $khachhang->GetPK($MaBN);
         $chiTietPhieuKham = ($MaPK != "") ? $khachhang->getCTPK($MaPK) : [];
-        $this->view("layoutBN", [
-            "Page" => "XemPhieuKham",
+        $this->view($view, [
+            "Page" => $page,
             "PK" => $phieuKham,
             "CTPK" => $chiTietPhieuKham,
 

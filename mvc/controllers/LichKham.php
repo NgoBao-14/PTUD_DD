@@ -1,10 +1,15 @@
 <?php
 class LichKham extends Controller
 {
-    public $MaBN = 1; 
-
+    
     function SayHi()
-    {
+    {   
+        if (!isset($_SESSION['idbn'])) {
+            header("Location: /PTUD_DD/Login"); 
+            exit;
+        }
+
+        $MaBN = $_SESSION['idbn'];
         $khachhang = $this->model("mLichKham");
         $MaLK = isset($_POST["MaLK"]) ? $_POST["MaLK"] : "";
         $HuyLK = isset($_POST["HuyLK"]) ? $_POST["HuyLK"] : "";
@@ -24,12 +29,18 @@ class LichKham extends Controller
             $message = "";
             $messageType = "";
         }
-        
+        if (isset($MaBN)){
+            $page='LichKham';
+            $view='layoutBN';
+        }else{
+            $page='Login';
+            $view='layoutLogin';
+        }
 
-        $lichKham = $khachhang->GetLK($this->MaBN);
+        $lichKham = $khachhang->GetLK($MaBN);
         $chiTietLichKham = ($MaLK != "") ? $khachhang->getCTLK($MaLK) : [];
-        $this->view("layoutBN", [
-            "Page" => "LichKham",
+        $this->view($view, [
+            "Page" => $page,
             "LK" => $lichKham,
             "CTLK" => $chiTietLichKham,
             "Message" => $message,
