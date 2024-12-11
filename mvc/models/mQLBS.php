@@ -9,13 +9,12 @@ class mQLBS extends DB {
         return $row['count'];
     }
     public function GetAllBS() {
-        $str = "SELECT bs.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa, nv.HinhAnh
-
-                FROM bacsi bs
-                JOIN nhanvien nv ON bs.MaNV = nv.MaNV
-                JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
-                WHERE nv.TrangThaiLamViec = 'Đang làm việc'
-                ORDER BY bs.MaNV DESC";
+        $str = "SELECT bs.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV, ck.TenKhoa, ck.MaKhoa, nv.HinhAnh
+            FROM bacsi bs
+            JOIN nhanvien nv ON bs.MaNV = nv.MaNV
+            JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
+            WHERE nv.TrangThaiLamViec = 'Đang làm việc'
+            ORDER BY bs.MaNV DESC";
         $stmt = $this->con->prepare($str);
         $stmt->execute();
         $result = $stmt->get_result();
