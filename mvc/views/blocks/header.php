@@ -95,7 +95,7 @@
     <div class="header">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
-                <a class="navbar-brand" href="">Đom Đóm</a>
+                <a class="navbar-brand" href="" >Đom Đóm</a>
                 
                 <?php
                     if (isset($_SESSION['role']) && $_SESSION['role'] == 5) { // Bệnh nhân
@@ -113,10 +113,10 @@
                                         <li>
                                             <a class="nav-link" href="BN">'.$tenbn.'</a>
                                             <ul class="submenu">
-                                                <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
-                                                <li><a href="#">Thanh toán</a></li>
+                                                <li><a href="/PTUD_DD/LichKham">Lịch khám</a></li>
+                                                <li><a href="/PTUD_DD/ThanhToan">Thanh toán</a></li>
                                                 <li><a href="/PTUD_DD/BN">Hồ sơ cá nhân</a></li>
-                                                <li><a href="#">Hồ sơ phiếu khám</a></li>
+                                                <li><a href="/PTUD_DD/XemPhieuKham">Hồ sơ phiếu khám</a></li>
                                                 <li><a href="/PTUD_DD/Logout" onclick="return confirm(\'Bạn có muốn đăng xuất?\')">Đăng xuất</a></li>
                                             </ul>
                                         </li>
