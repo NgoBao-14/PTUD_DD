@@ -36,7 +36,7 @@ class mBN extends DB
     }
 
     public function getDKXN($ngayxn, $ketqua, $loaixn, $mabn){
-        $str = "INSERT INTO xetnghiem VALUES('', '$ngayxn', '$ketqua', '$loaixn', '$mabn')";
+        $str = "INSERT INTO xetnghiem (`MaXN`, `NgayXetNghiem`, `KetQua`, `LoaiXN`, `MaBN`) VALUES('', '$ngayxn', NULL, '$loaixn', '$mabn')";
         $result = false;
         if(mysqli_query($this->con, $str)){
             $result = true;
