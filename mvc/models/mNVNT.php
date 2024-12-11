@@ -36,7 +36,7 @@ class mNVNT extends DB{
     }
     public function getCTDT($MaDT)
     {
-        $str = 'SELECT *
+        $str = 'SELECT d.*, b.*, nv.HovaTen as TenBS
                 FROM donthuoc AS d
                 JOIN chitietdonthuoc AS dt ON d.MaDT = dt.MaDT
                 JOIN benhnhan AS b ON d.MaBN = b.MaBN
