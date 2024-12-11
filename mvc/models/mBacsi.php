@@ -50,6 +50,7 @@ class MBacsi extends DB
     public function GetDanhSachKhamSang()
     {
         $str = 'SELECT 
+                    bn.MaBN,
                     lk.MaLK, 
                     bn.HovaTen, 
                     bn.NgaySinh, 
@@ -76,6 +77,7 @@ class MBacsi extends DB
     public function GetDanhSachKhamChieu()
     {
         $str = 'SELECT 
+                    bn.MaBN,
                     lk.MaLK, 
                     bn.HovaTen, 
                     bn.NgaySinh, 
@@ -102,6 +104,7 @@ class MBacsi extends DB
     public function GetDanhSachKhamAll()
     {
         $str = 'SELECT 
+                    bn.MaBN,
                     lk.MaLK, 
                     bn.HovaTen, 
                     bn.NgaySinh, 
@@ -152,12 +155,33 @@ class MBacsi extends DB
     //NhatCuong; Usecase 2/3: Xem lịch sử khám bệnh, thông tin bệnh nhân
     public function GetThongTinBenhNhan($maBN)
     {
-        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT, Email
-            FROM benhnhan
-            WHERE MaBN = '$maBN' or BHYT = '$maBN'";
+
+        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
+            FROM benhnhan WHERE MaBN = '$maBN'";
+
         $result = mysqli_query($this->con, $str);
-        $row = mysqli_fetch_assoc($result);
-        return json_encode($row);
+        $mang = array();
+        while ($row = mysqli_fetch_array($result))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+
+    
+    public function GetThongTinBenhNhan1($maBN,$malk)
+    {
+        $str = "SELECT bn.MaBN, bn.HovaTen, bn.NgaySinh, bn.GioiTinh, bn.BHYT, bn.DiaChi, bn.SoDT,lk.MaLK
+            FROM benhnhan bn JOIN lichkham lk
+            on bn.MaBN=lk.MaBN
+            WHERE bn.MaBN = '$maBN' AND lk.MaLK ='$malk'";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($result))
+        {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
 
     //NhatCuong; Usecase 2/3: Xem lịch sử khám bệnh //count (phieukham)
@@ -170,6 +194,83 @@ class MBacsi extends DB
         $row = mysqli_fetch_assoc($result);
         return $row['SoLanKham'];
     }
+
+    //NhatCuong: Lapphieukham 1/6
+    public function getBenhNhanInfo($maLK)
+    {
+        $query = "SELECT bn.MaBN, bn.HovaTen, bn.NgaySinh, bn.GioiTinh, bn.BHYT, bn.DiaChi, bn.SoDT
+                  FROM benhnhan bn
+                  JOIN lichkham lk ON bn.MaBN = lk.MaBN
+                  WHERE lk.MaLK = ?";
+        $stmt = $this->con->prepare($query);
+        $stmt->bind_param("i", $maLK);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function getBacSiInfo($maNV)
+    {
+        $query = "SELECT HovaTen FROM nhanvien WHERE MaNV = ?";
+        $stmt = $this->con->prepare($query);
+        $stmt->bind_param("i", $maNV);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function getThuocList()
+    {
+        $query = "SELECT MaThuoc, TenThuoc FROM thuoc";
+        $result = $this->con->query($query);
+        $thuocList = array();
+        while ($row = $result->fetch_assoc()) {
+            $thuocList[] = $row;
+        }
+        return $thuocList;
+    }
+
+    // public function createPhieuKham($data)
+    // {
+    //     $query = "INSERT INTO phieukham (NgayTao, TrieuChung, KetQua, ChuanDoan, LoiDan, NgayTaiKham, MaLK, MaBS, MaBN) 
+    //               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    //     $stmt = $this->con->prepare($query);
+    //     $stmt->bind_param("ssssssiis", $data['NgayTao'], $data['TrieuChung'], $data['KetQua'], $data['ChuanDoan'], $data['LoiDan'], $data['NgayTaiKham'], $data['MaLK'], $data['MaBS'], $data['MaBN']);
+    //     if ($stmt->execute()) {
+    //         return $this->con->insert_id;
+    //     }
+    //     return false;
+    // }
+
+    public function AddPK($ntao,$tchung,$kq,$cdoan,$ldan,$ngaytaikham,$malk,$mabs,$mabn){
+        $str ="INSERT INTO phieukham 
+        VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, NULL, '$mabs', '$mabn');";
+        $result = mysqli_query($this->con,$str);
+        return $result;
+    }
+
+    public function createDonThuoc($data)
+    {
+        $query = "INSERT INTO donthuoc (NgayTao, MaBS, MaBN, TrangThai) VALUES (?, ?, ?, 'Pending')";
+        $stmt = $this->con->prepare($query);
+        $stmt->bind_param("sii", $data['NgayTao'], $data['MaBS'], $data['MaBN']);
+        if ($stmt->execute()) {
+            return $this->con->insert_id;
+        }
+        return false;
+    }
+
+    public function createChiTietDonThuoc($maDT, $thuocData)
+    {
+        $query = "INSERT INTO chitietdonthuoc (MaDT, MaThuoc, SoLuong, LieuDung, CachDung) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->con->prepare($query);
+        foreach ($thuocData as $thuoc) {
+            $stmt->bind_param("iiiss", $maDT, $thuoc['MaThuoc'], $thuoc['SoLuong'], $thuoc['LieuDung'], $thuoc['CachDung']);
+            $stmt->execute();
+        }
+        return true;
+    }
+}
 
     public function GetPhieuKham($maBN)
     {

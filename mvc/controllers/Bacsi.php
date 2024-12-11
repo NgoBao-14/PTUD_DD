@@ -173,4 +173,43 @@ class Bacsi extends Controller
             ]);
         }
     }
-}
+
+
+    //Lập phiếu khám
+    function Lapphieukham()
+    {
+        $bs = $this->model("mBacSi");
+        if(isset($_POST["btnLPK"]))
+        {
+            $mabn = $_POST["MaBN"];
+            $malk = $_POST["MaLK"];
+            $model = $this->model("mBacsi");
+                $benhNhanInfo = $model->GetThongTinBenhNhan1($mabn,$malk);
+                $bacSiInfo = $model->getBacSiInfo($_SESSION['idnv']);
+                $thuocList = $model->getThuocList();
+             $this->view("LayoutLapPhieuKham",[
+                "Page" => "Lapphieukham",
+                "BenhNhanInfo" => $benhNhanInfo,
+                    "BacSiInfo" => $bacSiInfo,
+                    "ThuocList" => $thuocList
+             ]);
+        
+        
+        }
+        }
+        function lappk(){
+            $bs = $this->model("mBacSi");
+            if(isset($_POST["lap"])){
+                $mabn=$_POST["maBN"];
+                $malk=$_POST["maLK"];
+                $ngaytao = $_POST["ngayTao"];
+                $bsi = $_SESSION["idnv"];
+                $trieuchung = $_POST["trieuChung"];
+                $kq = $_POST["ketQua"];
+                $chuandoan = $_POST["chuanDoan"];
+                $loidan = $_POST["loiDan"];
+                $ngaytaikham= $_POST["ngayTaiKham"];
+                $result=$bs->AddPK($ngaytao,$trieuchung,$kq,$chuandoan,$loidan,$ngaytaikham,$malk,$bsi,$mabn);
+            }
+        }
+    }
