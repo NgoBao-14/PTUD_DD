@@ -6,6 +6,7 @@
             $str = " SELECT 
                         lichkham.*, 
                         nhanvien.*,
+                        nhanvien.HovaTen as HovaTenNV,
                         benhnhan.*, 
                         chuyenkhoa.* 
                     FROM 
@@ -57,6 +58,12 @@
                 $result[] = $row;
             }
             return json_encode($result); 
+        }
+        public function insertHD($MaBN)
+        {
+            $str = "INSERT INTO hoadon (MaBN, NgayLapHoaDon, TongTien) VALUES ('$MaBN', NOW(), '200000')";
+            $tblPTTT = mysqli_query($this->con, $str);
+            return $tblPTTT;
         }
 
        

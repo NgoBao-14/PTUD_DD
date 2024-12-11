@@ -28,6 +28,7 @@
                     <div class="d-grid gap-3">
                     <a href="./DSBS" class="btn <?php echo ($data['Page'] == 'qlbs') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSBS">Thông tin bác sĩ</a>
                     <a href="./DSNVYT" class="btn <?php echo ($data['Page'] == 'qlnvyt') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSNVYT">Thông tin nhân viên y tế</a>
+                    <a href="./DSNVNT" class="btn <?php echo ($data['Page'] == 'qlnvnt') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSNVNT">Thông tin nhân viên nhà thuốc</a>
                     </div>
                 </div>
             </div>

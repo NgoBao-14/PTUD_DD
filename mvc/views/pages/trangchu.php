@@ -13,7 +13,7 @@
                 <?php foreach ($dt as $r): ?>
                     <div class="bs_card">
                         <a href="" style="text-decoration: none">
-                        <img src="public/img/<?=$r["img"]?>" alt="" class="image">
+                        <img src="public/img/<?=$r["HinhAnh"]?>" alt="" class="image">
                         <div class="bs_info">
                             <h2 class="name"><?=$r["HovaTen"]?></h2>
                             <p class="department"><?=$r["TenKhoa"]?></p>

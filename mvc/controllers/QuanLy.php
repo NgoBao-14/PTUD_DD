@@ -503,6 +503,79 @@ class QuanLy extends Controller {
             ]);
         }
     }
+    //Phan cua HBao quan ly nhan vien nha thuoc
+    function DSNVNT() {
+        $ql = $this->model("mQLNVNT");
+
+        $this->view("layoutQLyBS", [
+            "Page" => "qlnvnt",
+            "NhanVien" => $ql->GetAll()
+        ]);
+    }
+
+    function CTNVNT() {
+        if (isset($_POST["btnCTNVNT"])) {
+            $MaNV = $_POST["ctnv"];
+            $ql =  $this->model("mQLNVNT");
+            $this->view("layoutQLyBS", [
+                "Page" => "chitietnvnt",
+                "CTNV" => $ql->GetCTNV($MaNV)
+            ]);
+            
+        }
+        if(isset($_POST["btnSuaNVNT"]))
+        {
+            $ql =  $this->model("mQLNVNT");
+            $MaNV = $_POST["MaNV"];
+            $NgaySinh = $_POST["NgaySinh"];
+            $GioiTinh = $_POST["GioiTinh"];
+            $EmailNV = $_POST["EmailNV"];
+            $rs = $ql->UpdateNVNT($MaNV, $NgaySinh, $GioiTinh, $EmailNV);
+            $this->view("layoutQLyBS", [
+                "Page" => "chitietnvnt",
+                "CTNV" => $ql->GetCTNV($MaNV),
+                "rs" => $rs
+            ]);
+
+        }
+        if(isset($_POST["btnXoaNVNT"]))
+        {
+            $ql =  $this->model("mQLNVNT");
+            $MaNV = $_POST["MaNV"];
+            $rs = $ql->DeleteNVNT($MaNV);
+            $this->view("layoutQLyBS", [
+                "Page" => "qlnvnt",
+                "NhanVien" => $ql->GetAll(),
+                "rs" => 3
+            ]);
+        }
+    }
+    function ThemNVNT(){
+        $ql = $this->model("mQLNVNT");
+        
+        if(isset($_POST["btnThemNVNT"]))
+        {   
+            $hovaten = $_POST["HovaTen"];
+            $sdt = $_POST["SoDT"];
+            $NgaySinh = $_POST["NgaySinh"];
+            $GioiTinh = $_POST["GioiTinh"];
+            $EmailNV = $_POST["EmailNV"];
+            $rs = $ql->AddNVNT($hovaten, $NgaySinh, $sdt, $EmailNV,$GioiTinh);
+            $this->view("layoutQLyBS", [
+                "Page" => "qlnvnt",
+                "NhanVien" => $ql->GetAll(),
+                "rs" => $rs
+            ]);
+        }
+        else
+        {
+            $this -> view("layoutQLyBS",[
+                "Page" => "themnvnt"
+            ]);
+         }
 }
+}
+
+    
 ?>
 
