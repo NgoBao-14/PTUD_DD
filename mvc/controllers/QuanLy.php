@@ -20,6 +20,7 @@ class QuanLy extends Controller {
         $benhnhan = null;
         $phieukham = [];
         $found = false;
+        
         if(isset($_POST['nutBack'])) {
             $maBN = $_POST['back'];
             $benhnhan = json_decode($ql->Get1BN($maBN), true);
@@ -69,7 +70,7 @@ class QuanLy extends Controller {
             $CaLamViec = $_POST['cl'];
     
             if (empty($MaNV)) {
-                $_SESSION['message'] = "Bạn phải chọn ít nhất một nhân viên để thêm lịch làm việc!";
+                $_SESSION['message'] = "Bạn phải chọn 1 bác sĩ để thêm lịch làm việc!";
                 $_SESSION['message_type'] = "error";
                 header('Location: ' . $_SERVER['REQUEST_URI']);
                 exit();
@@ -78,8 +79,7 @@ class QuanLy extends Controller {
         $isEmployeeInShift = $ql->CheckEmployeeInShift($MaNV, $NgayLamViec, $CaLamViec);
 
         if ($isEmployeeInShift) {
-            // Nếu nhân viên đã có trong ca làm việc, thông báo lỗi
-            $_SESSION['message'] = "Nhân viên đã có trong ca làm việc này!";
+            $_SESSION['message'] = "Bác sĩ đã có trong ca làm việc này!";
             $_SESSION['message_type'] = "error";
         } else {
             // Kiểm tra số lượng nhân viên trong ca làm việc
@@ -98,12 +98,10 @@ class QuanLy extends Controller {
                 }
             } else {
                 // Nếu ca làm việc đã đầy (>= 5 người)
-                $_SESSION['message'] = "Ca làm việc đã đầy, không thể thêm nhân viên!";
+                $_SESSION['message'] = "Ca làm việc đã đầy, không thể thêm!";
                 $_SESSION['message_type'] = "error";
             }
         }
-
-        // Chuyển hướng lại trang hiện tại với thông báo
         header('Location: ' . $_SERVER['REQUEST_URI']);
         exit();
     }
@@ -134,14 +132,13 @@ class QuanLy extends Controller {
         if (isset($_POST['khoaSelect']) && $_POST['khoaSelect'] != '') {
             $maKhoa = $_POST['khoaSelect'];
         }
-        // Lấy lịch làm việc theo khoa nếu có, nếu không lấy tất cả bác sĩ
+        // Lấy danh sách bác sĩ theo khoa nếu không chọn tkb trống
         if ($maKhoa != 'A') {
             $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         } else {
             $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         }
     
-        // Gửi dữ liệu tới view
         $this->view("layoutQly2", [
             "Page" => "qlllv",
             "LLV" => $listBacSi,

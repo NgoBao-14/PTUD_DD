@@ -114,6 +114,7 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
+    //lấy danh sách bác sĩ đăng ký ca làm việc khi không chọn khoa_không su dung
     public function GetBSLLV(){
         $str = 'select * 
                 from bacsi as bs 
@@ -169,7 +170,7 @@ class mQuanLy extends DB {
         }
         return json_encode($mang);
     }
-
+    //xoa ca lam viec
     public function DelLLV($maNV, $NgayLamViec, $CaLamViec) {
         $str = "UPDATE lichlamviec
         SET TrangThai = 'Nghỉ'
@@ -186,7 +187,7 @@ class mQuanLy extends DB {
         $result = mysqli_query($this->con, $str);
         return $result;
     }    
-
+    //đêm số nhân viên trong ca làm việc
     public function CountEmployeeInShift($NgayLamViec, $CaLamViec) {
         $str = "SELECT COUNT(*) AS Total FROM lichlamviec 
         WHERE NgayLamViec = '$NgayLamViec' AND CaLamViec = '$CaLamViec' AND TrangThai = 'Đang làm'";
@@ -220,7 +221,7 @@ class mQuanLy extends DB {
 
     public function GetThongKeTheoThang(){
         $str = "SELECT 
-    ct.DichVu,
+    ct.DichVu, hd.TrangThai,
     YEAR(hd.NgayLapHoaDon) AS Nam,
     MONTH(hd.NgayLapHoaDon) AS Thang,
     SUM(hd.TongTien) AS TongTienTheoThang
@@ -228,6 +229,7 @@ class mQuanLy extends DB {
         hoadon hd
     JOIN 
         chitiethoadon ct ON hd.MaHD = ct.MaHD
+        WHERE hd.TrangThai='Completed'
     GROUP BY 
         ct.DichVu, YEAR(hd.NgayLapHoaDon), MONTH(hd.NgayLapHoaDon)
     ORDER BY 
@@ -243,14 +245,14 @@ class mQuanLy extends DB {
 
     public function GetThongKeTheoTuan($dautuan, $cuoituan){
         $str = "SELECT 
-                    ct.DichVu,
+                    ct.DichVu,hd.TrangThai,
                     SUM(hd.TongTien) AS TongTienTheoTuan
                 FROM 
                     hoadon hd
                 JOIN 
                     chitiethoadon ct ON hd.MaHD = ct.MaHD
                 WHERE 
-                    hd.NgayLapHoaDon BETWEEN '$dautuan' AND '$cuoituan'
+                    hd.NgayLapHoaDon BETWEEN '$dautuan' AND '$cuoituan' AND hd.TrangThai='Completed'
                 GROUP BY 
                     ct.DichVu"; 
         $tblThongKe = mysqli_query($this->con, $str);
