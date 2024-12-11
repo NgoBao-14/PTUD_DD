@@ -134,18 +134,20 @@ class Bacsi extends Controller
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
             $timmaBN = json_decode($thongTinBenhNhan, true);
-            $maBN = $timmaBN['MaBN'];
-            $phieuKham = $model->GetPhieuKham($maBN);
+            if (isset($timmaBN['MaBN'])) {
 
-            $this->view("layoutBacsi", [
-                "Page" => "xemthongtinbenhnhan",
-                "ThongTinBenhNhan" => $thongTinBenhNhan,
-                "PhieuKhamBenhNhan" => $phieuKham
-            ]);
-        } else {
-            $this->view("layoutBacsi", [
-                "Page" => "xemthongtinbenhnhan"
-            ]);
+                $phieuKham = $model->GetPhieuKham($maBN);
+
+                $this->view("layoutBacsi", [
+                    "Page" => "xemthongtinbenhnhan",
+                    "ThongTinBenhNhan" => $thongTinBenhNhan,
+                    "PhieuKhamBenhNhan" => $phieuKham
+                ]);
+            } else {
+                $this->view("layoutBacsi", [
+                    "Page" => "xemthongtinbenhnhan"
+                ]);
+            }
         }
     }
 

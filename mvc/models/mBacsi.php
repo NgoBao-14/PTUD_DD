@@ -192,9 +192,9 @@ class MBacsi extends DB
                 PhieuKham pk2
             JOIN 
                 NhanVien nv ON pk2.MaNV = nv.MaNV
-            JOIN 
+            left JOIN 
                 XetNghiem xn ON pk2.MaXN = xn.MAXN
-            JOIN
+            left JOIN
                 donthuoc d on d.MaBN = pk2.MaBN
             JOIN 
                 chitietdonthuoc dt ON d.MaDT = dt.MaDT
