@@ -169,8 +169,8 @@
                         <div class="info-item"><span class="info-label">Ngày tái khám:</span> ${phieu.NgayTaiKham ? new Date(phieu.NgayTaiKham).toLocaleDateString() : 'Không có'}</div>
                     </div>
                     <div class="info-grid">
-                        <div class="info-item"><span class="info-label">Xét nghiệm</span> ${phieu.LoaiXN}</div>
-                        <div class="info-item"><span class="info-label">Kết quả:</span> ${phieu.KetQuaXN}</div>
+                        <div class="info-item"><span class="info-label">Xét nghiệm</span> ${phieu.LoaiXN ? phieu.LoaiXN : 'Không có'}</div>
+                        <div class="info-item"><span class="info-label">Kết quả:</span> ${phieu.KetQuaXN ? phieu.LoaiXN : 'Không có'}</div>
                     </div>
                     <div class="info-grid">
                         <div class="info-item"><span class="info-label">Tên thuốc:</span> ${phieu.TenThuoc}</div>
