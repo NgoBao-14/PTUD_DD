@@ -3,22 +3,24 @@ if(isset($data["ThongTinBenhNhan"])) {
     $thongTinBenhNhan = json_decode($data["ThongTinBenhNhan"], true);
     $phieuKhamBenhNhan = json_decode($data["PhieuKhamBenhNhan"], true);
     $soLanKhamBenh = $data["SoLanKhamBenh"];
-
+?>
+<?php
     if($thongTinBenhNhan) {
+        foreach($thongTinBenhNhan as $index => $tt) {
 ?>
         <div class="patient-info">
             <h3>Bệnh nhân</h3>
             <div class="info-grid">
-                <div class="info-item"><span class="info-label">Mã bệnh nhân:</span> <?php echo $thongTinBenhNhan['MaBN']; ?></div>
-                <div class="info-item"><span class="info-label">BHYT:</span> <?php echo $thongTinBenhNhan['BHYT']; ?></div>
-                <div class="info-item"><span class="info-label">Họ và Tên:</span> <?php echo $thongTinBenhNhan['HovaTen']; ?></div>
-                <div class="info-item"><span class="info-label">Địa chỉ:</span> <?php echo $thongTinBenhNhan['DiaChi']; ?></div>
-                <div class="info-item"><span class="info-label">Ngày sinh:</span> <?php echo date('d-m-Y', strtotime($thongTinBenhNhan['NgaySinh'])); ?></div>
-                <div class="info-item"><span class="info-label">Số điện thoại:</span> <?php echo $thongTinBenhNhan['SoDT']; ?></div>
-                <div class="info-item"><span class="info-label">Giới tính:</span> <?php echo $thongTinBenhNhan['GioiTinh']; ?></div>
+                <div class="info-item"><span class="info-label">Mã bệnh nhân:</span> <?php echo $tt['MaBN']; ?></div>
+                <div class="info-item"><span class="info-label">BHYT:</span> <?php echo $tt['BHYT']; ?></div>
+                <div class="info-item"><span class="info-label">Họ và Tên:</span> <?php echo $tt['HovaTen']; ?></div>
+                <div class="info-item"><span class="info-label">Địa chỉ:</span> <?php echo $tt['DiaChi']; ?></div>
+                <div class="info-item"><span class="info-label">Ngày sinh:</span> <?php echo date('d-m-Y', strtotime($tt['NgaySinh'])); ?></div>
+                <div class="info-item"><span class="info-label">Số điện thoại:</span> <?php echo $tt['SoDT']; ?></div>
+                <div class="info-item"><span class="info-label">Giới tính:</span> <?php echo $tt['GioiTinh']; ?></div>
             </div>
         </div>
-
+<?php } ?>
         <div class="medical-history">
             <h3>Các lần khám bệnh</h3>
             <p><span class="info-label">Số lần khám bệnh:</span> <?php echo $soLanKhamBenh; ?></p>
