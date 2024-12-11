@@ -13,18 +13,18 @@ class mQuanLy extends DB {
 
     public function GetPK($MaBN) {
         $str = "SELECT 
-                    pk.MaPK AS MaPK,
-                    pk.NgayTao AS NgayTaoPhieuKham,
-                    nv.HovaTen AS BacSiPhuTrach,
-                    pk.KetQua AS KetQua
-                FROM 
-                    phieukham pk
-                JOIN 
-                    bacsi bs ON pk.MaBS = bs.MaNV
-                JOIN 
-                    nhanvien nv ON bs.MaNV = nv.MaNV
-                WHERE 
-                    pk.MaBN = $MaBN";
+        pk.MaPK AS MaPK,
+        pk.NgayTao AS NgayTaoPhieuKham,
+        nv.HovaTen AS BacSiPhuTrach,
+        pk.KetQua AS KetQua
+    FROM 
+        phieukham pk
+    JOIN 
+        bacsi bs ON pk.MaBS = bs.MaNV
+    JOIN 
+        nhanvien nv ON bs.MaNV = nv.MaNV
+    WHERE 
+        pk.MaBN = $MaBN";
         $tblPK = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_assoc($tblPK)) {
@@ -34,22 +34,24 @@ class mQuanLy extends DB {
     }
 
     public function GetCTPK($MaPK) {
-        $str = "SELECT 
+        $str = "SELECT
     pk.MaPK,
     pk.NgayTao AS NgayTaoPhieuKham,
     nv.HovaTen AS BacSiPhuTrach,
     pk.KetQua,
-    GROUP_CONCAT(DISTINCT CONCAT(xn.LoaiXN, ': ', xn.KetQua) SEPARATOR '; ') AS KetQuaXetNghiem,
     GROUP_CONCAT(DISTINCT CONCAT(t.TenThuoc, ' - ', ct.LieuDung, ' - ', ct.CachDung) SEPARATOR '; ') AS DonThuoc,
     dt.MoTa AS LoiDan,
-    bn.HovaTen,          -- Thêm thông tin họ tên bệnh nhân
-    bn.NgaySinh,         -- Thêm ngày sinh bệnh nhân
-    bn.DiaChi,           -- Thêm địa chỉ bệnh nhân
+    bn.HovaTen,          
+    bn.NgaySinh,        
+    bn.DiaChi,           
     bn.SoDT,
     bn.BHYT,
     bn.GioiTinh,
-    bn.MaBN
-    -- Thêm số điện thoại bệnh nhân
+    bn.MaBN,
+    xn.NgayXetNghiem,
+    xn.LoaiXN,
+    xn.MaXN,
+    xn.KetQua AS KetQuaXN
     FROM 
         phieukham pk
     LEFT JOIN 
@@ -65,7 +67,7 @@ class mQuanLy extends DB {
     LEFT JOIN 
         thuoc t ON ct.MaThuoc = t.MaThuoc
     LEFT JOIN
-        benhnhan bn ON pk.MaBN = bn.MaBN    -- Thêm LEFT JOIN với bảng bệnh nhân
+        benhnhan bn ON pk.MaBN = bn.MaBN   
     WHERE 
         pk.MaPK = '$MaPK'
     GROUP BY 
@@ -79,7 +81,7 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
-    //hàm để lấy khoa
+    //lấy khoa
     public function GetKhoa() {
         $str = 'SELECT * FROM chuyenkhoa';
         $tblKhoa = mysqli_query($this->con, $str);
@@ -90,7 +92,7 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
-    //hàm để lấy danh sách bác sĩ đăng ký ca làm việc theo khoa
+    //lấy danh sách bác sĩ đăng ký ca làm việc theo khoa
     public function GetKhoaBS($MaKhoa){
         $str="SELECT *
         FROM lichlamviec llv
@@ -168,12 +170,12 @@ class mQuanLy extends DB {
         return json_encode($mang);
     }
 
-    public function DelLLV($MaNV) {
-        $str = "UPDATE lichlamviec llv
-        JOIN nhanvien nv ON llv.MaNV = nv.MaNV
-        SET llv.TrangThai = 'Nghỉ'
-        WHERE nv.MaNV = '$MaNV';
-";
+    public function DelLLV($maNV, $NgayLamViec, $CaLamViec) {
+        $str = "UPDATE lichlamviec
+        SET TrangThai = 'Nghỉ'
+        WHERE MaNV = '$maNV'
+        AND NgayLamViec = '$NgayLamViec'
+        AND CaLamViec = '$CaLamViec'";
         $result = mysqli_query($this->con, $str);
         return json_encode(array("success" => $result));
     }
@@ -185,6 +187,25 @@ class mQuanLy extends DB {
         return $result;
     }    
 
+    public function CountEmployeeInShift($NgayLamViec, $CaLamViec) {
+        $str = "SELECT COUNT(*) AS Total FROM lichlamviec 
+        WHERE NgayLamViec = '$NgayLamViec' AND CaLamViec = '$CaLamViec' AND TrangThai = 'Đang làm'";
+        $result = mysqli_query($this->con, $str);
+        $row = mysqli_fetch_assoc($result);
+        return $row['Total'];
+    }
+
+    // Kiểm tra xem nhân viên đã có trong ca làm việc chưa
+    public function CheckEmployeeInShift($MaNV, $NgayLamViec, $CaLamViec) {
+        $str = "SELECT * FROM lichlamviec WHERE MaNV = '$MaNV' AND NgayLamViec = '$NgayLamViec' AND CaLamViec = '$CaLamViec' AND TrangThai = 'Đang làm'";
+        $result = mysqli_query($this->con, $str);
+    
+        if (mysqli_num_rows($result) > 0) {
+            return true; //có tồn tại
+        }
+        return false;
+    }
+    
     public function GetHD(){
         $str = "SELECT * FROM hoadon hd 
         JOIN chitiethoadon ct
@@ -217,10 +238,28 @@ class mQuanLy extends DB {
         while ($row = mysqli_fetch_assoc($tblThongKe)) {
             $mang[] = $row;
         }
-        return json_encode($mang);  // Trả về dữ liệu dưới dạng JSON
+        return json_encode($mang);
+    }
+
+    public function GetThongKeTheoTuan($dautuan, $cuoituan){
+        $str = "SELECT 
+                    ct.DichVu,
+                    SUM(hd.TongTien) AS TongTienTheoTuan
+                FROM 
+                    hoadon hd
+                JOIN 
+                    chitiethoadon ct ON hd.MaHD = ct.MaHD
+                WHERE 
+                    hd.NgayLapHoaDon BETWEEN '$dautuan' AND '$cuoituan'
+                GROUP BY 
+                    ct.DichVu"; 
+        $tblThongKe = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_assoc($tblThongKe)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
     
-    // ------------------------------
 }
-
 ?>

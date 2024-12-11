@@ -34,11 +34,11 @@
                     <div class="card-body">
                         <h6 class="card-title fw-bold mb-3">DANH SÁCH CHỨC NĂNG</h6>
                         <div class="d-grid gap-2">
-                            <a href="DangKyLichLamViec" class="btn btn-light text-start sidebar-link">Đăng ký lịch làm việc</a>
-                            <a href="XemLichLamViec" class="btn btn-light text-start sidebar-link">Xem lịch làm việc</a>
-                            <a href="bacsi/XemDanhSachKham" class="btn btn-light text-start sidebar-link">Xem danh sách khám</a>
-                            <a href="XemThongTinBenhNhan" class="btn btn-light text-start sidebar-link">Xem thông tin bệnh nhân</a>
-                            <a href="XemLichSuKhamBenh" class="btn btn-light text-start sidebar-link">Xem lịch sử khám bệnh</a>
+                            <a href="/ptud_dd/Bacsi/DangKyLichLamViec" class="btn btn-light text-start sidebar-link">Đăng ký lịch làm việc</a>
+                            <a href="/ptud_dd/Bacsi/XemLichLamViec" class="btn btn-light text-start sidebar-link">Xem lịch làm việc</a>
+                            <a href="/ptud_dd/Bacsi/XemDanhSachKham" class="btn btn-light text-start sidebar-link">Xem danh sách khám</a>
+                            <a href="/ptud_dd/Bacsi/XemThongTinBenhNhan" class="btn btn-light text-start sidebar-link">Xem thông tin bệnh nhân</a>
+                            <a href="/ptud_dd/Bacsi/XemLichSuKhamBenh" class="btn btn-light text-start sidebar-link">Xem lịch sử khám bệnh</a>
                         </div>
                     </div>
                 </div>

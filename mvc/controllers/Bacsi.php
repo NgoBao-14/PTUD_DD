@@ -33,10 +33,10 @@ class Bacsi extends Controller
                 foreach ($shifts as $shift) {
                     // Tạo bản sao của $monday để tránh thay đổi giá trị gốc
                     $currentDay = clone $monday;
-            
+
                     // Tính ngày làm việc dựa vào thứ
                     $ngayLamViec = $currentDay->modify("+{$daysMap[$day]} days")->format('Y-m-d');
-            
+
                     // Kiểm tra số lượng bác sĩ đã đăng ký trong ca làm việc
                     $soLuong = $model->kiemTraSoLuongCaLamViec($ngayLamViec, $shift);
                     if ($soLuong >= 10) {
@@ -44,7 +44,7 @@ class Bacsi extends Controller
                         $failed[] = "Ngày $ngayLamViec ($shift) đã đạt giới hạn số lượng bác sĩ.";
                         continue;
                     }
-            
+
                     // Kiểm tra xem lịch đã tồn tại chưa
                     if ($model->kiemTraLichDaTonTai($maNV, $ngayLamViec, $shift)) {
                         $ngayLamViec = date('d/m/Y', strtotime($ngayLamViec));
@@ -81,16 +81,20 @@ class Bacsi extends Controller
     {
         $model = $this->model("MBacsi");
         $maNV = $_SESSION['idnv'];
-        $lichLamViec = $model->XemLichLamViec($maNV);
+        $lichLamViec = json_decode($model->XemLichLamViec($maNV), true);
 
+        // Truyền dữ liệu sang view
         $this->view("layoutBacsi", [
             "Page" => "xemlichlamviec",
             "LichLamViec" => $lichLamViec
         ]);
     }
 
+
+
     //NhatCuong function 1/2: Xem Danh Sách Khám Bệnh
-    function XemDanhSachKham() {
+    function XemDanhSachKham()
+    {
         $bacsi = $this->model("MBacsi");
         $this->view("LayoutXemDanhSachKham", [
             "Page" => "Danhsachkham",
@@ -98,11 +102,12 @@ class Bacsi extends Controller
         ]);
     }
     //NhatCuong function 2/2: Xem Danh Sách Khám Bệnh
-    function GetDanhSach() {
+    function GetDanhSach()
+    {
         if (isset($_POST["shift"])) {
             $bacsi = $this->model("MBacsi");
             $shift = $_POST["shift"];
-            
+
             switch ($shift) {
                 case "morning":
                     $danhSach = $bacsi->GetDanhSachKhamSang();
@@ -114,7 +119,7 @@ class Bacsi extends Controller
                     $danhSach = $bacsi->GetDanhSachKhamAll();
                     break;
             }
-            
+
             // Chỉ trả về nội dung của Danhsachkham.php
             $this->view("pages/Danhsachkham", [
                 "DanhSachKham" => $danhSach
@@ -122,19 +127,34 @@ class Bacsi extends Controller
         }
     }
 
-    
-    
     function XemThongTinBenhNhan()
     {
-        $this->view("layoutBacsi", [
-            "Page"
-        ]);
+        if (isset($_POST['search'])) {
+            $maBN = $_POST['maBN'];
+            $model = $this->model("MBacsi");
+            $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
+            $timmaBN = json_decode($thongTinBenhNhan, true);
+            if (isset($timmaBN['MaBN'])) {
+
+                $phieuKham = $model->GetPhieuKham($maBN);
+
+                $this->view("layoutBacsi", [
+                    "Page" => "xemthongtinbenhnhan",
+                    "ThongTinBenhNhan" => $thongTinBenhNhan,
+                    "PhieuKhamBenhNhan" => $phieuKham
+                ]);
+            } else {
+                $this->view("layoutBacsi", [
+                    "Page" => "xemthongtinbenhnhan"
+                ]);
+            }
+        }
     }
- 
+
     //NhatCuong: usecase: Xem lịch sử khám bệnh
     function XemLichSuKhamBenh()
     {
-        if(isset($_POST['search'])) {
+        if (isset($_POST['search'])) {
             $maBN = $_POST['maBN'];
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
@@ -154,4 +174,3 @@ class Bacsi extends Controller
         }
     }
 }
-

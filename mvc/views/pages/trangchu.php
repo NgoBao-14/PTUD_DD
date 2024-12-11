@@ -51,52 +51,68 @@
         </div>
         <div class="new" >
         <h1>Tin tức y tế</h1>
-        <div class="news-grid">
+        <div class="news-grid container" style="background: #E6E6FA;">
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=New+Cancer+Treatment" alt="New Cancer Treatment" class="news-image">
+                <img src="public/img/loangxuong.png" alt="Thuốc NextG Cal" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">Breakthrough in Cancer Treatment Shows Promise</h2>
-                    <p class="news-description">A new immunotherapy approach has shown remarkable results in early clinical trials, potentially revolutionizing cancer treatment.</p>
+                    <h2 class="news-title">Thuốc NextG Cal: Bổ sung canxi và điều trị loãng xương</h2>
+                    <p class="news-description">Thuốc PM NextG Cal là thuốc được sản xuất bởi công ty Probiotec Pharma. Thuốc NextG cal có công dụng chính là bổ sung canxi trong trường hợp thiếu canxi, giúp điều trị loãng xương,...</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=COVID-19+Update" alt="COVID-19 Update" class="news-image">
+                <img src="public/img/velaxin.png" alt="Thuốc Velaxin" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">COVID-19: New Variant Emerges, Vaccination Efforts Intensify</h2>
-                    <p class="news-description">Health officials worldwide are monitoring a new COVID-19 variant while ramping up vaccination campaigns to curb its spread.</p>
+                    <h2 class="news-title">Thuốc Velaxin là thuốc gì? Công dụng, cách dùng và lưu ý khi sử dụng</h2>
+                    <p class="news-description">Velaxin được sử dụng trong trường hợp điều trị các cơn trầm cảm chủ yếu (Major depressive disorder) và sử dụng duy trì để phòng ngừa tái phát các cơn trầm cảm nặng. Ngoài ra...</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=Mental+Health+Study" alt="Mental Health Study" class="news-image">
+                <img src="public/img/nhiemkhuan.png" alt="Klamentin" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">Study Reveals Link Between Exercise and Mental Health</h2>
-                    <p class="news-description">New research underscores the significant impact of regular physical activity on mental well-being and cognitive function.</p>
+                    <h2 class="news-title">Klamentin là thuốc gì? Công dụng, cách dùng và lưu ý khi sử dụng</h2>
+                    <p class="news-description">Klamentin là thuốc kháng sinh được dùng trong điều trị nhiễm khuẩn. Vậy thuốc Klamentin được sử dụng cụ thể trong trường hợp nào? Cách sử dụng thuốc hợp lý ra sao?</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=Telemedicine+Advancements" alt="Telemedicine Advancements" class="news-image">
+                <img src="public/img/nhiemkhuan2.png" alt="LevoDHG" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">Telemedicine Advancements Improve Rural Healthcare Access</h2>
-                    <p class="news-description">Innovative telemedicine technologies are bridging the gap in healthcare accessibility for rural communities around the globe.</p>
+                    <h2 class="news-title">LevoDHG 750 là thuốc gì? Công dụng, cách dùng và lưu ý khi sử dụng</h2>
+                    <p class="news-description">LevoDHG 750 là thuốc kháng sinh được dùng trong điều trị nhiễm khuẩn. Vậy thuốc LevoDHG được sử dụng cụ thể trong trường hợp nào? Cách sử dụng thuốc hợp lý ra sao?</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=Nutrition+Research" alt="Nutrition Research" class="news-image">
+                <img src="public/img/clabact.png" alt="Clabact" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">New Dietary Guidelines: Emphasis on Plant-Based Nutrition</h2>
-                    <p class="news-description">Updated nutritional recommendations highlight the benefits of plant-based diets in preventing chronic diseases and promoting longevity.</p>
+                    <h2 class="news-title">Clabact là thuốc gì? Công dụng, cách dùng và lưu ý khi sử dụng</h2>
+                    <p class="news-description">Clabact là thuốc kháng sinh được dùng trong điều trị nhiễm khuẩn. Vậy thuốc Clabact được sử dụng cụ thể trong trường hợp nào? Cách sử dụng thuốc hợp lý ra sao? Cùng Dược...</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>
             <article class="news-card">
-                <img src="https://via.placeholder.com/300x200?text=Medical+AI" alt="Medical AI" class="news-image">
+                <img src="public/img/thuoc1.png" alt="Thuốc Klamentin" class="news-image">
                 <div class="news-content">
-                    <h2 class="news-title">AI in Medicine: Revolutionizing Diagnosis and Treatment</h2>
-                    <p class="news-description">Artificial intelligence is making significant strides in medical imaging analysis and personalized treatment planning, enhancing healthcare outcomes.</p>
+                    <h2 class="news-title">Thuốc Klamentin gói là thuốc gì? Công dụng, cách dùng và lưu ý sử dụng</h2>
+                    <p class="news-description">Cốm pha hỗn dịch uống Klamentin, hay thường được gọi là thuốc Klamentin gói, là thuốc kháng sinh được dùng trong điều trị nhiễm khuẩn. Vậy thuốc Klamentin được sử dụng...</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="public/img/thuocla.png" alt="Thuốc lá dẫn đến" class="news-image">
+                <div class="news-content">
+                    <h2 class="news-title">Thuốc lá dẫn đến hơn 100.000 ca tử vong mỗi năm tại Việt Nam</h2>
+                    <p class="news-description">Thuốc lá là nguyên nhân dẫn đến hơn 100.000 ca tử vong mỗi năm tại Việt Nam, chiếm 15% tổng số ca tử vong...</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="public/img/baohiem.png" alt="Quy định BHYT" class="news-image">
+                <div class="news-content">
+                    <h2 class="news-title">Quy định BHYT mới tạo nhiều thuận lợi cho người bệnh ung thư</h2>
+                    <p class="news-description">Bộ Y tế đã ban hành Thông tư số 39 sửa đổi, bổ sung một số điều của Thông tư số 35 ngày 28/9/2016 của Bộ trưởng Bộ Y tế ...</p>
                     <a href="#" class="read-more">Read More</a>
                 </div>
             </article>

@@ -246,7 +246,7 @@ INSERT INTO `lichkham` (`MaLK`, `NgayKham`) VALUES
 --
 CREATE TABLE `lichlamviec` (
   `MaLLV` int(10) UNSIGNED NOT NULL,
-  `NgayLamViec` datetime NOT NULL,
+  `NgayLamViec` date NOT NULL,
   `TrangThai` varchar(255) NOT NULL,
   `CaLamViec` varchar(255) NOT NULL,
   `MaNV` int(10) UNSIGNED DEFAULT NULL
@@ -257,7 +257,7 @@ CREATE TABLE `lichlamviec` (
 --
 CREATE TABLE `nhanvien` (
   `MaNV` int(10) UNSIGNED NOT NULL,
-  `HovaTenNV` varchar(255) NOT NULL,
+  `HovaTen` varchar(255) NOT NULL,
   `NgaySinh` date NOT NULL,
   `SoDT` varchar(255) NOT NULL,
   `ChucVu` varchar(255) NOT NULL,

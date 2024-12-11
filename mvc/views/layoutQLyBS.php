@@ -1,8 +1,8 @@
 <?php
-    // if($_SESSION["role"] != 1){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 1){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<?php require_once "./mvc/views/blocks/footer.php" ?>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

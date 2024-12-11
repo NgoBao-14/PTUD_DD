@@ -3,6 +3,7 @@ $dt = json_decode($data["QuanLy"], true);
 $benhnhan = $dt["BNhan"];
 $phieukham = $dt["PhieuKham"];
 $found = $dt["Found"];
+echo '<h2 class="text-center mb-4" style="background-color: #007bff; color: white; font-weight: bold; padding: 5px; border-radius: 5px;">Tra cứu hồ sơ bệnh án</h2>';
 echo'<div class="row mb-3">
                 <div class="col mt-2">
                 <form class="d-flex" method="post">
@@ -11,8 +12,6 @@ echo'<div class="row mb-3">
                 </form>
                 </div>
             </div>';
-// Kiểm tra xem có tìm thấy bệnh nhân không
-// if (isset($_POST['btnsearch'])) {
     if ($found) {
         echo '
         <div class="row">

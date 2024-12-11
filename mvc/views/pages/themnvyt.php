@@ -32,7 +32,10 @@
                 <label for="EmailNV" class="form-label">Email</label>
                 <input type="email" class="form-control" id="EmailNV" name="EmailNV" required>
             </div>
-            <button type="submit" class="btn btn-success" name="btnThemNVYT">Thêm Nhân viên</button>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success" name="btnThemNVYT">Thêm Nhân viên</button>
+            </div>
+            
         </form>
     </div>
 </div>
