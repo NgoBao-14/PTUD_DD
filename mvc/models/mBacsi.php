@@ -270,8 +270,6 @@ class MBacsi extends DB
         }
         return true;
     }
-}
-
     public function GetPhieuKham($maBN)
     {
         $str = "SELECT
@@ -313,3 +311,4 @@ class MBacsi extends DB
         return json_encode($mang);
     }
 }
+
