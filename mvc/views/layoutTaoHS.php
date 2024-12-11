@@ -1,4 +1,5 @@
 <?php
+    error_reporting(0);
     if($_SESSION["role"] != 5){
         if(!isset($_SESSION['last_id'])){
             echo "<script>alert('Bạn không có quyền truy cập')</script>";
