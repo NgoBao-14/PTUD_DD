@@ -27,7 +27,7 @@
             </div>
             <div class="info-item">
                 <div class="info-label">Bác sĩ:</div>
-                <div>'.$r["HovaTenNV"].'</div>
+                <div>'.$r["TenBS"].'</div>
             </div>
             
             <div class="info-item">

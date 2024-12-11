@@ -78,9 +78,11 @@ $lichKhamData = json_decode($data["LK"], true);
         <br>
       
         <div class="button">
-            <button type="button" class="btn btn-change" id="btnPay" disabled data-bs-toggle="modal" data-bs-target="#paymentModal">
+        
+            <button type="button" class="btn btn-change"  id="btnPay" disabled data-bs-toggle="modal" data-bs-target="#paymentModal">
                 Thanh toán lịch khám
             </button>
+            
         </div>
 
     <?php else: ?>
@@ -99,7 +101,12 @@ $lichKhamData = json_decode($data["LK"], true);
                     
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <?php foreach ($chiTietData as $ct): ?>
+                        <form action="/PTUD_DD/ThanhToan" method="POST">
+                        <input type="hidden" name="MaBN1" value="<?= $ct['MaBN'];?>">
+                        <button type="submit" class="btn btn-secondary" name="thanhtoan" data-bs-dismiss="modal">Đóng</button>
+                        </form>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -137,3 +144,21 @@ $lichKhamData = json_decode($data["LK"], true);
         });
 
         </script>
+<?php
+if (isset ($data['rs']))
+{
+    if($data["rs"]== 'true')
+    {
+        echo'<script language="javascript">
+							alert("Hoàn tất");	
+							</script>';
+    }
+    else
+    {
+        echo'<script language="javascript">
+							alert("Thất bại");	
+							</script>';
+    }
+}
+
+?>

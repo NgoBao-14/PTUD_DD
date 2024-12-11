@@ -1,12 +1,10 @@
 <?php
 class QuanLy extends Controller {
-    // ... (other methods remain unchanged)
     function SayHi()
     {
-        $this->view("layoutQL", [
-            "Page"
-        ]);
+        $this->view("layoutQL");
     }
+    //QuanLy_Nguoi thuc hien: Dkhuong
     function DSBS() {
         $ql = $this->model("mQLBS");
         $bacsi = json_decode($ql->GetAllBS(), true);
@@ -16,6 +14,7 @@ class QuanLy extends Controller {
             "BacSi" => $bacsi
         ]);
     }
+
     function TTBN() {
         $ql = $this->model("mQuanLy");
         $benhnhan = null;
@@ -60,18 +59,60 @@ class QuanLy extends Controller {
             ]);
         }
     }
+
     function LLV($date = null) {
         $ql = $this->model("mQuanLy");
 
-        if(isset($_POST['btnDKL'])) {
-            $MaNV=$_POST['MaNVien'];
-            $NgayLamViec=$_POST['NgayLamViec'];
-            $CaLamViec=$_POST['cl'];
-            $result = $ql->AddLLV($MaNV, $NgayLamViec, $CaLamViec);
+        if (isset($_POST['btnDKL'])) {
+            $MaNV = $_POST['MaNVien'];
+            $NgayLamViec = $_POST['NgayLamViec'];
+            $CaLamViec = $_POST['cl'];
+    
+            if (empty($MaNV)) {
+                $_SESSION['message'] = "Bạn phải chọn ít nhất một nhân viên để thêm lịch làm việc!";
+                $_SESSION['message_type'] = "error";
+                header('Location: ' . $_SERVER['REQUEST_URI']);
+                exit();
+            }
+    
+        $isEmployeeInShift = $ql->CheckEmployeeInShift($MaNV, $NgayLamViec, $CaLamViec);
+
+        if ($isEmployeeInShift) {
+            // Nếu nhân viên đã có trong ca làm việc, thông báo lỗi
+            $_SESSION['message'] = "Nhân viên đã có trong ca làm việc này!";
+            $_SESSION['message_type'] = "error";
+        } else {
+            // Kiểm tra số lượng nhân viên trong ca làm việc
+            $employeeCount = $ql->CountEmployeeInShift($NgayLamViec, $CaLamViec);
+
+            if ($employeeCount < 5) {
+                // Nếu số lượng nhân viên trong ca chưa đủ 5, thực hiện thêm lịch làm việc
+                $result = $ql->AddLLV($MaNV, $NgayLamViec, $CaLamViec);
+
+                if ($result) {
+                    $_SESSION['message'] = "Thêm lịch làm việc thành công!";
+                    $_SESSION['message_type'] = "success";
+                } else {
+                    $_SESSION['message'] = "Thêm lịch làm việc thất bại!";
+                    $_SESSION['message_type'] = "error";
+                }
+            } else {
+                // Nếu ca làm việc đã đầy (>= 5 người)
+                $_SESSION['message'] = "Ca làm việc đã đầy, không thể thêm nhân viên!";
+                $_SESSION['message_type'] = "error";
+            }
         }
+
+        // Chuyển hướng lại trang hiện tại với thông báo
+        header('Location: ' . $_SERVER['REQUEST_URI']);
+        exit();
+    }
+    
         if(isset($_POST['MaNV'])) {
             $maNV = $_POST['MaNV'];
-            $result = $ql->DelLLV($maNV);
+            $NgayLamViec = $_POST['NgayLamViec'];
+            $CaLamViec = $_POST['CaLamViec'];
+            $result = $ql->DelLLV($maNV, $NgayLamViec, $CaLamViec);
             
             if($result) {
                 $_SESSION['message'] = "Xóa ca làm việc thành công!";
@@ -89,17 +130,15 @@ class QuanLy extends Controller {
         }
     
         $khoa = $ql->GetDanhSachKhoa();
-        
-        $maKhoa = '';
+        $maKhoa = 'A';
         if (isset($_POST['khoaSelect']) && $_POST['khoaSelect'] != '') {
             $maKhoa = $_POST['khoaSelect'];
         }
-    
         // Lấy lịch làm việc theo khoa nếu có, nếu không lấy tất cả bác sĩ
-        if ($maKhoa != '') {
+        if ($maKhoa != 'A') {
             $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         } else {
-            $listBacSi = $ql->GetBSLLV();
+            $listBacSi = $ql->GetLichLamViecTheoKhoa($maKhoa);
         }
     
         // Gửi dữ liệu tới view
@@ -118,15 +157,20 @@ class QuanLy extends Controller {
     
         // Lấy dữ liệu tổng tiền theo tháng
         $thongKeTheoThang = $ql->GetThongKeTheoThang();
+        // xử lý lấy thời gian
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $homnay = date('Y-m-d');
+        $week = date('w', strtotime($homnay));
+        $dautuan = date('Y-m-d', strtotime($homnay . ' - ' . ($week ? $week - 1 : 6) . ' days'));
+        $cuoituan =date('Y-m-d', strtotime($dautuan . ' + 6 days'));
+        $thongKeTheoTuan = $ql->GetThongKeTheoTuan($dautuan, $cuoituan);
     
-        // Truyền dữ liệu vào view
         $this->view("layoutQLy3", [
             "Page" => "thongke",
-            "ThongKe" => $thongKeTheoThang  // Dữ liệu được truyền vào view
+            "ThongKeThang" => $thongKeTheoThang,
+            "ThongKeTuan" => $thongKeTheoTuan
         ]);
     }
-    
-
 
     // phần của Quang Huy Quản Lý Bác sĩ/ NVYT
     public function GetDashboardCounts() {
@@ -178,10 +222,8 @@ class QuanLy extends Controller {
     function SuaBS() {
         if (isset($_POST["btnSuaBS"])) {
             $MaNV = $_POST["MaNV"];
-            $HovaTenNV = $_POST["HovaTenNV"];
             $NgaySinh = $_POST["NgaySinh"];
             $GioiTinh = $_POST["GioiTinh"];
-            $SoDT = $_POST["SoDT"];
             $EmailNV = $_POST["EmailNV"];
             $MaKhoa = $_POST["MaKhoa"];
 
@@ -190,28 +232,11 @@ class QuanLy extends Controller {
             // Lấy thông tin hiện tại của bác sĩ
             $currentBS = json_decode($ql->Get1BS($MaNV), true);
 
-            // Kiểm tra số điện thoại và email chỉ khi có sự thay đổi
-            if ($SoDT !== $currentBS['SoDT'] && $ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlchitietbs",
-                    "Error" => "Số điện thoại đã tồn tại trong hệ thống.",
-                    "CTBS" => $currentBS
-                ]);
-                return;
-            }
 
-            if ($EmailNV !== $currentBS['EmailNV'] && $ql->CheckExistingEmail($EmailNV, $MaNV)) {
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlchitietbs",
-                    "Error" => "Email đã tồn tại trong hệ thống.",
-                    "CTBS" => $currentBS
-                ]);
-                return;
-            }
-
-            $result = $ql->UpdateBS($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
+            $result = $ql->UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa);
 
             if ($result) {
+                $_SESSION['success_message'] = "Cập nhật thông tin Bác sĩ thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -235,6 +260,7 @@ class QuanLy extends Controller {
             $result = $ql->DeleteBS($MaNV);
 
             if ($result) {
+                $_SESSION['success_message'] = "Xóa thông tin Bác sĩ thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -252,7 +278,7 @@ class QuanLy extends Controller {
 
     function ThemBS() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $HovaTenNV = $_POST['HovaTenNV'];
+            $HovaTen = $_POST['HovaTen'];
             $NgaySinh = $_POST['NgaySinh'];
             $GioiTinh = $_POST['GioiTinh'];
             $SoDT = $_POST['SoDT'];
@@ -260,7 +286,7 @@ class QuanLy extends Controller {
             $MaKhoa = $_POST['MaKhoa'];
     
             // Kiểm tra dữ liệu đầu vào
-            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
+            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTen)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "thembacsi",
                     "Error" => "Họ tên không được chứa ký tự đặc biệt và số."
@@ -295,9 +321,10 @@ class QuanLy extends Controller {
                 return;
             }
             
-            $result = $ql->AddBS($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
+            $result = $ql->AddBS($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $MaKhoa);
     
             if ($result === true) {
+                $_SESSION['success_message'] = "Thêm thông tin bác sĩ mới thành công.";
                 header("Location: ./DSBS");
             } else {
                 $this->view("layoutQLyBS", [
@@ -358,26 +385,14 @@ class QuanLy extends Controller {
     function SuaNVYT() {
         if (isset($_POST["btnSuaNVYT"])) {
             $MaNV = $_POST["MaNV"];
-            $HovaTenNV = $_POST["HovaTenNV"];
             $NgaySinh = $_POST["NgaySinh"];
             $GioiTinh = $_POST["GioiTinh"];
-            $SoDT = $_POST["SoDT"];
             $EmailNV = $_POST["EmailNV"];
 
             $ql = $this->model("mQLNVYT");
 
             // Lấy thông tin hiện tại của nhân viên y tế
             $currentNV = json_decode($ql->Get1NVYT($MaNV), true);
-
-            // Kiểm tra số điện thoại và email chỉ khi có sự thay đổi
-            if ($SoDT !== $currentNV['SoDT'] && $ql->CheckExistingPhoneNumber($SoDT, $MaNV)) {
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlchitietnvyt",
-                    "Error" => "Số điện thoại đã tồn tại trong hệ thống.",
-                    "CTNV" => $currentNV
-                ]);
-                return;
-            }
 
             if ($EmailNV !== $currentNV['EmailNV'] && $ql->CheckExistingEmail($EmailNV, $MaNV)) {
                 $this->view("layoutQLyBS", [
@@ -388,9 +403,10 @@ class QuanLy extends Controller {
                 return;
             }
 
-            $result = $ql->UpdateNVYT($MaNV, $HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $result = $ql->UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV);
 
             if ($result) {
+                $_SESSION['success_message'] = "Cập nhật thông tin Nhân viên y tế thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
@@ -399,17 +415,6 @@ class QuanLy extends Controller {
                     "CTNV" => $currentNV
                 ]);
             }
-        } elseif (isset($_POST["btnCancelEdit"])) {
-            // Handle cancellation of edit
-            $MaNV = $_POST["MaNV"];
-            $ql = $this->model("mQLNVYT");
-            $chitietNV = $ql->Get1NVYT($MaNV);
-
-            $this->view("layoutQLyBS", [
-                "Page" => "qlchitietnvyt",
-                "CTNV" => $chitietNV,
-                "showEditForm" => false
-            ]);
         } else {
             $this->view("layoutQLyBS", [
                 "Page" => "qlchitietnvyt",
@@ -426,6 +431,7 @@ class QuanLy extends Controller {
             $result = json_decode($ql->DeleteNVYT($MaNV), true);
 
             if ($result['success']) {
+                $_SESSION['success_message'] = "Xóa thông tin nhân viên y tế thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
@@ -438,14 +444,14 @@ class QuanLy extends Controller {
 
     function ThemNVYT() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $HovaTenNV = $_POST['HovaTenNV'];
+            $HovaTen = $_POST['HovaTen'];
             $NgaySinh = $_POST['NgaySinh'];
             $GioiTinh = $_POST['GioiTinh'];
             $SoDT = $_POST['SoDT'];
             $EmailNV = $_POST['EmailNV'];
     
             // Kiểm tra dữ liệu đầu vào
-            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTenNV)) {
+            if (!preg_match("/^[a-zA-ZÀ-ỹ\s]+$/u", $HovaTen)) {
                 $this->view("layoutQLyBS", [
                     "Page" => "themnvyt",
                     "Error" => "Họ tên không được chứa ký tự đặc biệt và số."
@@ -480,9 +486,10 @@ class QuanLy extends Controller {
                 return;
             }
             
-            $result = $ql->AddNVYT($HovaTenNV, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $result = $ql->AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
     
             if ($result === true) {
+                $_SESSION['success_message'] = "Thêm thông tin nhân viên y tế mới thành công.";
                 header("Location: ./DSNVYT");
             } else {
                 $this->view("layoutQLyBS", [
@@ -496,7 +503,79 @@ class QuanLy extends Controller {
             ]);
         }
     }
-    
+    //Phan cua HBao quan ly nhan vien nha thuoc
+    function DSNVNT() {
+        $ql = $this->model("mQLNVNT");
+
+        $this->view("layoutQLyBS", [
+            "Page" => "qlnvnt",
+            "NhanVien" => $ql->GetAll()
+        ]);
     }
+
+    function CTNVNT() {
+        if (isset($_POST["btnCTNVNT"])) {
+            $MaNV = $_POST["ctnv"];
+            $ql =  $this->model("mQLNVNT");
+            $this->view("layoutQLyBS", [
+                "Page" => "chitietnvnt",
+                "CTNV" => $ql->GetCTNV($MaNV)
+            ]);
+            
+        }
+        if(isset($_POST["btnSuaNVNT"]))
+        {
+            $ql =  $this->model("mQLNVNT");
+            $MaNV = $_POST["MaNV"];
+            $NgaySinh = $_POST["NgaySinh"];
+            $GioiTinh = $_POST["GioiTinh"];
+            $EmailNV = $_POST["EmailNV"];
+            $rs = $ql->UpdateNVNT($MaNV, $NgaySinh, $GioiTinh, $EmailNV);
+            $this->view("layoutQLyBS", [
+                "Page" => "chitietnvnt",
+                "CTNV" => $ql->GetCTNV($MaNV),
+                "rs" => $rs
+            ]);
+
+        }
+        if(isset($_POST["btnXoaNVNT"]))
+        {
+            $ql =  $this->model("mQLNVNT");
+            $MaNV = $_POST["MaNV"];
+            $rs = $ql->DeleteNVNT($MaNV);
+            $this->view("layoutQLyBS", [
+                "Page" => "qlnvnt",
+                "NhanVien" => $ql->GetAll(),
+                "rs" => 3
+            ]);
+        }
+    }
+    function ThemNVNT(){
+        $ql = $this->model("mQLNVNT");
+        
+        if(isset($_POST["btnThemNVNT"]))
+        {   
+            $hovaten = $_POST["HovaTen"];
+            $sdt = $_POST["SoDT"];
+            $NgaySinh = $_POST["NgaySinh"];
+            $GioiTinh = $_POST["GioiTinh"];
+            $EmailNV = $_POST["EmailNV"];
+            $rs = $ql->AddNVNT($hovaten, $NgaySinh, $sdt, $EmailNV,$GioiTinh);
+            $this->view("layoutQLyBS", [
+                "Page" => "qlnvnt",
+                "NhanVien" => $ql->GetAll(),
+                "rs" => $rs
+            ]);
+        }
+        else
+        {
+            $this -> view("layoutQLyBS",[
+                "Page" => "themnvnt"
+            ]);
+         }
+}
+}
+
+    
 ?>
 

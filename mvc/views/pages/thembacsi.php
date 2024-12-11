@@ -8,8 +8,8 @@
         <?php endif; ?>
         <form action="./ThemBS" method="POST">
             <div class="mb-3">
-                <label for="HovaTenNV" class="form-label">Họ và Tên</label>
-                <input type="text" class="form-control" id="HovaTenNV" name="HovaTenNV" required pattern="^[a-zA-ZÀ-ỹ\s]+$">
+                <label for="HovaTen" class="form-label">Họ và Tên</label>
+                <input type="text" class="form-control" id="HovaTen" name="HovaTen" required pattern="^[a-zA-ZÀ-ỹ\s]+$">
                 <small class="form-text text-muted">Chỉ chấp nhận chữ cái và khoảng trắng.</small>
             </div>
             <div class="mb-3">
@@ -48,7 +48,10 @@
                 ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-success" name="btnThemBS">Thêm Bác sĩ</button>
+            <div class="text-center mt-3" >
+                <button type="submit" class="btn btn-success" name="btnThemBS">Thêm Bác sĩ</button>
+            </div>
+            
         </form>
     </div>
 </div>

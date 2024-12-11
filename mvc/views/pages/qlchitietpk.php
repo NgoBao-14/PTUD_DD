@@ -1,20 +1,19 @@
 <?php
 $dt = json_decode($data["CTPK"], true);
 foreach ($dt as $data):
-echo'<div class="container my-5" id="container">
+echo'<div class="container" id="container">
         <div class="card" id="card">
-                                <form action="/PTUD_DD/QuanLy/TTBN" method="POST">
-                                <input type="hidden" name="back" value="' . $data['MaBN'] . '">
-                                <input type="submit" name="nutBack" value="Back">
-                                
-                        </form>
-            <div class="card-header text-center py-3" id="card-header">
+            <form action="/PTUD_DD/QuanLy/TTBN" method="POST">
+                <input type="hidden" name="back" value="' . $data['MaBN'] . '">
+                <input type="submit" name="nutBack" value="Back" class="btn-back">
+            </form>
+            <div class="card-header text-center py-3" id="card-header" style=" border-radius: 5px;">
                 <h4 class="mb-0">PHIẾU KHÁM BỆNH</h4>
             </div>
             <div class="card-body" id="card-body">
                 <div class="row mb-4" id="row">
                     <div class="col-md-6" id="col-left">
-                        <h5 class="section-title" id="patient-info-title">Thông tin bệnh nhân</h5>
+                        <h5 class="section-title" id="patient-info-title">THÔNG TIN BỆNH NHÂN</h5>
                         <div class="info-row row" id="info-row">
                             <div class="col-sm-4 info-label">Họ và Tên:</div>
                             <div class="col-sm-8">' . ($data['HovaTen']) . '</div>
@@ -37,7 +36,7 @@ echo'<div class="container my-5" id="container">
                         </div>
                     </div>
                     <div class="col-md-6" id="col-right">
-                        <h5 class="section-title" id="exam-info-title">Thông tin khám bệnh</h5>
+                        <h5 class="section-title" id="exam-info-title">THÔNG TIN KHÁM BỆNH</h5>
                         <div class="info-row row" id="info-row">
                             <div class="col-sm-4 info-label">Mã phiếu khám:</div>
                             <div class="col-sm-8">' . ($data['MaPK']) . '</div>
@@ -61,19 +60,22 @@ echo'<div class="container my-5" id="container">
                     </div>
                 </div>
 
-                <h5 class="section-title" id="exam-results-title">Kết quả khám</h5>
+                <h5 class="section-title" id="exam-results-title">KẾT QUẢ KHÁM VÀ CHUẨN ĐOÁN</h5>
                 <div class="info-row row" id="info-row">
-                    <div class="col-sm-3 info-label">Triệu chứng:</div>
-                    <div class="col-sm-9">' . ($data['KetQua']) . '</div>
-                </div>
-                <div class="info-row row" id="info-row">
-                    <div class="col-sm-3 info-label">Chỉ số cơ thể:</div>
-                    <div class="col-sm-9">Nhiệt độ: 37,7°C ; Nhịp tim: 72 ; Huyết áp: 130mmHg</div>
-                </div>
-                <div class="info-row row" id="info-row">
-                    <div class="col-sm-3 info-label">Kết quả cận lâm sàng:</div>
-                    <div class="col-sm-9">' . ($data['KetQua']) . '</div>
-                </div>
+                    <div class="col-sm-3 info-label">Chỉ định xét nghiệm:</div>';
+                    if($data['MaXN'] == null){
+                        echo '<div class="col-sm-9">Không</div>
+                    </div>';
+                    }
+                    else if($data['MaXN'] != null){
+                        echo '<div class="col-sm-9">' .$data['LoaiXN']. '</div>
+                    </div>
+                    <div class="info-row row" id="info-row">
+                        <div class="col-sm-3 info-label">Kết quả xét nghiệm:</div>
+                        <div class="col-sm-9">' .$data['KetQuaXN']. '</div>
+                    </div>';
+                    }
+                echo'
                 <div class="info-row row" id="info-row">
                     <div class="col-sm-3 info-label">Chuẩn đoán:</div>
                     <div class="col-sm-9">' . ($data['KetQua']) . '</div>

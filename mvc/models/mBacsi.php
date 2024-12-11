@@ -5,7 +5,7 @@ class MBacsi extends DB
     public function themLichLamViec($maNV, $ngayLamViec, $caLamViec)
     {
         $str = "INSERT INTO LichLamViec (MaNV, NgayLamViec, CaLamViec, TrangThai) 
-                VALUES ('$maNV', '$ngayLamViec', '$caLamViec', 'chưa duyệt')";
+                VALUES ('$maNV', '$ngayLamViec', '$caLamViec', 'Đang làm')";
         return mysqli_query($this->con, $str);
     }
 
@@ -36,7 +36,7 @@ class MBacsi extends DB
     {
         $str = "SELECT NgayLamViec, CaLamViec 
                 FROM LichLamViec 
-                WHERE MaNV = '$maNV'";
+                WHERE MaNV = '$maNV' AND TrangThai = 'Đang làm'";
         $result = mysqli_query($this->con, $str);
         $mang = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -44,6 +44,7 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
+
 
     //NhatCuong; Usecase: Xem danh sách khám bệnh1/3; Hàm truy vấn for input-radio:Sáng 
     public function GetDanhSachKhamSang()
@@ -66,8 +67,7 @@ class MBacsi extends DB
                     lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -94,8 +94,7 @@ class MBacsi extends DB
                     lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -121,8 +120,7 @@ class MBacsi extends DB
                     lk.GioKham ASC';
         $rows = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($rows))
-        {
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -148,8 +146,7 @@ class MBacsi extends DB
                 pk2.NgayTao";
         $result = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($result))
-        {
+        while ($row = mysqli_fetch_array($result)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -158,8 +155,10 @@ class MBacsi extends DB
     //NhatCuong; Usecase 2/3: Xem lịch sử khám bệnh, thông tin bệnh nhân
     public function GetThongTinBenhNhan($maBN)
     {
+
         $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
             FROM benhnhan WHERE MaBN = '$maBN'";
+
         $result = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_array($result))
@@ -273,3 +272,44 @@ class MBacsi extends DB
     }
 }
 
+    public function GetPhieuKham($maBN)
+    {
+        $str = "SELECT
+                pk2.NgayTao,
+                nv.HoVaTen AS BacSi,
+                pk2.TrieuChung,
+                pk2.ChuanDoan,
+                pk2.KetQua,
+                pk2.LoiDan,
+                pk2.NgayTaiKham,
+                xn.NgayXetNghiem,
+                xn.KetQua as KetQuaXN,
+                xn.LoaiXN,
+                t.TenThuoc,
+                dt.SoLuong,
+                dt.LieuDung,
+                dt.CachDung
+            FROM 
+                PhieuKham pk2
+            JOIN 
+                NhanVien nv ON pk2.MaNV = nv.MaNV
+            left JOIN 
+                XetNghiem xn ON pk2.MaXN = xn.MAXN
+            left JOIN
+                donthuoc d on d.MaBN = pk2.MaBN
+            JOIN 
+                chitietdonthuoc dt ON d.MaDT = dt.MaDT
+            JOIN 
+                thuoc as t ON dt.MaThuoc = t.MaThuoc
+            WHERE 
+                pk2.MaBN = '$maBN'
+            ORDER BY 
+                pk2.NgayTao";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
+}

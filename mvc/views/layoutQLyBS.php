@@ -1,8 +1,8 @@
 <?php
-    // if($_SESSION["role"] != 1){
-    //     echo "<script>alert('Bạn không có quyền truy cập')</script>";
-    //     header("refresh: 0; url='/PTUD_DD'");
-    // }
+    if($_SESSION["role"] != 1){
+        echo "<script>alert('Bạn không có quyền truy cập')</script>";
+        header("refresh: 0; url='/PTUD_DD'");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +28,7 @@
                     <div class="d-grid gap-3">
                     <a href="./DSBS" class="btn <?php echo ($data['Page'] == 'qlbs') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSBS">Thông tin bác sĩ</a>
                     <a href="./DSNVYT" class="btn <?php echo ($data['Page'] == 'qlnvyt') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSNVYT">Thông tin nhân viên y tế</a>
+                    <a href="./DSNVNT" class="btn <?php echo ($data['Page'] == 'qlnvnt') ? 'btn-primary' : 'btn-secondary'; ?>" id="btnDSNVNT">Thông tin nhân viên nhà thuốc</a>
                     </div>
                 </div>
             </div>
@@ -53,7 +54,7 @@
     </div>
 </div>
 
-<?php require_once "./mvc/views/blocks/footer.php" ?>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

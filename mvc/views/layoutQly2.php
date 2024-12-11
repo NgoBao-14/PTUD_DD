@@ -4,15 +4,15 @@
         header("refresh: 0; url='/PTUD_DD'");
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Work Schedule Management</title>
+    <title>Lịch làm việc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./public/css/main.css">
     <link rel="stylesheet" href="../public/css/main.css">
     <style>
         .schedule-grid {
@@ -21,82 +21,8 @@
             border-radius: 15px;
             overflow: hidden;
             background: white;
-            height: 600px; /* Đặt chiều cao cố định cho lưới */
-        }
-
-        .schedule-day {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid #dee2e6;
-            min-width: 0; /* Cho phép co lại khi cần thiết */
-        }
-
-        .schedule-day:last-child {
-            border-right: none;
-        }
-
-        .schedule-header {
-            background-color: #f8f9fa;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .schedule-shifts {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .shift {
-            height: 300px; /* Fixed height for all shift sections */
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .shift:last-child {
-            border-bottom: none;
-        }
-
-        .time-slot {
-            padding: 10px;
-            background-color: #f8f9fa;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .doctor-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .doctor-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .doctor-item:last-child {
-            border-bottom: none;
-        }
-
-        .add-doctor-btn {
-            width: 100%;
-            text-align: left;
-            padding: 8px;
-            border: 1px dashed #dee2e6;
-            background: none;
-            color: #0d6efd;
-            border-radius: 4px;
-            margin-top: 8px;
+            height: 600px;
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .add-doctor-btn:hover {
@@ -125,9 +51,24 @@
             background-color: #fee2e2;
         }
 
-        .past-week {
-            opacity: 0.6;
-            pointer-events: none;
+        tr th {
+            text-align: center;
+            width: 100px;
+        }
+        td{
+            font-size: 13px;
+            padding: 5px;
+            /* font-weight: bold; */
+        }
+        .ca{
+            font-weight: bold;
+            font-size: 15px;
+        }
+        #a{
+            background: #f0f0f0;
+        }
+        .shift{
+            width: 50px;
         }
     </style>
 </head>
