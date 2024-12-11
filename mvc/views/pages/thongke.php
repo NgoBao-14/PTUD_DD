@@ -58,7 +58,7 @@ $dataPointsWeek = [
     ["label" => "Khám bệnh", "y" => $totalByServiceWeek["Khám bệnh"]],
     ["label" => "Xét nghiệm", "y" => $totalByServiceWeek["Xét nghiệm"]],
 ];
-echo '<h2 class="text-center mb-4">Thống kê doanh thu</h2>';
+echo '<h2 class="text-center mb-4" style="background-color: #007bff; color: white; font-weight: bold; padding: 5px; border-radius: 5px;">Thống kê doanh thu</h2>';
 echo '
     <div class="row mb-3">
     <div id="chartContainerWeek" style="height: 300px; width: 50%; border:1px #CFCFCF solid;"></div>

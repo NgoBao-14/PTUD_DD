@@ -34,12 +34,11 @@ class mQuanLy extends DB {
     }
 
     public function GetCTPK($MaPK) {
-        $str = "SELECT 
+        $str = "SELECT
     pk.MaPK,
     pk.NgayTao AS NgayTaoPhieuKham,
     nv.HovaTen AS BacSiPhuTrach,
     pk.KetQua,
-    GROUP_CONCAT(DISTINCT CONCAT(xn.LoaiXN, ': ', xn.KetQua) SEPARATOR '; ') AS KetQuaXetNghiem,
     GROUP_CONCAT(DISTINCT CONCAT(t.TenThuoc, ' - ', ct.LieuDung, ' - ', ct.CachDung) SEPARATOR '; ') AS DonThuoc,
     dt.MoTa AS LoiDan,
     bn.HovaTen,          
@@ -48,7 +47,11 @@ class mQuanLy extends DB {
     bn.SoDT,
     bn.BHYT,
     bn.GioiTinh,
-    bn.MaBN
+    bn.MaBN,
+    xn.NgayXetNghiem,
+    xn.LoaiXN,
+    xn.MaXN,
+    xn.KetQua AS KetQuaXN
     FROM 
         phieukham pk
     LEFT JOIN 

@@ -50,7 +50,7 @@ $daysOfWeek = [];
 for ($i = 1; $i < 8; $i++) {
     $daysOfWeek[] = date('Y-m-d', strtotime($ngaydautuan . " +{$i} days"));
 }
-echo '<h2 class="text-center mb-4" style="background-color: #007bff;color: white;font-weight: bold; padding:5px;">Quản lý lịch làm việc</h2>';
+echo '<h2 class="text-center mb-4" style="background-color: #007bff; color: white; font-weight: bold; padding: 5px; border-radius: 5px;">Quản lý lịch làm việc</h2>';
 echo '<div class="row mb-4">';
     // Danh sách khoa
     echo '<div class="col-md-3 d-flex align-items-center">';
