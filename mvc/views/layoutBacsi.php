@@ -171,7 +171,7 @@ if ($_SESSION["role"] != 2) {
                 <li><a href="/ptud_dd/Bacsi/XemLichLamViec">Xem lịch làm việc</a></li>
                 <li><a href="/ptud_dd/Bacsi/XemDanhSachKham">Xem danh sách khám</a></li>
                 <li><a href="/ptud_dd/Bacsi/XemThongTinBenhNhan">Xem thông tin bệnh nhân</a></li>
-                <li><a href="/ptud_dd/Bacsi/XemLichSuKhamBenh" class="active">Xem lịch sử khám bệnh</a></li>
+                <li><a href="/ptud_dd/Bacsi/XemLichSuKhamBenh">Xem lịch sử khám bệnh</a></li>
             </ul>
         </div>
 
