@@ -230,6 +230,7 @@ class Bacsi extends Controller
             ]);
         }
 
+
     }
     function ThongTinBacSi() {
         $maNV = $_SESSION["idnv"];
@@ -237,6 +238,7 @@ class Bacsi extends Controller
         $this->view("layoutBacsi",[
             "Page" => "thongtinbacsi",
             "thongtinbs" => $model->get1BS(100)
+
         ]);
     }
 }

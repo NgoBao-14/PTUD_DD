@@ -13,9 +13,13 @@ class mQLNVYT extends DB {
                 FROM nhanvien nv
                 WHERE nv.TrangThaiLamViec = 'Đang làm việc'
                 AND nv.ChucVu = 'Nhân viên y tế'
-                AND (nv.MaNV LIKE '%$search%' OR nv.HovaTen LIKE '%$search%')
+                AND (nv.MaNV LIKE ? OR nv.HovaTen LIKE ?)
                 ORDER BY nv.MaNV DESC";
-        $result = $this->con->query($str);
+        $search = "%$search%";
+        $stmt = $this->con->prepare($str);
+        $stmt->bind_param("ss", $search, $search);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $data = [];
         while ($row = $result->fetch_assoc()) {
             $data[] = $row;
@@ -27,27 +31,52 @@ class mQLNVYT extends DB {
         $str = "SELECT nv.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
                 FROM nhanvien nv
                 JOIN nhanvienyte nvyt ON nv.MaNV = nvyt.MaNV
-                WHERE nv.MaNV = $MaNV AND nv.ChucVu = 'Nhân viên y tế'";
-        $result = $this->con->query($str);
+                WHERE nv.MaNV = ? AND nv.ChucVu = 'Nhân viên y tế'";
+        $stmt = $this->con->prepare($str);
+        $stmt->bind_param("i", $MaNV);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $data = $result->fetch_assoc();
         return json_encode($data);
     }
+    
 
     public function UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV) {
-        $str = "UPDATE nhanvien 
-                SET NgaySinh = '$NgaySinh', GioiTinh = '$GioiTinh', EmailNV = '$EmailNV'
-                WHERE MaNV = $MaNV";
-        $result = mysqli_query($this->con, $str);
-        return $result;
-    }
+        $this->con->begin_transaction();
+        try {
+            $str_get_email = "SELECT EmailNV FROM nhanvien WHERE MaNV = ?";
+            $stmt_get_email = $this->con->prepare($str_get_email);
+            $stmt_get_email->bind_param("i", $MaNV);
+            $stmt_get_email->execute();
+            $result = $stmt_get_email->get_result();
+            $current_email = $result->fetch_assoc()['EmailNV'];
+            if ($current_email !== $EmailNV) {
+                if ($this->CheckExistingEmail($EmailNV)) {
+                    return "Email đã tồn tại";
+                }
+            }
 
+            $str = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
+            $stmt = $this->con->prepare($str);
+            $stmt->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
+            $stmt->execute();
+
+            $this->con->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->con->rollback();
+            return false;
+        }
+    }
     public function DeleteNVYT($MaNV) {
-        $str = "UPDATE nhanvien 
-                SET TrangThaiLamViec = 'Nghỉ làm', ID=null
-                WHERE MaNV = $MaNV AND ChucVu = 'Nhân viên y tế'";
-        $result = mysqli_query($this->con, $str);
+        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm' 
+                WHERE MaNV = ? AND ChucVu = 'Nhân viên y tế'";
+        $stmt = $this->con->prepare($str);
+        $stmt->bind_param("i", $MaNV);
+        $result = $stmt->execute();
         return json_encode(['success' => $result]);
     }
+
     public function AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
         $this->con->begin_transaction();
         try {
@@ -119,7 +148,6 @@ class mQLNVYT extends DB {
         $row = $result->fetch_assoc();
         return ($row['max_id'] ?? 0) + 1;
     }
-    
     
     
 }

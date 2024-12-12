@@ -185,7 +185,7 @@
                         $tenql = $_SESSION['ten'];
                         echo '<div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD/QuanLy">Trang chủ</a>
-                                <a class="nav-link" href="/PTUD_DD/QuanLy/TTBN">Bệnh nhân</a>
+             /PTUD_DD/BN/TTBN                   <a class="nav-link" href="/PTUD_DD/QuanLy/TTBN">Bệnh nhân</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/DSBS">Nhân viên</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/LLV">Lịch làm việc</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/ThongKe">Thống kê</a>
