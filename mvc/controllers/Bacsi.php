@@ -236,7 +236,7 @@ class Bacsi extends Controller
         $model = $this->model("mBacsi");
         $this->view("layoutBacsi", [
             "Page" => "thongtinbacsi",
-            "thongtinbs" => $model->get1BS(100)
+            "thongtinbs" => $model->get1BS($maNV)
         ]);
     }
 }
