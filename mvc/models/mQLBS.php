@@ -42,6 +42,7 @@ class mQLBS extends DB {
     public function UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa) {
         $this->con->begin_transaction();
         try {
+            
             $str1 = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt1 = $this->con->prepare($str1);
             $stmt1->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
