@@ -133,9 +133,9 @@ class Bacsi extends Controller
             $maBN = $_POST['maBN'];
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
-            // $timmaBN = json_decode($thongTinBenhNhan, true);
-            // if (isset($timmaBN['MaBN'])) {
-
+            $timmaBN = json_decode($thongTinBenhNhan, true);
+            if (isset($timmaBN[0]['MaBN'])) {
+                $maBN = $timmaBN[0]['MaBN'];}
                 $phieuKham = $model->GetPhieuKham($maBN);
 
                 $this->view("layoutBacsi", [
@@ -147,7 +147,7 @@ class Bacsi extends Controller
                 $this->view("layoutBacsi", [
                     "Page" => "xemthongtinbenhnhan"
                 ]);
-            }
+        }
         // }
     }
 
@@ -179,33 +179,33 @@ class Bacsi extends Controller
     function Lapphieukham()
     {
         $bs = $this->model("mBacSi");
-        if(isset($_POST["btnLPK"]))
-        {
+        if (isset($_POST["btnLPK"])) {
             $mabn = $_POST["MaBN"];
             $malk = $_POST["MaLK"];
             $manv = $_SESSION["idnv"];
             $model = $this->model("mBacsi");
-                $benhNhanInfo = $model->GetThongTinBenhNhan1($mabn,$malk);
-                $bacSiInfo = $model->getBacSiInfo($manv);
-                $thuocList = $model->getThuocList();
-             $this->view("LayoutLapPhieuKham",[
+            $benhNhanInfo = $model->GetThongTinBenhNhan1($mabn, $malk);
+            $bacSiInfo = $model->getBacSiInfo($manv);
+            $thuocList = $model->getThuocList();
+            $this->view("LayoutLapPhieuKham", [
                 "Page" => "Lapphieukham",
                 "BenhNhanInfo" => $benhNhanInfo,
-                    "BacSiInfo" => $bacSiInfo,
-                    "ThuocList" => $thuocList
-             ]);
+                "BacSiInfo" => $bacSiInfo,
+                "ThuocList" => $thuocList
+            ]);
         }
-        if(isset($_POST["lap"])){
-            $mabn=$_POST["maBN"];
-            $malk=$_POST["maLK"];
+        if (isset($_POST["lap"])) {
+            $mabn = $_POST["maBN"];
+            $malk = $_POST["maLK"];
             $ngaytao = $_POST["ngayTao"];
             $bsi = $_SESSION["idnv"];
             $trieuchung = $_POST["trieuChung"];
             $kq = $_POST["ketQua"];
             $chuandoan = $_POST["chuanDoan"];
             $loidan = $_POST["loiDan"];
-            $ngaytaikham= $_POST["ngayTaiKham"];
+            $ngaytaikham = $_POST["ngayTaiKham"];
             $model = $this->model("mBacsi");
+
             $rs=$model->AddPK($ngaytao,$trieuchung,$kq,$chuandoan,$loidan,$ngaytaikham,$malk,$bsi,$mabn);
             $thuoc = $_POST["thuoc"];
             $key = array_keys($thuoc);
@@ -228,5 +228,16 @@ class Bacsi extends Controller
                 "result" => $rs3
                 ]);
         }
+
         }
     }
+
+    function ThongTinBacSi() {
+        $maNV = $_SESSION["idnv"];
+        $model = $this->model("mBacsi");
+        $this->view("layoutBacsi",[
+            "Page" => "thongtinbacsi",
+            "thongtinbs" => $model->get1BS(100)
+        ]);
+    }
+}

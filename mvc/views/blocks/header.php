@@ -167,21 +167,14 @@
                     } else if (isset($_SESSION['role']) && $_SESSION['role'] == 2) { // Bác sĩ
                         $tenbs = $_SESSION['ten'];
                         echo '<div class="navbar-nav ms-auto">
-                                <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
-                                <a class="nav-link" href="BN">Bệnh nhân</a>
-                                <a class="nav-link" href="/PTUD_DD/Bacsi/XemDanhSachKham">Lịch khám</a>
-                                <a class="nav-link" href="/PTUD_DD/Bacsi/XemLichLamViec">Lịch làm việc</a>
-                                <a class="nav-link" href="statistic.php">Thống kê</a>
+                                <a class="nav-link" href="/PTUD_DD/Bacsi">Chức năng</a>
                             </div>
                             <nav>
                                 <ul class="menu">
                                     <li>
                                         <a class="nav-link" href="#">' . $tenbs . '</a>
                                         <ul class="submenu">
-                                            <li><a href="/PTUD_DD/BN/LK">Lịch khám</a></li>
-                                            <li><a href="#">LS thanh toán</a></li>
-                                            <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ</a></li>
-                                            <li><a href="#">Tài khoản</a></li>
+                                            <li><a href="/PTUD_DD/Bacsi/ThongTinBacSi">Thông tin bác sĩ</a></li>
                                             <li><a href="/PTUD_DD/Logout" onclick="return confirm(\'Bạn có muốn đăng xuất?\')">Đăng xuất</a></li>
                                         </ul>
                                     </li>
@@ -192,7 +185,7 @@
                         $tenql = $_SESSION['ten'];
                         echo '<div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD/QuanLy">Trang chủ</a>
-                                <a class="nav-link" href="/PTUD_DD/QuanLy/TTBN">Bệnh nhân</a>
+             /PTUD_DD/BN/TTBN                   <a class="nav-link" href="/PTUD_DD/QuanLy/TTBN">Bệnh nhân</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/DSBS">Nhân viên</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/LLV">Lịch làm việc</a>
                                 <a class="nav-link" href="/PTUD_DD/QuanLy/ThongKe">Thống kê</a>

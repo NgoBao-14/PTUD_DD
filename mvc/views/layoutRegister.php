@@ -24,6 +24,7 @@ if (isset($data["result"])) {
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/main.css">
+    <link rel="stylesheet" href="../public/css/main.css">
     <style>
         .login-container {
             display: flex;
@@ -84,7 +85,6 @@ if (isset($data["result"])) {
                             <label for="password" class="form-label">Mật khẩu</label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Nhập mật khẩu" required minlength="8">
                             <span class="pass1">(*)</span>
-                            <input type="hidden" name="hiddenphanquyen" id="hiddenphanquyen" value="Bệnh Nhân">
                         </div>
                         <div class="mb-3">
                             <label for="password2" class="form-label">Nhập lại mật khẩu</label>

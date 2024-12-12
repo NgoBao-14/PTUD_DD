@@ -42,6 +42,7 @@ class mQLBS extends DB {
     public function UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa) {
         $this->con->begin_transaction();
         try {
+            
             $str1 = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt1 = $this->con->prepare($str1);
             $stmt1->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
@@ -83,23 +84,34 @@ class mQLBS extends DB {
             if ($this->CheckExistingEmail($EmailNV)) {
                 return "Email đã tồn tại";
             }
-
+    
             // Generate new MaNV
             $MaNV = $this->GenerateNewMaNV();
-
-            // Insert into nhanvien table
-            $str1 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
-                     VALUES (?, ?, ?, ?, ?, ?, 'Bác sĩ', 'Đang làm việc', 0)";
+    
+            // Create user account first to get the ID
+            $username = $SoDT;
+            $password = md5('123456'); // Using MD5 for password hashing
+            $str1 = "INSERT INTO taikhoan (username, password, MaPQ) VALUES (?, ?, 2)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssss", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $stmt1->bind_param("ss", $username, $password);
             $stmt1->execute();
-
-            // Insert into bacsi table
-            $str2 = "INSERT INTO bacsi (MaNV, MaKhoa) VALUES (?, ?)";
+    
+            // Get the auto-generated ID
+            $newAccountId = $this->con->insert_id;
+    
+            // Insert into nhanvien table with the new account ID
+            $str2 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
+                     VALUES (?, ?, ?, ?, ?, ?, 'Bác sĩ', 'Đang làm việc', ?)";
             $stmt2 = $this->con->prepare($str2);
-            $stmt2->bind_param("ii", $MaNV, $MaKhoa);
+            $stmt2->bind_param("isssssi", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV, $newAccountId);
             $stmt2->execute();
-
+    
+            // Insert into bacsi table
+            $str3 = "INSERT INTO bacsi (MaNV, MaKhoa) VALUES (?, ?)";
+            $stmt3 = $this->con->prepare($str3);
+            $stmt3->bind_param("ii", $MaNV, $MaKhoa);
+            $stmt3->execute();
+    
             $this->con->commit();
             return true;
         } catch (Exception $e) {

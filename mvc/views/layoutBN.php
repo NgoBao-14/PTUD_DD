@@ -32,7 +32,7 @@
                         <ul>
                             <li><a href="/PTUD_DD/LichKham">Lịch khám</a></li>
                             <li><a href="/PTUD_DD/LichXetNghiem">Lịch xét nghiệm</a></li>
-                            <li ><a href="/PTUD_DD/ThanhToan">Thanh toán</a></li>
+                            <li><a href="/PTUD_DD/ThanhToan">Thanh toán</a></li>
                             <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ cá nhân</a></li>
                             <li ><a href="/PTUD_DD/XemPhieuKham">Hồ sơ phiếu khám</a></li>
                         </ul>

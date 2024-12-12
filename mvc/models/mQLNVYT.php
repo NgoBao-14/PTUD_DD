@@ -79,11 +79,20 @@ class mQLNVYT extends DB {
             // Generate new MaNV
             $MaNV = $this->GenerateNewMaNV();
 
+            $username = $SoDT;
+            $password = md5('123456'); // Using MD5 for password hashing
+            $str1 = "INSERT INTO taikhoan (username, password, MaPQ) VALUES (?, ?, 3)";
+            $stmt1 = $this->con->prepare($str1);
+            $stmt1->bind_param("ss", $username, $password);
+            $stmt1->execute();
+    
+            // Get the auto-generated ID
+            $newAccountId = $this->con->insert_id;
             // Insert into nhanvien table
             $str1 = "INSERT INTO nhanvien (MaNV, HovaTen, NgaySinh, GioiTinh, SoDT, EmailNV, ChucVu, TrangThaiLamViec, ID) 
-                     VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', 0)";
+                     VALUES (?, ?, ?, ?, ?, ?, 'Nhân viên y tế', 'Đang làm việc', ?)";
             $stmt1 = $this->con->prepare($str1);
-            $stmt1->bind_param("isssss", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV);
+            $stmt1->bind_param("isssssi", $MaNV, $HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV,$newAccountId );
             $stmt1->execute();
 
             // Insert into nhanvienyte table

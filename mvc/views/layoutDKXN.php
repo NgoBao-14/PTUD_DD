@@ -9,18 +9,6 @@
 ?>
 
 <?php
-if(isset($data["result"])){
-    if($data["result"] == true){
-        echo '<script>alert("Đăng ký xét nghiệm thành công!")</script>';
-        header("refresh:0; url='/PTUD_DD/'");
-    } else{
-        echo '<script>alert("Đăng ký xét nghiệm thất bại!")</script>';
-        header("refresh:0; url='/PTUD_DD/BN/DKXN'");
-    }
-}
-?>
-
-<?php
 if (!isset($_SESSION['step'])) {
     $_SESSION['step'] = 1;
 }
@@ -33,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['confirm'])) {
         $confirmation_message = "Xét nghiệm đã được đăng ký thành công!";
         $_SESSION['step'] = 1; 
+        header("refresh: 1; url='/PTUD_DD/'");
     }
 
     foreach ($_POST as $key => $value) {
