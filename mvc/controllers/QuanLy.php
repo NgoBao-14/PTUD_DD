@@ -229,6 +229,14 @@ class QuanLy extends Controller {
             // Lấy thông tin hiện tại của bác sĩ
             $currentBS = json_decode($ql->Get1BS($MaNV), true);
 
+            if ($EmailNV !== $currentBS['EmailNV'] && $ql->CheckExistingEmail($EmailNV, $MaNV)) {
+                $this->view("layoutQLyBS", [
+                    "Page" => "qlchitietbs",
+                    "Error" => "Email đã tồn tại trong hệ thống.",
+                    "CTBS" => $currentBS
+                ]);
+                return;
+            }
 
             $result = $ql->UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa);
 
