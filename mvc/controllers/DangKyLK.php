@@ -1,11 +1,11 @@
 <?php
 class DangKyLK extends Controller {
-    public $MaBN = 1;
 
     public function SayHi() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }       
+        $MaBN = $_SESSION["idbn"];
         $dangky = $this->model("mDangKyLK");
         $searchTerm = isset($_POST['searchTerm']) ? $_POST['searchTerm'] : ""; 
               
@@ -32,7 +32,6 @@ class DangKyLK extends Controller {
                     $message = "Lịch khám đã bị trùng, vui lòng chọn giờ khác!";
                     $messageType = "error";
                 } else {
-                    $MaBN = $this->MaBN;
                     $dangky->InsertLichKham($MaBS, $NgayKham, $GioKham, $MaBN);
                     $message = "Đặt lịch khám thành công!";
                     $messageType = "success";

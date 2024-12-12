@@ -8,7 +8,8 @@
                         phieukham.*, 
                         nhanvien.*,
                         benhnhan.*, 
-                        xetnghiem.* 
+                        xetnghiem.*,
+                        nhanvien.HovaTen AS HovaTenNV
                     FROM 
                         phieukham
                     INNER JOIN 
@@ -38,6 +39,7 @@
                         phieukham.MaPK AS phieukham_MaPK, 
                         phieukham.*, 
                         nhanvien.*,
+                        nhanvien.HovaTen AS HovaTenNV,
                         benhnhan.*, 
                         xetnghiem.* 
                     FROM 

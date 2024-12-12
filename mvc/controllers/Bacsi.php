@@ -205,12 +205,30 @@ class Bacsi extends Controller
             $loidan = $_POST["loiDan"];
             $ngaytaikham = $_POST["ngayTaiKham"];
             $model = $this->model("mBacsi");
-            $rs = $model->AddPK($ngaytao, $trieuchung, $kq, $chuandoan, $loidan, $ngaytaikham, $malk, $bsi, $mabn);
-            $this->view("LayoutXemDanhSachKham", [
+
+            $rs=$model->AddPK($ngaytao,$trieuchung,$kq,$chuandoan,$loidan,$ngaytaikham,$malk,$bsi,$mabn);
+            $thuoc = $_POST["thuoc"];
+            $key = array_keys($thuoc);
+            $l = count($key);
+            if($model->TaoDT($ngaytao, $chuandoan,$bsi,$mabn))
+            {
+                for($k = 0; $k < $l; $k++)
+                {
+                    $t = $key[$k];
+                        $mathuoc = $thuoc[$t]["MaThuoc"];
+                        $soluong = $thuoc[$t]["SoLuong"];
+                        $lieudung = $thuoc[$t]["LieuDung"];
+                        $cachdung = $thuoc[$t]["CachDung"];
+                        $rs3 = $model->TaoCTDT($mathuoc,$soluong,$lieudung,$cachdung);
+                }
+            }
+            $this->view("LayoutXemDanhSachKham",[
                 "Page" => "Danhsachkham",
                 "DanhSachKham" => $model->GetDanhSachKhamAll(),
-                "result" => $rs
-            ]);
+                "result" => $rs3
+                ]);
+        }
+
         }
     }
 

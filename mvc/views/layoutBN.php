@@ -34,8 +34,7 @@
                             <li><a href="/PTUD_DD/LichXetNghiem">Lịch xét nghiệm</a></li>
                             <li><a href="/PTUD_DD/ThanhToan">Thanh toán</a></li>
                             <li><a href="/PTUD_DD/BN/TTBN">Hồ sơ cá nhân</a></li>
-                            <li><a href="/PTUD_DD/XemPhieuKham">Hồ sơ phiếu khám</a></li>
-                            <li><a href="/PTUD_DD/Logout" onclick="return confirm('Bạn có muốn đăng xuất?')">Đăng xuất</a></li>
+                            <li ><a href="/PTUD_DD/XemPhieuKham">Hồ sơ phiếu khám</a></li>
                         </ul>
                     </div>
                     <div class="col-md-10">
