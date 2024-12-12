@@ -133,9 +133,9 @@ class Bacsi extends Controller
             $maBN = $_POST['maBN'];
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
-            // $timmaBN = json_decode($thongTinBenhNhan, true);
-            // if (isset($timmaBN['MaBN'])) {
-
+            $timmaBN = json_decode($thongTinBenhNhan, true);
+            
+            $maBN = $timmaBN[0]['MaBN'];
                 $phieuKham = $model->GetPhieuKham($maBN);
 
                 $this->view("layoutBacsi", [
