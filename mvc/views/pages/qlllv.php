@@ -2,7 +2,7 @@
 $dt = json_decode($data["LLV"], true);
 $K = json_decode($data["Khoa"], true);
 $BS = json_decode($data["BS"], true);
-
+// Hiển thị thông báo
 if(isset($_SESSION['message'])): ?>
     <div class="alert alert-<?php echo $_SESSION['message_type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
         <?php 
