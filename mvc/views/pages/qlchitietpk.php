@@ -90,6 +90,20 @@ echo'<div class="container" id="container">
                     <div class="col-sm-3 info-label">Lời dặn:</div>
                     <div class="col-sm-9">' . ($data['LoiDan']) . '</div>
                 </div>
+                <div class="text-center mt-5" id="doctor-signature">
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <div class="col-4 text-right">
+                            <p><strong>Ngày: </strong>' . date("d/m/Y") . '</p>
+                            <p><strong>Bác sĩ phụ trách</strong></p>
+                            <div style="height: 100px; width: 300px; margin: 0 auto;"></div>
+                            <p>(Ký và ghi rõ họ tên)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button onclick="window.print();" class="btn btn-primary">In phiếu khám</button>
+                </div>
             </div>
         </div>
     </div>';
