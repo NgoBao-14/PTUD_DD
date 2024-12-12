@@ -121,11 +121,16 @@
 
     function generateTimeSlots(startHour, endHour, isToday) {
     const slots = [];
-    const currentTime = new Date();
+    let currentTime = new Date();
 
     if (isToday) {
-        currentTime.setMinutes(currentTime.getMinutes() + 20 - (currentTime.getMinutes() % 20)); // Làm tròn đến 20 phút tiếp theo
-        startHour = currentTime.getHours();
+        const now = new Date();
+        currentTime.setHours(now.getHours(), now.getMinutes(), 0, 0); 
+        if (currentTime.getHours() < startHour) {
+            currentTime.setHours(startHour, 0, 0, 0); 
+        } else {
+            currentTime.setMinutes(currentTime.getMinutes() + 20 - (currentTime.getMinutes() % 20));
+        }
     } else {
         currentTime.setHours(startHour, 0, 0, 0); 
     }
@@ -135,6 +140,7 @@
         slots.push(timeSlot);
         currentTime.setMinutes(currentTime.getMinutes() + 20);
     }
+
     return slots;
 }
 

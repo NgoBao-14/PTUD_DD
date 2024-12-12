@@ -18,6 +18,7 @@ $lichKhamData = json_decode($data["LK"], true);
 <h2 class="mt-3">Thanh toán</h2>
     <div class="col-4">
         <div class="list-group">
+        <?php if (isset($lichKhamData) && !empty($lichKhamData)): ?>
             <?php foreach ($lichKhamData as $lichKham): ?>
                 <form method="POST" action="/PTUD_DD/ThanhToan">
                     <input type="hidden" name="MaLK" value="<?= $lichKham['MaLK']; ?>">
@@ -37,6 +38,9 @@ $lichKhamData = json_decode($data["LK"], true);
                     </div>
                 </form>
             <?php endforeach; ?>
+            <?php else: ?>
+            <p>Không có lịch khám nào được đặt!</p>
+        <?php endif; ?>
         </div>
     </div>
 
