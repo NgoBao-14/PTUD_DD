@@ -35,8 +35,7 @@ class BN extends Controller{
             $result = $bn->getDKXN($ngayxn, $ketqua, $loaixn, $mabn);
 
             $this->view("layoutDKXN",[
-                "DKXN"=>$bn->get1BN($mabn),
-                "XLXN"=>$result
+                "DKXN"=>$bn->get1BN($mabn)
             ]);
         }
     }
