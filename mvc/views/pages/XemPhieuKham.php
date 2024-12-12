@@ -12,7 +12,7 @@ $phieuKhamData = json_decode($data["PK"], true);
                     <input type="hidden" name="MaPK" value="<?= $phieuKham['phieukham_MaPK'];  ?>">
                     <div class="patient-item list-group-item" onclick="this.closest('form').submit()">
                         <p style="font-size: 18px;">
-                            <?= $phieuKham['HovaTenNV']; ?>
+                            BS. <?= $phieuKham['HovaTenNV']; ?>
                         </p>
                         <p style="font-size: 14px; text-align: left;">
                             <?= $phieuKham['NgayTao']; ?> 

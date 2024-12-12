@@ -113,7 +113,7 @@
                 selectedDate = date;
                 renderDates(dates); 
                 updateTimeSlots(); 
-                document.getElementById('NgayKham').value = selectedDate.toISOString().split('T')[0];
+                document.getElementById('NgayKham').value = selectedDate.toLocaleDateString('en-CA').split('T')[0];
             });
             dateScroll.appendChild(div);
         });
