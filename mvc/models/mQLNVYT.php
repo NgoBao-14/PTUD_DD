@@ -13,13 +13,9 @@ class mQLNVYT extends DB {
                 FROM nhanvien nv
                 WHERE nv.TrangThaiLamViec = 'Đang làm việc'
                 AND nv.ChucVu = 'Nhân viên y tế'
-                AND (nv.MaNV LIKE ? OR nv.HovaTen LIKE ?)
+                AND (nv.MaNV LIKE '%$search%' OR nv.HovaTen LIKE '%$search%')
                 ORDER BY nv.MaNV DESC";
-        $search = "%$search%";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("ss", $search, $search);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $this->con->query($str);
         $data = [];
         while ($row = $result->fetch_assoc()) {
             $data[] = $row;
@@ -31,40 +27,27 @@ class mQLNVYT extends DB {
         $str = "SELECT nv.MaNV, nv.HovaTen, nv.NgaySinh, nv.GioiTinh, nv.SoDT, nv.EmailNV
                 FROM nhanvien nv
                 JOIN nhanvienyte nvyt ON nv.MaNV = nvyt.MaNV
-                WHERE nv.MaNV = ? AND nv.ChucVu = 'Nhân viên y tế'";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("i", $MaNV);
-        $stmt->execute();
-        $result = $stmt->get_result();
+                WHERE nv.MaNV = $MaNV AND nv.ChucVu = 'Nhân viên y tế'";
+        $result = $this->con->query($str);
         $data = $result->fetch_assoc();
         return json_encode($data);
     }
-    
 
     public function UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV) {
-        $this->con->begin_transaction();
-        try {
-            $str = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
-            $stmt = $this->con->prepare($str);
-            $stmt->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
-            $stmt->execute();
-
-            $this->con->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->con->rollback();
-            return false;
-        }
+        $str = "UPDATE nhanvien 
+                SET NgaySinh = '$NgaySinh', GioiTinh = '$GioiTinh', EmailNV = '$EmailNV'
+                WHERE MaNV = $MaNV";
+        $result = mysqli_query($this->con, $str);
+        return $result;
     }
+
     public function DeleteNVYT($MaNV) {
-        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm', ID=null
-                WHERE MaNV = ? AND ChucVu = 'Nhân viên y tế'";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("i", $MaNV);
-        $result = $stmt->execute();
+        $str = "UPDATE nhanvien 
+                SET TrangThaiLamViec = 'Nghỉ làm', ID=null
+                WHERE MaNV = $MaNV AND ChucVu = 'Nhân viên y tế'";
+        $result = mysqli_query($this->con, $str);
         return json_encode(['success' => $result]);
     }
-
     public function AddNVYT($HovaTen, $NgaySinh, $GioiTinh, $SoDT, $EmailNV) {
         $this->con->begin_transaction();
         try {
@@ -137,38 +120,6 @@ class mQLNVYT extends DB {
         return ($row['max_id'] ?? 0) + 1;
     }
     
-    private function GenerateNewID() {
-        $str = "SELECT MAX(ID) as max_id FROM taikhoan";
-        $result = $this->con->query($str);
-        $row = $result->fetch_assoc();
-        return ($row['max_id'] ?? 0) + 1;
-    }
-    
-    private function GenerateUsername($HovaTen) {
-        $name_parts = explode(' ', $HovaTen);
-        $last_name = end($name_parts);
-        $first_letter = mb_strtolower(mb_substr($HovaTen, 0, 1, 'UTF-8'), 'UTF-8');
-        $username = $first_letter . mb_strtolower($last_name, 'UTF-8');
-    
-        $i = 1;
-        $original_username = $username;
-        while ($this->CheckExistingUsername($username)) {
-            $username = $original_username . $i;
-            $i++;
-        }
-    
-        return $username;
-    }
-    
-    private function CheckExistingUsername($username) {
-        $str = "SELECT COUNT(*) as count FROM taikhoan WHERE username = ?";
-        $stmt = $this->con->prepare($str);
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row['count'] > 0;
-    }
     
     
 }
