@@ -235,15 +235,25 @@ class QuanLy extends Controller {
 
             $result = $ql->UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa);
 
-            if ($result) {
+            if ($result===true) {
                 $_SESSION['success_message'] = "Cập nhật thông tin Bác sĩ thành công.";
                 header("Location: ./DSBS");
             } else {
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlchitietbs",
-                    "Error" => "Không thể cập nhật thông tin bác sĩ.",
-                    "CTBS" => $currentBS
-                ]);
+                if($result==="Email đã tồn tại"){
+                    $this->view("layoutQLyBS", [
+                        "Page" => "qlchitietbs",
+                        "Error" => "Email đã tồn tại trong hệ thống.",
+                        "CTBS" => $currentBS
+                    ]);
+                }
+                else{
+                    $this->view("layoutQLyBS", [
+                        "Page" => "qlchitietbs",
+                        "Error" => "Không thể cập nhật thông tin bác sĩ.",
+                        "CTBS" => $currentBS
+                    ]);
+                }
+                
             }
         } else {
             $this->view("layoutQLyBS", [
@@ -409,11 +419,21 @@ class QuanLy extends Controller {
                 $_SESSION['success_message'] = "Cập nhật thông tin Nhân viên y tế thành công.";
                 header("Location: ./DSNVYT");
             } else {
-                $this->view("layoutQLyBS", [
-                    "Page" => "qlchitietnvyt",
-                    "Error" => "Không thể cập nhật thông tin nhân viên y tế.",
-                    "CTNV" => $currentNV
-                ]);
+                
+                if($result==="Email đã tồn tại"){
+                    $this->view("layoutQLyBS", [
+                        "Page" => "qlchitietnvyt",
+                        "Error" => "Email đã tồn tại trong hệ thống.",
+                        "CTBS" => $currentNV
+                    ]);
+                }
+                else{
+                    $this->view("layoutQLyBS", [
+                        "Page" => "qlchitietnvyt",
+                        "Error" => "Không thể cập nhật thông tin nhân viên y tế.",
+                        "CTNV" => $currentNV
+                    ]);
+                }
             }
         } else {
             $this->view("layoutQLyBS", [
