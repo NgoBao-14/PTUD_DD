@@ -161,13 +161,12 @@ class MBacsi extends DB
 
         $result = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($result))
-        {
+        while ($row = mysqli_fetch_array($result)) {
             $mang[] = $row;
         }
         return json_encode($mang);
     }
-    public function GetThongTinBenhNhan1($maBN,$malk)
+    public function GetThongTinBenhNhan1($maBN, $malk)
     {
         $str = "SELECT bn.MaBN, bn.HovaTen, bn.NgaySinh, bn.GioiTinh, bn.BHYT, bn.DiaChi, bn.SoDT,lk.MaLK
             FROM benhnhan bn JOIN lichkham lk
@@ -175,8 +174,7 @@ class MBacsi extends DB
             WHERE bn.MaBN = '$maBN' AND lk.MaLK ='$malk'";
         $result = mysqli_query($this->con, $str);
         $mang = array();
-        while ($row = mysqli_fetch_array($result))
-        {
+        while ($row = mysqli_fetch_array($result)) {
             $mang[] = $row;
         }
         return json_encode($mang);
@@ -229,10 +227,11 @@ class MBacsi extends DB
         return $thuocList;
     }
 
-    public function AddPK($ntao,$tchung,$kq,$cdoan,$ldan,$ngaytaikham,$malk,$mabs,$mabn){
-        $str ="INSERT INTO phieukham (`MaPK`, `NgayTao`, `TrieuChung`, `KetQua`, `ChuanDoan`, `LoiDan`, `NgayTaikham`, `MaXN`, `MaLK`, `MaHD`, `MaDT`, `MaBN`, `MaBS`)
+    public function AddPK($ntao, $tchung, $kq, $cdoan, $ldan, $ngaytaikham, $malk, $mabs, $mabn)
+    {
+        $str = "INSERT INTO phieukham (`MaPK`, `NgayTao`, `TrieuChung`, `KetQua`, `ChuanDoan`, `LoiDan`, `NgayTaikham`, `MaXN`, `MaLK`, `MaHD`, `MaDT`, `MaBN`, `MaBS`)
         VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, NULL, '$mabn', '$mabs');";
-        $result = mysqli_query($this->con,$str);
+        $result = mysqli_query($this->con, $str);
         return $result;
     }
 
@@ -257,7 +256,7 @@ class MBacsi extends DB
         }
         return true;
     }
-  
+
     public function GetPhieuKham($maBN)
     {
         $str = "SELECT
@@ -299,12 +298,20 @@ class MBacsi extends DB
         return json_encode($mang);
     }
 
-    public function get1BS($maNV){
-        $str = "select * from nhanvien where MaNV='$maNV'";
+    public function get1BS($maNV)
+    {
+        $str = "SELECT nv.MaNV, nv.HovaTen, nv.NgaySinh, nv.SoDT, nv.ChucVu, nv.GioiTinh, nv.EmailNV, nv.HinhAnh, ck.TenKhoa
+                FROM nhanvien nv
+                JOIN 
+                     bacsi bs ON nv.maNV = bs.maNV
+                JOIN 
+                     chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
+                where 
+                     nv.MaNV = $maNV";
         $rows = mysqli_query($this->con, $str);
-        
+
         $mang = array();
-        while($row = mysqli_fetch_array($rows)){
+        while ($row = mysqli_fetch_array($rows)) {
             $mang[] = $row;
         }
         return json_encode($mang);

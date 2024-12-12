@@ -47,6 +47,10 @@
                         <span>Chức vụ</span>
                         <span>' . $r["ChucVu"] . '</span>
                     </div>
+                    <div>
+                        <span>Chuyên khoa</span>
+                        <span>' . $r["TenKhoa"] . '</span>
+                    </div>
                 </div>
             </div>';
     endforeach;
