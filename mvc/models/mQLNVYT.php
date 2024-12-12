@@ -57,7 +57,7 @@ class mQLNVYT extends DB {
         }
     }
     public function DeleteNVYT($MaNV) {
-        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm' 
+        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm', ID=null
                 WHERE MaNV = ? AND ChucVu = 'Nhân viên y tế'";
         $stmt = $this->con->prepare($str);
         $stmt->bind_param("i", $MaNV);

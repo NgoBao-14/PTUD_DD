@@ -60,7 +60,7 @@ class mQLBS extends DB {
         }
     }
     public function DeleteBS($MaNV) {
-        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm' WHERE MaNV = ?";
+        $str = "UPDATE nhanvien SET TrangThaiLamViec = 'Nghỉ làm', ID=null WHERE MaNV = ?";
         $stmt = $this->con->prepare($str);
         $stmt->bind_param("i", $MaNV);
         return $stmt->execute();

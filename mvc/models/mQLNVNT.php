@@ -37,7 +37,7 @@ class mQLNVNT extends DB {
     public function DeleteNVNT($MaNV)
     {
         $str = "UPDATE nhanvien 
-                SET TrangThaiLamViec = 'Nghỉ làm' 
+                SET TrangThaiLamViec = 'Nghỉ làm', ID=null
                 WHERE MaNV = $MaNV";
         $tblPTTT = mysqli_query($this->con, $str);
         return $tblPTTT;
