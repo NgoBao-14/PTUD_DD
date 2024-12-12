@@ -125,6 +125,9 @@ echo '</div>
                             </button>
                             </form><hr><br>';
                         }
+                        else{
+                            echo'</form><hr><br>';
+                        }
                         }
                     }
                     echo '</td>';
@@ -150,8 +153,11 @@ echo '</div>
                             <i class="bi bi-person-dash"></i>
                             </button>
                             </form><hr><br>';
-                        }
-                        }
+                            }
+                            else{
+                                echo'</form><hr><br>';
+                            }
+                    }
                     }
                     echo '</td>';
                 }
@@ -160,6 +166,7 @@ echo '</div>
         echo '  </tbody>
             </table>
         </div>';
+        
         // modal thêm lịch làm việc
         echo '
         <div class="modal fade" id="addDoctorModal" tabindex="-1">
