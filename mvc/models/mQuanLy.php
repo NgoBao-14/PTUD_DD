@@ -160,7 +160,8 @@ class mQuanLy extends DB {
         $str = "SELECT * FROM bacsi bs JOIN nhanvien nv
         ON bs.MaNV=nv.MaNV
         JOIN chuyenkhoa ck
-        ON bs.MaKhoa=ck.MaKhoa";
+        ON bs.MaKhoa=ck.MaKhoa
+        WHERE nv.TrangThaiLamViec = 'Đang làm việc'";
         $tblBS = mysqli_query($this->con, $str);
         $mang = array();
         while ($row = mysqli_fetch_assoc($tblBS)) {

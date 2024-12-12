@@ -257,6 +257,7 @@ class MBacsi extends DB
         }
         return true;
     }
+  
     public function GetPhieuKham($maBN)
     {
         $str = "SELECT
