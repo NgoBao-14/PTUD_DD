@@ -44,7 +44,7 @@ foreach($TT as $f):
         }
         echo '<td onclick="selectPayment(' . $name1 . ')">
         <form action="#" method="post">
-        <input type="checkbox" name="paymentOption" value="' . $f["MaPTTT"] . '" onclick="onlyOneCheckbox(this)">
+        <input type="checkbox" name="paymentOption" value="' . $f["MaPTTT"] . '" onclick="onlyOneCheckbox(this)" require>
         <div class="payment-icon '.$name2.'"></div>' . $f["TenPTTT"] . '
       </td>';
 

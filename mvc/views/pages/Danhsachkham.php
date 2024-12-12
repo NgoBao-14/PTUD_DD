@@ -45,7 +45,7 @@
                 echo '<td>
                 <form action="/PTUD_DD/Bacsi/Lapphieukham" method="POST">
                 <input type="hidden" name="MaBN" value="'.$benhnhan['MaBN'].'">
-                <input type="text" name="MaLK" value="'.$benhnhan['MaLK'].'">
+                <input type="hidden" name="MaLK" value="'.$benhnhan['MaLK'].'">
                 <button type="submit" name ="btnLPK" class="btn-submit">Lập phiếu khám</button></td>';
                 echo '</tr>';
                 echo '</form>';
@@ -57,3 +57,20 @@
         ?>
     </tbody>
 </table>
+<?php
+
+if (isset ($data['result']))
+{
+    if($data["result"]== 'true')
+    {
+        echo'<script language="javascript">
+							alert("Lập phiếu khám thành công");	
+							</script>';
+    }
+    else
+    {
+        echo'<script language="javascript">
+							alert("Lập phiếu khám thất bại");	
+							</script>';
+    }
+}

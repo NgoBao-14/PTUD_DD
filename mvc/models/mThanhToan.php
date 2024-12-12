@@ -61,12 +61,16 @@
         }
         public function insertHD($MaBN)
         {
-            $str = "INSERT INTO hoadon (MaBN, NgayLapHoaDon, TongTien) VALUES ('$MaBN', NOW(), '200000')";
-            $tblPTTT = mysqli_query($this->con, $str);
-            return $tblPTTT;
+            $pdo = new PDO('mysql:host=localhost;dbname=domdom', 'domdom', '1234');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $date = date('Y-m-d');
+            $stmt = $pdo->prepare("INSERT INTO hoadon (MaBN, NgayLapHoaDon, TongTien) VALUES (?, ?, ?)");
+            $stmt->execute([$MaBN, $date, '200000']);
+            $manv_moi = $pdo->lastInsertId();
+            $str2 = "INSERT INTO `chitiethoadon` (`MaHD`, `DonGia`, `GiamGia`, `ThanhTien`, `DichVu`) VALUES ('$manv_moi', '500000', '50', '250000', 'Khám Bệnh');";
+            $rs = mysqli_query($this->con, $str2);
+            return $rs;
         }
-
-       
 
     }
 

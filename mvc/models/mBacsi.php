@@ -156,8 +156,8 @@ class MBacsi extends DB
     public function GetThongTinBenhNhan($maBN)
     {
 
-        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT
-            FROM benhnhan WHERE MaBN = '$maBN'";
+        $str = "SELECT MaBN, HovaTen, NgaySinh, GioiTinh, BHYT, DiaChi, SoDT, Email
+            FROM benhnhan WHERE MaBN = '$maBN' or BHYT = '$maBN'";
 
         $result = mysqli_query($this->con, $str);
         $mang = array();
@@ -167,8 +167,6 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
-
-    
     public function GetThongTinBenhNhan1($maBN,$malk)
     {
         $str = "SELECT bn.MaBN, bn.HovaTen, bn.NgaySinh, bn.GioiTinh, bn.BHYT, bn.DiaChi, bn.SoDT,lk.MaLK
@@ -211,12 +209,13 @@ class MBacsi extends DB
 
     public function getBacSiInfo($maNV)
     {
-        $query = "SELECT HovaTen FROM nhanvien WHERE MaNV = ?";
-        $stmt = $this->con->prepare($query);
-        $stmt->bind_param("i", $maNV);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $str = "SELECT * FROM nhanvien WHERE MaNV = '$maNV'";
+        $result = mysqli_query($this->con, $str);
+        $mang = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $mang[] = $row;
+        }
+        return json_encode($mang);
     }
 
     public function getThuocList()
@@ -230,21 +229,9 @@ class MBacsi extends DB
         return $thuocList;
     }
 
-    // public function createPhieuKham($data)
-    // {
-    //     $query = "INSERT INTO phieukham (NgayTao, TrieuChung, KetQua, ChuanDoan, LoiDan, NgayTaiKham, MaLK, MaBS, MaBN) 
-    //               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    //     $stmt = $this->con->prepare($query);
-    //     $stmt->bind_param("ssssssiis", $data['NgayTao'], $data['TrieuChung'], $data['KetQua'], $data['ChuanDoan'], $data['LoiDan'], $data['NgayTaiKham'], $data['MaLK'], $data['MaBS'], $data['MaBN']);
-    //     if ($stmt->execute()) {
-    //         return $this->con->insert_id;
-    //     }
-    //     return false;
-    // }
-
     public function AddPK($ntao,$tchung,$kq,$cdoan,$ldan,$ngaytaikham,$malk,$mabs,$mabn){
-        $str ="INSERT INTO phieukham 
-        VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, NULL, '$mabs', '$mabn');";
+        $str ="INSERT INTO phieukham (`MaPK`, `NgayTao`, `TrieuChung`, `KetQua`, `ChuanDoan`, `LoiDan`, `NgayTaikham`, `MaXN`, `MaLK`, `MaHD`, `MaDT`, `MaBN`, `MaBS`)
+        VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, NULL, '$mabn', '$mabs');";
         $result = mysqli_query($this->con,$str);
         return $result;
     }
@@ -270,8 +257,7 @@ class MBacsi extends DB
         }
         return true;
     }
-
-
+  
     public function GetPhieuKham($maBN)
     {
         $str = "SELECT
@@ -292,7 +278,7 @@ class MBacsi extends DB
             FROM 
                 PhieuKham pk2
             JOIN 
-                NhanVien nv ON pk2.MaNV = nv.MaNV
+                NhanVien nv ON pk2.MaBS = nv.MaNV
             left JOIN 
                 XetNghiem xn ON pk2.MaXN = xn.MAXN
             left JOIN

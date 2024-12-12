@@ -92,22 +92,23 @@
             $phieuKhamBenhNhan = json_decode($data["PhieuKhamBenhNhan"], true);
 
             if ($thongTinBenhNhan) {
+                foreach ($thongTinBenhNhan as $index => $tt) {
         ?>
-                <!-- Thông tin bệnh nhân -->
-                <div class="patient-info">
-                    <h3>Thông tin bệnh nhân</h3>
-                    <div class="info-grid">
-                        <div class="info-item"><span class="info-label">Mã bệnh nhân:</span> <?php echo $thongTinBenhNhan['MaBN']; ?></div>
-                        <div class="info-item"><span class="info-label">BHYT:</span> <?php echo $thongTinBenhNhan['BHYT']; ?></div>
-                        <div class="info-item"><span class="info-label">Họ và Tên:</span> <?php echo $thongTinBenhNhan['HovaTen']; ?></div>
-                        <div class="info-item"><span class="info-label">Địa chỉ:</span> <?php echo $thongTinBenhNhan['DiaChi']; ?></div>
-                        <div class="info-item"><span class="info-label">Ngày sinh:</span> <?php echo date('d-m-Y', strtotime($thongTinBenhNhan['NgaySinh'])); ?></div>
-                        <div class="info-item"><span class="info-label">Số điện thoại:</span> <?php echo $thongTinBenhNhan['SoDT']; ?></div>
-                        <div class="info-item"><span class="info-label">Giới tính:</span> <?php echo $thongTinBenhNhan['GioiTinh']; ?></div>
-                        <div class="info-item"><span class="info-label">Email:</span> <?php echo $thongTinBenhNhan['Email']; ?></div>
+                    <!-- Thông tin bệnh nhân -->
+                    <div class="patient-info">
+                        <h3>Thông tin bệnh nhân</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><span class="info-label">Mã bệnh nhân:</span> <?php echo $tt['MaBN']; ?></div>
+                            <div class="info-item"><span class="info-label">BHYT:</span> <?php echo $tt['BHYT']; ?></div>
+                            <div class="info-item"><span class="info-label">Họ và Tên:</span> <?php echo $tt['HovaTen']; ?></div>
+                            <div class="info-item"><span class="info-label">Địa chỉ:</span> <?php echo $tt['DiaChi']; ?></div>
+                            <div class="info-item"><span class="info-label">Ngày sinh:</span> <?php echo date('d-m-Y', strtotime($tt['NgaySinh'])); ?></div>
+                            <div class="info-item"><span class="info-label">Số điện thoại:</span> <?php echo $tt['SoDT']; ?></div>
+                            <div class="info-item"><span class="info-label">Giới tính:</span> <?php echo $tt['GioiTinh']; ?></div>
+                            <div class="info-item"><span class="info-label">Email:</span> <?php echo $tt['Email']; ?></div>
+                        </div>
                     </div>
-                </div>
-
+                <?php } ?>
                 <!-- Dropdown để chọn ngày tạo -->
                 <div class="medical-history">
                     <h3>Thông tin bệnh án</h3>
@@ -168,8 +169,8 @@
                         <div class="info-item"><span class="info-label">Ngày tái khám:</span> ${phieu.NgayTaiKham ? new Date(phieu.NgayTaiKham).toLocaleDateString() : 'Không có'}</div>
                     </div>
                     <div class="info-grid">
-                        <div class="info-item"><span class="info-label">Xét nghiệm</span> ${phieu.LoaiXN}</div>
-                        <div class="info-item"><span class="info-label">Kết quả:</span> ${phieu.KetQuaXN}</div>
+                        <div class="info-item"><span class="info-label">Xét nghiệm</span> ${phieu.LoaiXN ? phieu.LoaiXN : 'Không có'}</div>
+                        <div class="info-item"><span class="info-label">Kết quả:</span> ${phieu.KetQuaXN ? phieu.LoaiXN : 'Không có'}</div>
                     </div>
                     <div class="info-grid">
                         <div class="info-item"><span class="info-label">Tên thuốc:</span> ${phieu.TenThuoc}</div>

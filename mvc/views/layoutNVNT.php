@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <h5 class="card-title mb-3" >Chức năng</h5>
                             <div class="list-group">
-                                <a href="/PTUD_DD/NVNT"><button class="tab_btn active" id="a">Danh sách đơn thuốc</button></a>
+                                <a href="/PTUD_DD/NVNT"><button class="tab_btn active" id="a">Xử lý đơn thuốc</button></a>
                                 <!-- <button class="tab_btn" id="a">Chi tiết đơn thuốc</button> -->
                             </div>
                         </div>

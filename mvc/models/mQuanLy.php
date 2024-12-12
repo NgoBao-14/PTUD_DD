@@ -20,9 +20,7 @@ class mQuanLy extends DB {
     FROM 
         phieukham pk
     JOIN 
-        bacsi bs ON pk.MaBS = bs.MaNV
-    JOIN 
-        nhanvien nv ON bs.MaNV = nv.MaNV
+        nhanvien nv ON pk.MaBS = nv.MaNV
     WHERE 
         pk.MaBN = $MaBN";
         $tblPK = mysqli_query($this->con, $str);
