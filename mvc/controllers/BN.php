@@ -16,14 +16,6 @@ class BN extends Controller{
             "TT"=>$bn->get1BN($mabn)
         ]);
     }
-    function LK(){
-        //Models
-        // $bn = $this->model("mBN");
-        //Views
-        $this->view("layoutBN",[
-            "Page"=>"lichkhambn"
-        ]);
-    }
 
     public function DKXN(){
         $bn = $this->model("mBN");
@@ -48,15 +40,6 @@ class BN extends Controller{
             ]);
         }
     }
-
-    public function LSXN(){
-        
-        
-        $this->view("layoutBN",[
-            "Page"=>"lsxetnghiem"
-        ]);
-    }
-
     function UDTT(){
         $udbn = $this->model("mBN");
         if(isset($_POST["btnUDTT"])){

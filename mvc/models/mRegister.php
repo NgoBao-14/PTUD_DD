@@ -7,7 +7,7 @@ class mRegister extends DB{
         return $row['count'] > 0;
     }
     
-    public function DK($username, $password, $phanquyen) {
+    public function DK($username, $password) {
         if ($this->usernameExists($username)) {
             return json_encode([
                 'success' => false,

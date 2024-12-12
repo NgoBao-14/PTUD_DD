@@ -14,7 +14,6 @@ class Register extends Controller{
         if(isset($_POST["btn-dk"])) {
             $username = $_POST["txtuser"];
             $password = $_POST["password"];
-            $phanquyen = $_POST["hiddenphanquyen"];
             $password2 = $_POST['password2'];
             
             if ($password !== $password2) {
@@ -24,7 +23,7 @@ class Register extends Controller{
             
             $password = md5($password);
 
-            $kq = $this->DKModel->DK($username, $password, $phanquyen);
+            $kq = $this->DKModel->DK($username, $password);
 
             $result = json_decode($kq, true);
             if ($result['success']) {
@@ -76,10 +75,6 @@ class Register extends Controller{
             } else {
                 $message = $result['message']; // "Email đã tồn tại hoặc đã được sử dụng!"
             }
-
-            // $this->view("layoutTaoHS",[
-            //     "result"=>$hs
-            // ]);
 
             $this->view("layoutTaoHS", [
                 "result" => $result,

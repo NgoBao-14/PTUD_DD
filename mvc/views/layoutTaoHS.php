@@ -3,7 +3,7 @@
     if($_SESSION["role"] != 5){
         if(!isset($_SESSION['last_id'])){
             echo "<script>alert('Bạn không có quyền truy cập')</script>";
-            // header("refresh: 0; url='/PTUD_DD'");
+            header("refresh: 0; url='/PTUD_DD'");
         }
     }
 ?>
@@ -12,12 +12,12 @@
 $genders = ['Nam', 'Nữ'];
 
 if (isset($data["result"])) {
-    $result = $data["result"]; // Mảng chứa kết quả trả về từ `TaoHS`
-    if ($result['success']) { // Kiểm tra trạng thái thành công
-        echo '<script>alert("' . $result['message'] . '")</script>'; // Thông báo thành công
+    $result = $data["result"];
+    if ($result['success']) {
+        echo '<script>alert("' . $result['message'] . '")</script>';
         header("refresh:0; url='/PTUD_DD/Login'");
     } else {
-        echo '<script>alert("' . $result['message'] . '")</script>'; // Thông báo lỗi
+        echo '<script>alert("' . $result['message'] . '")</script>';
         header("refresh:0; url='/PTUD_DD/Register/BNHS'");
     }
 }
