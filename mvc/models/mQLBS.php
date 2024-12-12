@@ -42,19 +42,6 @@ class mQLBS extends DB {
     public function UpdateBS($MaNV, $NgaySinh, $GioiTinh, $EmailNV, $MaKhoa) {
         $this->con->begin_transaction();
         try {
-            $str_get_email = "SELECT EmailNV FROM nhanvien WHERE MaNV = ?";
-            $stmt_get_email = $this->con->prepare($str_get_email);
-            $stmt_get_email->bind_param("i", $MaNV);
-            $stmt_get_email->execute();
-            $result = $stmt_get_email->get_result();
-            $current_email = $result->fetch_assoc()['EmailNV'];
-            if ($current_email !== $EmailNV) {
-                if ($this->CheckExistingEmail($EmailNV)) {
-                    // $this->con->rollback();
-                    return "Email đã tồn tại";
-                }
-            }
-            
             $str1 = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt1 = $this->con->prepare($str1);
             $stmt1->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
