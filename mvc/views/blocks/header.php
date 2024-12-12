@@ -169,8 +169,8 @@
                         echo '<div class="navbar-nav ms-auto">
                                 <a class="nav-link" href="/PTUD_DD">Trang chủ</a>
                                 <a class="nav-link" href="BN">Bệnh nhân</a>
-                                <a class="nav-link" href="#">Lịch khám</a>
-                                <a class="nav-link" href="workSchedule.php">Lịch làm việc</a>
+                                <a class="nav-link" href="/PTUD_DD/Bacsi/XemDanhSachKham">Lịch khám</a>
+                                <a class="nav-link" href="/PTUD_DD/Bacsi/XemLichLamViec">Lịch làm việc</a>
                                 <a class="nav-link" href="statistic.php">Thống kê</a>
                             </div>
                             <nav>
