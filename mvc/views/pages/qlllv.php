@@ -238,16 +238,19 @@ echo '</div>
                 // Calculate the new week start date based on the button clicked
                 if (weekChange === 'prev') {
                     currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+                    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
                 } else if (weekChange === 'next') {
                     currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+                    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
                 } else if (weekChange === 'current') {
                     // Set to the current week's Sunday
                     const today = new Date();
                     currentWeekStart = new Date(today.setDate(today.getDate() - today.getDay()));
+                    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay()+1);
                 }
 
                 // Ensure the week always starts on Sunday
-                currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
+                
 
                 // Update the hidden input value for the server
                 document.querySelector("input[name='currentWeekStart']").value = currentWeekStart.toISOString().split('T')[0];
