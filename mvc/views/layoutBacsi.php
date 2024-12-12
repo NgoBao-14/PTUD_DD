@@ -13,6 +13,7 @@ if ($_SESSION["role"] != 2) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch Sử Khám Bệnh</title>
     <link rel="stylesheet" href="/ptud_dd/public/css/main.css">
+    <link rel="stylesheet" href="/ptud_dd/public/css/ttbs.css">
     <style>
         body {
             font-family: Arial, sans-serif;

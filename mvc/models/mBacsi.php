@@ -298,4 +298,15 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
+
+    public function get1BS($maNV){
+        $str = "select * from nhanvien where MaNV='$maNV'";
+        $rows = mysqli_query($this->con, $str);
+        
+        $mang = array();
+        while($row = mysqli_fetch_array($rows)){
+            $mang[] = $row;
+        }
+        return json_encode($mang);
+    }
 }
