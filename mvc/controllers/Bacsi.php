@@ -227,16 +227,14 @@ class Bacsi extends Controller
                 "result" => $rs3
             ]);
         }
+        function ThongTinBacSi() {
+            $maNV = $_SESSION["idnv"];
+            $model = $this->model("mBacsi");
+            $this->view("layoutBacsi",[
+                "Page" => "thongtinbacsi",
+                "thongtinbs" => $model->get1BS(100)
+            ]);
+        }
+    
     }
 
-
-    function ThongTinBacSi()
-    {
-        $maNV = $_SESSION["idnv"];
-        $model = $this->model("mBacsi");
-        $this->view("layoutBacsi", [
-            "Page" => "thongtinbacsi",
-            "thongtinbs" => $model->get1BS(100)
-        ]);
-    }
-}
