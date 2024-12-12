@@ -298,4 +298,29 @@ class MBacsi extends DB
         }
         return json_encode($mang);
     }
+
+    public function TaoDT($date, $mota, $mabs, $mabn) {
+        $str = "INSERT INTO donthuoc (NgayTao, MoTa, MaBS, MaBN, TrangThai) VALUES (NOW(),'$mota' , '$mabs', '$mabn', 'Pending')";
+        return mysqli_query($this->con, $str);
+    }
+    public function TaoCTDT($mathuoc, $soluong, $lieudung, $cachdung)
+{
+    // Truy vấn để lấy MaDT mới nhất
+    $str = "SELECT MaDT FROM `donthuoc` ORDER BY MaDT DESC LIMIT 1";
+    $result = mysqli_query($this->con, $str);
+    
+    // Kiểm tra nếu có dữ liệu trả về
+    if ($result && $row = mysqli_fetch_assoc($result)) {
+        $madt_moi = $row['MaDT']; // Lấy giá trị MaDT
+    } else {
+        // Xử lý khi không tìm thấy MaDT
+        return false; // Hoặc throw lỗi nếu cần
+    }
+    
+    // Thực hiện câu lệnh INSERT
+    $str2 = "INSERT INTO chitietdonthuoc (MaDT, MaThuoc, SoLuong, LieuDung, CachDung) 
+             VALUES ('$madt_moi', '$mathuoc', '$soluong', '$lieudung', '$cachdung')";
+    return mysqli_query($this->con, $str2);
+}
+
 }

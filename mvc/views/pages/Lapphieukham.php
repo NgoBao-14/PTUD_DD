@@ -83,9 +83,9 @@
                         <option value="<?php echo $thuoc['MaThuoc']; ?>"><?php echo $thuoc['TenThuoc']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <input type="number" name="thuoc[${medicineCount}][SoLuong]" placeholder="Số lượng" required class="form-control">
-                <input type="text" name="thuoc[${medicineCount}][LieuDung]" placeholder="Liều dùng" required class="form-control">
-                <input type="text" name="thuoc[${medicineCount}][CachDung]" placeholder="Cách dùng" required class="form-control">
+                <input type="number" name="thuoc[soluong][]" placeholder="Số lượng" required class="form-control">
+                <input type="text" name="thuoc[LieuDung][]" placeholder="Liều dùng" required class="form-control">
+                <input type="text" name="thuoc[CachDung][]" placeholder="Cách dùng" required class="form-control">
             </div>
         `;
         medicineList.insertAdjacentHTML('beforeend', medicineHtml);
