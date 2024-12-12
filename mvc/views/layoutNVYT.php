@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <h5 class="card-title mb-3">Chức năng</h5>
                             <div class="list-group">
-                                <a href="/PTUD_DD/NVYT"><button class="tab_btn" id="a">Hóa đơn</button></a>
+                                <a href="/PTUD_DD/NVYT"><button class="tab_btn" id="a">Xử lý hóa đơn</button></a>
                                 <a href="/PTUD_DD/NVYT/LichKham"><button class="tab_btn" id="a">Sửa lịch khám</button></a>
                             </div>
                         </div>

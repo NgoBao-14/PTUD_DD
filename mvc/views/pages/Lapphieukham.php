@@ -1,6 +1,7 @@
 <?php
     $dt = json_decode($data["BenhNhanInfo"],true);
     $hientai=date('d-m-Y');
+    $bs = json_decode($data["BacSiInfo"],true);
 ?>
 <div class="row">
     <div class="col-md-4">
@@ -16,10 +17,10 @@
     </div>
     <div class="col-md-8">
         <h2>Lập phiếu khám</h2>
-        <form action="/ptud_dd/Bacsi/XemDanhSachKham" method="POST">
+        <form action="" method="POST">
         <?php foreach($dt as $r):?>
-            <input type="text" name="maLK" value="<?php echo $r['MaLK']; ?>">
-            <input type="text" name="maBN" value="<?php echo $r['MaBN']; ?>">
+            <input type="hidden" name="maLK" value="<?php echo $r['MaLK']; ?>">
+            <input type="hidden" name="maBN" value="<?php echo $r['MaBN']; ?>">
          <?php endforeach;?>
             <div class="form-group">
                 <label for="ngayTao">Ngày tạo:</label>
@@ -28,7 +29,9 @@
 
             <div class="form-group">
                 <label for="bacSi">Bác sĩ:</label>
-                <input type="text" id="bacSi" name="bacSi" value="<?php echo $data['BacSiInfo']['HovaTen']; ?>" readonly class="form-control">
+                <?php foreach($bs as $r):?>
+                <input type="text" id="bacSi" name="bacSi" value="<?php echo $r['HovaTen']; ?>" readonly class="form-control">
+                <?php endforeach;?>
             </div>
 
             <div class="form-group">
@@ -88,3 +91,4 @@
         medicineList.insertAdjacentHTML('beforeend', medicineHtml);
     }
 </script>
+<?php

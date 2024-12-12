@@ -111,8 +111,7 @@ class mNVYT extends DB
     {
         $str = "SELECT * 
                 FROM lichkham lk
-                JOIN phieukham pk on lk.MaLK = pk.MaLK
-                JOIN benhnhan bn  on pk.MaPK = bn.MaPK
+                JOIN benhnhan bn  on lk.MaBN = bn.MaBN
                 WHERE lk.NgayKham = '$loc'
                 LIMIT $offset, $limit";
         $rows = mysqli_query($this->con, $str);
@@ -127,9 +126,8 @@ class mNVYT extends DB
     {
         $str = "SELECT * 
                 FROM lichkham lk
-                JOIN phieukham pk on lk.MaLK = pk.MaLK
-                JOIN benhnhan bn  on pk.MaPK = bn.MaPK
-                JOIN  bacsi bs ON pk.MaBS = bs.MaNV 
+                JOIN benhnhan bn  on lk.MaBN = bn.MaBN
+                JOIN  bacsi bs ON lk.MaBS = bs.MaNV 
                 JOIN nhanvien nv ON bs.MaNV = nv.MaNV
                 JOIN chuyenkhoa ck ON bs.MaKhoa = ck.MaKhoa
                 WHERE lk.MaLK = '$MaLK'";

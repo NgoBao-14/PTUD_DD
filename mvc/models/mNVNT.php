@@ -40,8 +40,7 @@ class mNVNT extends DB{
                 FROM donthuoc AS d
                 JOIN chitietdonthuoc AS dt ON d.MaDT = dt.MaDT
                 JOIN benhnhan AS b ON d.MaBN = b.MaBN
-                JOIN bacsi AS bs ON d.MaBS = bs.MaNV
-                JOIN nhanvien AS nv ON bs.MaNV = nv.MaNV
+                JOIN nhanvien AS nv ON d.MaBS = nv.MaNV
                 WHERE d.MaDT = '.$MaDT.'
                 ORDER by d.MaDT desc
                 LIMIT 1';
