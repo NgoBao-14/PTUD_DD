@@ -229,8 +229,19 @@ class MBacsi extends DB
 
     public function AddPK($ntao, $tchung, $kq, $cdoan, $ldan, $ngaytaikham, $malk, $mabs, $mabn)
     {
+        $str = "SELECT MaDT FROM `donthuoc` ORDER BY MaDT DESC LIMIT 1";
+        $result = mysqli_query($this->con, $str);
+        
+        // Kiểm tra nếu có dữ liệu trả về
+        if ($result && $row = mysqli_fetch_assoc($result)) {
+            $madt_moi = $row['MaDT']; // Lấy giá trị MaDT
+        } else {
+            // Xử lý khi không tìm thấy MaDT
+            return false; // Hoặc throw lỗi nếu cần
+        }
+    
         $str = "INSERT INTO phieukham (`MaPK`, `NgayTao`, `TrieuChung`, `KetQua`, `ChuanDoan`, `LoiDan`, `NgayTaikham`, `MaXN`, `MaLK`, `MaHD`, `MaDT`, `MaBN`, `MaBS`)
-        VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, NULL, '$mabn', '$mabs');";
+        VALUES (NULL, '$ntao', '$tchung', '$kq', '$cdoan', '$ldan', '$ngaytaikham', NULL, '$malk', NULL, '$madt_moi', '$mabn', '$mabs');";
         $result = mysqli_query($this->con, $str);
         return $result;
     }

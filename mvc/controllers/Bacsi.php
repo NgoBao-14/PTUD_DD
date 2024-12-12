@@ -207,7 +207,7 @@ class Bacsi extends Controller
             $ngaytaikham = $_POST["ngayTaiKham"];
             $model = $this->model("mBacsi");
 
-            $rs = $model->AddPK($ngaytao, $trieuchung, $kq, $chuandoan, $loidan, $ngaytaikham, $malk, $bsi, $mabn);
+           
             $thuoc = $_POST["thuoc"];
             $key = array_keys($thuoc);
             $l = count($key);
@@ -218,25 +218,27 @@ class Bacsi extends Controller
                     $soluong = $thuoc[$t]["SoLuong"];
                     $lieudung = $thuoc[$t]["LieuDung"];
                     $cachdung = $thuoc[$t]["CachDung"];
+                    
                     $rs3 = $model->TaoCTDT($mathuoc, $soluong, $lieudung, $cachdung);
                 }
             }
+            $rs = $model->AddPK($ngaytao, $trieuchung, $kq, $chuandoan, $loidan, $ngaytaikham, $malk, $bsi, $mabn);
             $this->view("LayoutXemDanhSachKham", [
                 "Page" => "Danhsachkham",
                 "DanhSachKham" => $model->GetDanhSachKhamAll(),
                 "result" => $rs3
             ]);
         }
+
+
     }
-
-
-    function ThongTinBacSi()
-    {
+    function ThongTinBacSi() {
         $maNV = $_SESSION["idnv"];
         $model = $this->model("mBacsi");
-        $this->view("layoutBacsi", [
+        $this->view("layoutBacsi",[
             "Page" => "thongtinbacsi",
-            "thongtinbs" => $model->get1BS($maNV)
+            "thongtinbs" => $model->get1BS(100)
+
         ]);
     }
 }
