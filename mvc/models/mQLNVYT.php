@@ -44,18 +44,6 @@ class mQLNVYT extends DB {
     public function UpdateNVYT($MaNV, $NgaySinh, $GioiTinh, $EmailNV) {
         $this->con->begin_transaction();
         try {
-            $str_get_email = "SELECT EmailNV FROM nhanvien WHERE MaNV = ?";
-            $stmt_get_email = $this->con->prepare($str_get_email);
-            $stmt_get_email->bind_param("i", $MaNV);
-            $stmt_get_email->execute();
-            $result = $stmt_get_email->get_result();
-            $current_email = $result->fetch_assoc()['EmailNV'];
-            if ($current_email !== $EmailNV) {
-                if ($this->CheckExistingEmail($EmailNV)) {
-                    return "Email đã tồn tại";
-                }
-            }
-
             $str = "UPDATE nhanvien SET NgaySinh = ?, GioiTinh = ?, EmailNV = ? WHERE MaNV = ?";
             $stmt = $this->con->prepare($str);
             $stmt->bind_param("sssi", $NgaySinh, $GioiTinh, $EmailNV, $MaNV);
