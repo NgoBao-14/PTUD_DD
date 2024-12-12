@@ -133,8 +133,8 @@ class Bacsi extends Controller
             $maBN = $_POST['maBN'];
             $model = $this->model("MBacsi");
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
-            $timmaBN = json_decode($thongTinBenhNhan, true);
-            if (isset($timmaBN['MaBN'])) {
+            // $timmaBN = json_decode($thongTinBenhNhan, true);
+            // if (isset($timmaBN['MaBN'])) {
 
                 $phieuKham = $model->GetPhieuKham($maBN);
 
@@ -148,7 +148,7 @@ class Bacsi extends Controller
                     "Page" => "xemthongtinbenhnhan"
                 ]);
             }
-        }
+        // }
     }
 
     //NhatCuong: usecase: Xem lịch sử khám bệnh
