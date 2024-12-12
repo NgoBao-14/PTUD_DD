@@ -135,18 +135,19 @@ class Bacsi extends Controller
             $thongTinBenhNhan = $model->GetThongTinBenhNhan($maBN);
             $timmaBN = json_decode($thongTinBenhNhan, true);
             if (isset($timmaBN[0]['MaBN'])) {
-                $maBN = $timmaBN[0]['MaBN'];}
-                $phieuKham = $model->GetPhieuKham($maBN);
+                $maBN = $timmaBN[0]['MaBN'];
+            }
+            $phieuKham = $model->GetPhieuKham($maBN);
 
-                $this->view("layoutBacsi", [
-                    "Page" => "xemthongtinbenhnhan",
-                    "ThongTinBenhNhan" => $thongTinBenhNhan,
-                    "PhieuKhamBenhNhan" => $phieuKham
-                ]);
-            } else {
-                $this->view("layoutBacsi", [
-                    "Page" => "xemthongtinbenhnhan"
-                ]);
+            $this->view("layoutBacsi", [
+                "Page" => "xemthongtinbenhnhan",
+                "ThongTinBenhNhan" => $thongTinBenhNhan,
+                "PhieuKhamBenhNhan" => $phieuKham
+            ]);
+        } else {
+            $this->view("layoutBacsi", [
+                "Page" => "xemthongtinbenhnhan"
+            ]);
         }
         // }
     }
@@ -206,29 +207,25 @@ class Bacsi extends Controller
             $ngaytaikham = $_POST["ngayTaiKham"];
             $model = $this->model("mBacsi");
 
-            $rs=$model->AddPK($ngaytao,$trieuchung,$kq,$chuandoan,$loidan,$ngaytaikham,$malk,$bsi,$mabn);
+            $rs = $model->AddPK($ngaytao, $trieuchung, $kq, $chuandoan, $loidan, $ngaytaikham, $malk, $bsi, $mabn);
             $thuoc = $_POST["thuoc"];
             $key = array_keys($thuoc);
             $l = count($key);
-            if($model->TaoDT($ngaytao, $chuandoan,$bsi,$mabn))
-            {
-                for($k = 0; $k < $l; $k++)
-                {
+            if ($model->TaoDT($ngaytao, $chuandoan, $bsi, $mabn)) {
+                for ($k = 0; $k < $l; $k++) {
                     $t = $key[$k];
-                        $mathuoc = $thuoc[$t]["MaThuoc"];
-                        $soluong = $thuoc[$t]["SoLuong"];
-                        $lieudung = $thuoc[$t]["LieuDung"];
-                        $cachdung = $thuoc[$t]["CachDung"];
-                        $rs3 = $model->TaoCTDT($mathuoc,$soluong,$lieudung,$cachdung);
+                    $mathuoc = $thuoc[$t]["MaThuoc"];
+                    $soluong = $thuoc[$t]["SoLuong"];
+                    $lieudung = $thuoc[$t]["LieuDung"];
+                    $cachdung = $thuoc[$t]["CachDung"];
+                    $rs3 = $model->TaoCTDT($mathuoc, $soluong, $lieudung, $cachdung);
                 }
             }
-            $this->view("LayoutXemDanhSachKham",[
+            $this->view("LayoutXemDanhSachKham", [
                 "Page" => "Danhsachkham",
                 "DanhSachKham" => $model->GetDanhSachKhamAll(),
                 "result" => $rs3
-                ]);
-        }
-
+            ]);
         }
         function ThongTinBacSi() {
             $maNV = $_SESSION["idnv"];
@@ -241,4 +238,3 @@ class Bacsi extends Controller
     
     }
 
-   
